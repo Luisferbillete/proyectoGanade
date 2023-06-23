@@ -8,11 +8,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class PropietarioDTO {
-    Integer  id;
-    String nombres;
-    String apellidos;
-    String direccion;
-    Integer telefono;
+    private Integer  id;
+    private String nombres;
+    private String apellidos;
+    private String direccion;
+    private Integer telefono;
+
 
 
 }
