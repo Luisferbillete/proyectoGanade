@@ -10,10 +10,11 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BovinoDTO {
+public class BovinoDTO implements EntityDTO {
     private String numero;
     private Date Fecha_de_nacimiento;
     private Date Fecha_de_ingreso;
     private String sexo;
     private String color,raza;
+    private Long idPropietario;
 }
