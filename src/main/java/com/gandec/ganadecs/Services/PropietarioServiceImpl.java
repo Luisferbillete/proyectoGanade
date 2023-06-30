@@ -26,12 +26,6 @@ public class PropietarioServiceImpl implements PropietarioService{
     @Autowired
     Mappers mappers;
 
-    @Override
-    public List<PropietarioDTO> GetAll() {
-        List<Propietario>propietarioList=propietariosRepository.findAll();
-        return mapper.entityToDTO(propietarioList);
-
-          }
 
     @Override
     public List<PropietaryDTO> PropietaryGetAll() {
@@ -39,12 +33,7 @@ public class PropietarioServiceImpl implements PropietarioService{
         return mapList(propietarioList,PropietaryDTO.class);
     }
 
-    @Override
-    public PropietarioDTO save(PropietarioDTO propietarioDTO) {
-        Propietario propietario=mapper.DtoToEentity(propietarioDTO);
-        propietario=propietariosRepository.save(propietario);
-        return mapper.entityToDTO(propietario);
-    }
+
 
     @Override
     public PropietaryDTO saves(PropietaryDTO propietaryDTO) {

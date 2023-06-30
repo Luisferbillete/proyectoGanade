@@ -9,11 +9,8 @@ import java.security.PublicKey;
 import java.util.List;
 
 public interface PropietarioService {
-    //public Propietario SavePropietario(Propietario propietario);
-    //public List<Propietario> Propietario_List();
-    public List<PropietarioDTO> GetAll();
+
     public List<PropietaryDTO> PropietaryGetAll();
-    public PropietarioDTO save(PropietarioDTO propietarioDTO);
     public PropietaryDTO saves (PropietaryDTO propietaryDTO);
 
 
