@@ -16,10 +16,7 @@ import java.util.List;
 public class PropietarioController {
     @Autowired
     private PropietarioService propietarioService;
-    @PostMapping
-    public ResponseEntity<PropietarioDTO> SavePropietario(@RequestBody PropietarioDTO propietarioDTO){
-        return new ResponseEntity<>(propietarioService.save(propietarioDTO), HttpStatus.CREATED);
-    }
+
     @PostMapping("/save")
     public ResponseEntity<PropietaryDTO> savePropietary(@RequestBody PropietaryDTO propietaryDTO){
         return new ResponseEntity<>(propietarioService.saves(propietaryDTO),HttpStatus.CREATED);
@@ -29,9 +26,5 @@ public class PropietarioController {
         List<PropietaryDTO> propietaryDTOList=propietarioService.PropietaryGetAll();
         return new ResponseEntity<>(propietaryDTOList,HttpStatus.OK);
    }
-    @GetMapping
-    public ResponseEntity<List<PropietarioDTO>>AllPropietary(){
-        List<PropietarioDTO> propietarioDTOList = propietarioService.GetAll();
-        return new ResponseEntity<>(propietarioDTOList,HttpStatus.OK);
-    }
+
 }

@@ -25,17 +25,6 @@ public class PropietarioServiceImpl implements PropietarioService{
     private Mapper mapper;
     @Autowired
     Mappers mappers;
-    //@Override
-    //@Transactional
-    //public Propietario SavePropietario(Propietario propietario) {
-
-      //  return propietariosRepository.save(propietario);
-    //}
-
-   // @Override
-   // public List<Propietario> Propietario_List() {
-        //return (List<Propietario>) propietariosRepository.findAll();
-   // }
 
     @Override
     public List<PropietarioDTO> GetAll() {
