@@ -1,6 +1,7 @@
 package com.gandec.ganadecs.Controller;
 
 import com.gandec.ganadecs.DTO.PropietarioDTO;
+import com.gandec.ganadecs.DTO.PropietaryDTO;
 import com.gandec.ganadecs.Entity.Propietario;
 import com.gandec.ganadecs.Services.PropietarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,15 @@ public class PropietarioController {
     public ResponseEntity<PropietarioDTO> SavePropietario(@RequestBody PropietarioDTO propietarioDTO){
         return new ResponseEntity<>(propietarioService.save(propietarioDTO), HttpStatus.CREATED);
     }
-    //@GetMapping
-    //public ResponseEntity<List<Propietario>> GetAllPropietary(){
-      //  List<Propietario> propietarios=propietarioService.Propietario_List();
-        ////return new ResponseEntity<>(propietarios,HttpStatus.OK);
-   // }
+    @PostMapping("/save")
+    public ResponseEntity<PropietaryDTO> savePropietary(@RequestBody PropietaryDTO propietaryDTO){
+        return new ResponseEntity<>(propietarioService.saves(propietaryDTO),HttpStatus.CREATED);
+    }
+    @GetMapping("/GetAll")
+    public ResponseEntity<List<PropietaryDTO>> GetAllPropietary(){
+        List<PropietaryDTO> propietaryDTOList=propietarioService.PropietaryGetAll();
+        return new ResponseEntity<>(propietaryDTOList,HttpStatus.OK);
+   }
     @GetMapping
     public ResponseEntity<List<PropietarioDTO>>AllPropietary(){
         List<PropietarioDTO> propietarioDTOList = propietarioService.GetAll();
