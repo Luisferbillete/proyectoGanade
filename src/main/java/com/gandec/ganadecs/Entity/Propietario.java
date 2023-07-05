@@ -10,8 +10,9 @@ import java.util.List;
 
 public class Propietario {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @Column(name = "id", unique = true,insertable = true)
+    private long id;
     @Column(name="Nombres")
     private  String nombres;
     @Column(name="Apellidos")
