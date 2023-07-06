@@ -37,6 +37,17 @@ public class PropietarioController {
         ;
         return  new ResponseEntity<>(propietaryComboDtoList,HttpStatus.OK);
    }
+   @GetMapping("/{id}")
+   public ResponseEntity<PropietaryDTO> GetPropietaryId(@PathVariable(name = "id")long id){
+        return ResponseEntity.ok(propietarioService.GetPropietary(id));
+   }
+   @PutMapping("/{id}")
+   public ResponseEntity<PropietaryDTO> ActualizarPropietary(@Valid @RequestBody PropietaryDTO
+                                                             propietaryDTO,@PathVariable(name="id")
+                                                             long id){
+        PropietaryDTO updated=propietarioService.UpdatePropietary(propietaryDTO, id);
+        return new ResponseEntity<>(updated,HttpStatus.OK);
+   }
    @DeleteMapping("/{id}")
    public ResponseEntity<String> DeletePropietary(@PathVariable(name = "id")long id){
         propietarioService.DeletePropietary(id);

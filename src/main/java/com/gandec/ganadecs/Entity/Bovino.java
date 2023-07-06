@@ -17,7 +17,7 @@ public class Bovino {
     String sexo;
     String color,raza;
     @ManyToOne(fetch = FetchType.LAZY ,cascade= CascadeType.ALL)
-    @JoinColumn(name = "Propietario_id",nullable=false)
+    @JoinColumn(name = "Propietario_id")
     private Propietario propietario;
     @OneToMany(mappedBy = "bovino")
     private List<MovimientoBovino> movimientoBovinos;

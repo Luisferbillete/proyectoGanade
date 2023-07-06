@@ -11,6 +11,9 @@ public interface PropietarioService {
     public PropietaryDTO saves (PropietaryDTO propietaryDTO);
     public void DeletePropietary(long id);
     public List<PropietaryComboDto> PROPIETARY_COMBO_DTO_LIST();
+    public PropietaryDTO UpdatePropietary(PropietaryDTO propietaryDTO,long id);
+    public  PropietaryDTO GetPropietary(long id);
+
 
 
 

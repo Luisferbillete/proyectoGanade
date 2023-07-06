@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.gandec.ganadecs.Mapeador.MapperList.mapList;
 
@@ -57,11 +56,34 @@ public class PropietarioServiceImpl implements PropietarioService{
     public List<PropietaryComboDto> PROPIETARY_COMBO_DTO_LIST() {
         List<Propietario> propietarioList=new ArrayList<>();
         propietarioList=propietariosRepository.findAll();
-        List<PropietaryComboDto> propietaryComboDtoList=mapper.entityToDTO(propietarioList);
-        return propietaryComboDtoList;
+        return mapper.entityToDTO(propietarioList);
 
     }
 
+    @Override
+    public PropietaryDTO UpdatePropietary(PropietaryDTO propietaryDTO, long id) {
+        Propietario propietario=propietariosRepository.findById(id)
+                .orElseThrow(()->
+                        new ResourceNotFoundExcepcion("Propietario","id",id));
+
+        propietario.setApellidos(propietaryDTO.getApellidos());
+        propietario.setNombres(propietaryDTO.getNombres());
+        propietario.setDireccion(propietaryDTO.getDireccion());
+        propietario.setTelefonos(propietaryDTO.getTelefonos());
+
+        Propietario proprietaryActualize=propietariosRepository.save(propietario);
+        return (PropietaryDTO) mappers.convertToDto(proprietaryActualize,propietaryDTO);
+    }
+
+    @Override
+    public PropietaryDTO GetPropietary(long id) {
+        PropietaryDTO dto=new PropietaryDTO();
+        Propietario propietario  =propietariosRepository.findById(id)
+                .orElseThrow(()->
+                        new ResourceNotFoundExcepcion
+                                ("Propietario","id",id));
+        return (PropietaryDTO) mappers.convertToDto(propietario,dto);
+    }
 
 
 }
