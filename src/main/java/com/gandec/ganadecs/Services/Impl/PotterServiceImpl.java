@@ -7,7 +7,6 @@ import com.gandec.ganadecs.Excepciones.ResourceNotFoundExcepcion;
 import com.gandec.ganadecs.Mapeador.Mappers;
 import com.gandec.ganadecs.Repository.PotreroRepository;
 import com.gandec.ganadecs.Services.PotterService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,16 +15,21 @@ import static com.gandec.ganadecs.Mapeador.MapperList.mapList;
 
 @Service
 public class PotterServiceImpl implements PotterService {
-    @Autowired
-    private PotreroRepository potreroRepository;
-    @Autowired
-    private Mappers mappers;
+    private final PotreroRepository potreroRepository;
+
+    private final Mappers mappers;
+
+    public PotterServiceImpl(PotreroRepository potreroRepository, Mappers mappers) {
+        this.potreroRepository = potreroRepository;
+        this.mappers = mappers;
+    }
 
 
     @Override
     public PotreroDto Saves(PotreroDto potreroDto) {
         Potrero potrero=new Potrero();
         potrero= (Potrero) mappers.convertToEntity(potreroDto, potrero);
+        potrero.setHectareas(potreroDto.getHectareas());
         potrero=potreroRepository.save(potrero);
         potreroDto= (PotreroDto) mappers.convertToDto(potrero,potreroDto);
         return potreroDto;

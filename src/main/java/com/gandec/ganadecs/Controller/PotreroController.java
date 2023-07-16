@@ -4,7 +4,6 @@ import com.gandec.ganadecs.DTO.PotreroComboDto;
 import com.gandec.ganadecs.DTO.PotreroDto;
 import com.gandec.ganadecs.Services.PotterService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +14,13 @@ import java.util.List;
 @RequestMapping("/Ganadec/Potreros")
 
 public class PotreroController {
-    @Autowired
-    PotterService potterService;
+
+    private final PotterService  potterService;
+
+    public PotreroController(PotterService potterService) {
+        this.potterService = potterService;
+    }
+
     @PostMapping("/save")
     public ResponseEntity<PotreroDto> SavePotter(@Valid @RequestBody PotreroDto potreroDto){
         return new ResponseEntity<>(potterService.Saves(potreroDto), HttpStatus.CREATED);

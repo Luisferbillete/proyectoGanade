@@ -1,8 +1,8 @@
 package com.gandec.ganadecs.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.util.Date;
 import java.util.List;
 
@@ -10,12 +10,20 @@ import java.util.List;
 @Table(name="bovinos")
 @Data
 public class Bovino {
-    @Id
-    String Numero;
-    Date Fecha_de_nacimiento;
-    Date Fecha_de_ingreso;
-    String sexo;
-    String color,raza;
+ @Id
+ //@GeneratedValue(strategy = GenerationType. )
+
+   private String Numero;
+    @JsonFormat(pattern = "dd/MM/yyyy",timezone = "GMT-5")
+
+  private   Date Fecha_de_nacimiento;
+   private Date Fecha_de_ingreso;
+   private String sexo;
+   private String color,raza;
+   private String negocio;
+    private long abaluo;
+   private int kilos;
+   private long preciokilo;
     @ManyToOne(fetch = FetchType.LAZY ,cascade= CascadeType.ALL)
     @JoinColumn(name = "Propietario_id")
     private Propietario propietario;

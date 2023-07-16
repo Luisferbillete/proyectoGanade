@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.validation.constraints.NotNull;
+
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,4 +24,5 @@ public class PropietaryDTO implements EntityDTO{
 
     private String direccion;
     private Long telefonos;
+    private List<BovinoDTO> bovinoDTOS;
 }

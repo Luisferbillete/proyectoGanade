@@ -10,11 +10,13 @@ import java.util.List;
 @Data
 public class Potrero {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
    private Long id;
+    @Column(name ="nombre")
    private String nombre;
-   private long Hectareas;
+    @Column(name ="Hectareas")
+    private long hectareas;
     @OneToMany(mappedBy = "potrero")
    private List<MovimientoBovino> movimientoBovinos;
 

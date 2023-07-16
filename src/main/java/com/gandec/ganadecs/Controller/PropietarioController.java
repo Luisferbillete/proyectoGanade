@@ -1,24 +1,24 @@
 package com.gandec.ganadecs.Controller;
 
-import com.gandec.ganadecs.DTO.PropietarioDTO;
 import com.gandec.ganadecs.DTO.PropietaryComboDto;
 import com.gandec.ganadecs.DTO.PropietaryDTO;
-import com.gandec.ganadecs.Entity.Propietario;
 import com.gandec.ganadecs.Services.PropietarioService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/Ganadec/Propietarios")
 public class PropietarioController {
-    @Autowired
-    private PropietarioService propietarioService;
+
+    private final PropietarioService propietarioService;
+
+    public PropietarioController(PropietarioService propietarioService) {
+        this.propietarioService = propietarioService;
+    }
 
     @PostMapping("/save")
     public ResponseEntity<PropietaryDTO> savePropietary(@Valid @RequestBody PropietaryDTO propietaryDTO){

@@ -9,10 +9,11 @@ import java.util.Date;
 @Data
 public class MovimientoBovino {
     @Id
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
     private Date fecha_de_ingreso;
     private Date fecha_de_salida;
-    private String numero;
+
     @ManyToOne(fetch = FetchType.LAZY ,cascade= CascadeType.ALL)
     @JoinColumn(name = "Potrero_id",nullable=false)
     private Potrero potrero;
