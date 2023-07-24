@@ -1,5 +1,6 @@
 package com.gandec.ganadecs.Mapeador;
 
+import com.gandec.ganadecs.Entity.Potrero;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;
@@ -15,5 +16,8 @@ public class MapperList {
                 .stream()
                 .map( element -> mapper.map(element,targetClass))
                 .collect(Collectors.toList());
+    }
+    public static long potreroToLong(Potrero potrero) {
+        return potrero.getId();
     }
 }

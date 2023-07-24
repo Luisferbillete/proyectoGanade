@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 @Getter
 @Setter
@@ -22,7 +23,7 @@ public class BovinoDTO implements EntityDTO {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date Fecha_de_nacimiento;
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date Fecha_de_ingreso;
+    private LocalDate Fecha_de_ingreso;
     private String sexo;
     private String color,raza;
     //private long propietario;

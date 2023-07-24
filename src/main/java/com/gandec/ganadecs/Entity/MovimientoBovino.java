@@ -1,18 +1,27 @@
 package com.gandec.ganadecs.Entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 @Entity
-@Table(name="moviento_de reses")
-@Data
+@Table(name="moviento_de_reses")
+@Getter
+@Setter
+
+@AllArgsConstructor
+@ToString
+@EqualsAndHashCode
+
 public class MovimientoBovino {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private Date fecha_de_ingreso;
-    private Date fecha_de_salida;
+    @Temporal(TemporalType.DATE)
+    private LocalDate fecha_de_ingreso;
+    @Temporal(TemporalType.DATE)
+    private LocalDate fecha_de_salida;
 
     @ManyToOne(fetch = FetchType.LAZY ,cascade= CascadeType.ALL)
     @JoinColumn(name = "Potrero_id",nullable=false)
@@ -21,4 +30,13 @@ public class MovimientoBovino {
     @JoinColumn(name="Bovino_numero",nullable = false)
     private Bovino bovino;
 
+    public MovimientoBovino(LocalDate fecha_de_ingreso, LocalDate fecha_de_salida, Bovino bovino) {
+        this.fecha_de_ingreso = fecha_de_ingreso;
+        this.fecha_de_salida = fecha_de_salida;
+        this.bovino = bovino;
+    }
+
+    public MovimientoBovino() {
+
+    }
 }
