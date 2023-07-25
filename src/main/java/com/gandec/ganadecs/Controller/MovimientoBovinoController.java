@@ -47,18 +47,25 @@ public class MovimientoBovinoController {
         return movimientoBovinoService.UpdateBovinosPotrero(potrero);
 
     }
-    @PutMapping("update/{potrerOrigen}")
+    @PutMapping("update/{numeroId}/{potrerOrigen}")
     @ResponseStatus(HttpStatus.OK)
-    public int UpdatePotrero(@PathVariable long potrero){
-        return movimientoBovinoService.updateFechaDeSalida(potrero);
+    public int UpdatePotrero(@PathVariable String numeroId ,@PathVariable long potrerOrigen){
+        return movimientoBovinoService.probarbovino(numeroId,potrerOrigen);
 
     }
     /*mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm*/
     @PostMapping("/traslado/{potreroIdOrigen}/{potreroIdDestino}")
     public ResponseEntity<String> saveTraslado(@PathVariable long potreroIdOrigen,
                                @PathVariable long potreroIdDestino){
-        movimientoBovinoService.saveTrasladoBovinos(potreroIdOrigen,potreroIdDestino);
+        movimientoBovinoService.trasladar(potreroIdOrigen,potreroIdDestino);
         return ResponseEntity.ok("Traslado  exitosamente.");
 
+    }
+    @PostMapping("/trasladarBovino/{numeroId}/{potreroIdDestino}")
+    public ResponseEntity<String>trasladarBovino(
+                                                 @PathVariable long potreroIdDestino,
+                                                 @PathVariable String numeroId){
+        movimientoBovinoService.trasladarBovino(numeroId,potreroIdDestino);
+        return ResponseEntity.ok("Traslado del animal exitoso.");
     }
 }

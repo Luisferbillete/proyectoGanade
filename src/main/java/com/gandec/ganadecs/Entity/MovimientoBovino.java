@@ -23,10 +23,10 @@ public class MovimientoBovino {
     @Temporal(TemporalType.DATE)
     private LocalDate fecha_de_salida;
 
-    @ManyToOne(fetch = FetchType.LAZY ,cascade= CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY ,cascade= CascadeType.REMOVE)
     @JoinColumn(name = "Potrero_id",nullable=false)
     private Potrero potrero;
-    @ManyToOne(fetch = FetchType.LAZY ,cascade= CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY ,cascade= CascadeType.REMOVE)
     @JoinColumn(name="Bovino_numero",nullable = false)
     private Bovino bovino;
 

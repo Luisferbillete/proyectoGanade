@@ -18,8 +18,10 @@ public interface MovimientoBovinoService {
     public  int updateFechaDeSalida(Long potrero);
     public List<MovimientoBovinoDTO> TraladoPotter(long potreroId);
     public List<MovimientoBovino>convertirEntity(long potreroId);
-    public  List<MovimientoBovinoDTO> saveTrasladoBovinos(Long potreroOrigen,
-    long potreroDestino);
+
+    public  void trasladar(long potreroOrig ,long potreroDestino);
+    public void trasladarBovino(String numeroId,long potreroDestino);
+    int probarbovino(String numeroId,long potreroDestino);
 
 
 }

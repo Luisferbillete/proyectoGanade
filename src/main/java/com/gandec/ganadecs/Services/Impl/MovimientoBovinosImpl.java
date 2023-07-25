@@ -1,7 +1,6 @@
 package com.gandec.ganadecs.Services.Impl;
 
 import com.gandec.ganadecs.DTO.MovimientoBovinoDTO;
-import com.gandec.ganadecs.DTO.PotreroDto;
 import com.gandec.ganadecs.Entity.Bovino;
 import com.gandec.ganadecs.Entity.MovimientoBovino;
 import com.gandec.ganadecs.Entity.Potrero;
@@ -16,11 +15,10 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.gandec.ganadecs.Mapeador.MapperList.mapList;
-import static com.gandec.ganadecs.Mapeador.MapperList.potreroToLong;
 
 @Service
 @RequiredArgsConstructor
@@ -88,62 +86,70 @@ public class MovimientoBovinosImpl implements MovimientoBovinoService {
     }
 
     @Override
-    public List<MovimientoBovinoDTO> saveTrasladoBovinos(Long potreroOrigen, long potreroDestino) {
+    public void trasladar(long potreroOrig, long potreroDestino) {
         Potrero potrerodestino = potreroRepository.findById(potreroDestino).orElseThrow(() ->
-                new ResourceNotFoundExcepcion("Potrero", "id", potreroDestino));
-        Potrero potrerOrigen = potreroRepository.findById(potreroOrigen).orElseThrow(() ->
-                new ResourceNotFoundExcepcion("Potrero", "id", potreroOrigen));
-        //long potreroId = potreroToLong(potreroOrigen);
-        LocalDate fechasalida = LocalDate.now();
-
-        Date sqlCurrentDate = Date.valueOf(fechasalida); // Convert LocalDate to java.sql.Date
-        List<MovimientoBovino> movimientoBovinoList;
-        List<MovimientoBovinoDTO> movimientoBovinoDTOList =
-                movimientoBovinoRepository.findMovimientoBovinoByPotrero(potreroOrigen);
-        movimientoBovinoRepository.updateFechaDeSalida(sqlCurrentDate, potreroOrigen);
-
-        movimientoBovinoList = mapList(movimientoBovinoDTOList, MovimientoBovino.class);
+                new ResourceNotFoundExcepcion("Potrero no existe", "id", potreroDestino));
         LocalDate fechaDeIngreso = LocalDate.now();
+        LocalDate fechasalida = LocalDate.now();
+        Date sqlCurrentDate = Date.valueOf(fechasalida); // Convert LocalDate to java.sql.Date
+        List<MovimientoBovinoDTO> movimientoBovinoDTOList =
+                //obtiene todos los bovinos que se encuentran en un potrero
+                movimientoBovinoRepository.findMovimientoBovinoByPotrero(potreroOrig);
+        //asigna la fechas de salida a los bovinos
+        movimientoBovinoRepository.updateFechaDeSalida(sqlCurrentDate,potreroOrig);
+        List<MovimientoBovino> movimientoBovinoList = mapList(movimientoBovinoDTOList, MovimientoBovino.class);
+        for (MovimientoBovino m:movimientoBovinoList
+             ) {
+            MovimientoBovino movimientoBovino=new MovimientoBovino();
+            movimientoBovino.setFecha_de_ingreso(fechaDeIngreso);
+            movimientoBovino.setPotrero(potrerodestino);
+            movimientoBovino.setBovino(m.getBovino());
+            movimientoBovino.setFecha_de_salida(null);
 
-        for (MovimientoBovino movimientobovinos : movimientoBovinoList) {
-            movimientobovinos.setPotrero(potrerodestino);
-            movimientobovinos.setFecha_de_ingreso(fechaDeIngreso);
-            movimientobovinos.setBovino(movimientobovinos.getBovino());
-            movimientobovinos.setFecha_de_salida(null);
-            movimientoBovinoRepository.save(movimientobovinos);
+            movimientoBovinoRepository.save(movimientoBovino);
 
         }
-        return movimientoBovinoDTOList;
+    }
+
+    @Override
+    public void trasladarBovino(String numeroId, long potreroDestino) {
+        long numberConvert = Long.parseLong(numeroId);
+        Potrero potrerodestino = potreroRepository.findById(potreroDestino).orElseThrow(() ->
+                new ResourceNotFoundExcepcion("Potrero no existe", "id", potreroDestino));
+        Bovino bovino = bovinoRepository.findById(numeroId).orElseThrow(() ->
+                new ResourceNotFoundExcepcion("Bovino", "numero", numberConvert));
+        LocalDate fechaDeIngreso = LocalDate.now();
+        LocalDate fechasalida = LocalDate.now();
+        Date sqlCurrentDate = Date.valueOf(fechasalida); // Convert LocalDate to java.sql.Date
+
+
+        List<MovimientoBovinoDTO> movimientoBovinoDTOList=movimientoBovinoRepository.findMovimientoBovinoByBovino(numeroId);
+        movimientoBovinoRepository.updateMovimientoBovinoByBovino(sqlCurrentDate,potreroDestino,numeroId);
+        List<MovimientoBovino>movimientoBovinoLista=mapList(movimientoBovinoDTOList,MovimientoBovino.class);
+
+        for (MovimientoBovino mb: movimientoBovinoLista
+             ) {
+            MovimientoBovino movimientoBovino=new MovimientoBovino();
+            movimientoBovino.setFecha_de_ingreso(fechaDeIngreso);
+            movimientoBovino.setPotrero(potrerodestino);
+            movimientoBovino.setBovino(mb.getBovino());
+            movimientoBovino.setFecha_de_salida(null);
+
+            movimientoBovinoRepository.save(movimientoBovino);
+
+        }
+
+    }
+
+    @Override
+    public int probarbovino(String numeroId, long potreroDestino) {
+        LocalDate fechasalida = LocalDate.now();
+        Date sqlCurrentDate = Date.valueOf(fechasalida); // Convert LocalDate to java.sql.Date
+        movimientoBovinoRepository.updateMovimientoBovinoByBovino(sqlCurrentDate,potreroDestino,numeroId);
+
+        return 0;
     }
 
 
 }
-   /* @Override
-    public List<MovimientoBovinoDTO> saveTrasladoBovinos(long potreroOrigen, long potreroDestino) {
-        Potrero potrero = potreroRepository.findById(potreroDestino).orElseThrow(() ->
-                new ResourceNotFoundExcepcion("Potrero", "id", potreroDestino));
-        Potrero potrerOrigen = potreroRepository.findById(potreroOrigen).orElseThrow(() ->
-                new ResourceNotFoundExcepcion("Potrero", "id", potreroOrigen));
-        //long potreroId = potreroToLong(potreroOrigen);
-        LocalDate fechasalida = LocalDate.now();
-
-        Date sqlCurrentDate = Date.valueOf(fechasalida); // Convert LocalDate to java.sql.Date
-
-        movimientoBovinoRepository.updateFechaDeSalida(sqlCurrentDate, potreroOrigen);
-        List<MovimientoBovino> movimientoBovinoList;
-        List<MovimientoBovinoDTO> movimientoBovinoDTOList =
-                movimientoBovinoRepository.findMovimientoBovinoByPotrero(potreroOrigen);
-        movimientoBovinoList = mapList(movimientoBovinoDTOList, MovimientoBovino.class);
-        LocalDate fechaDeIngreso = LocalDate.now();
-
-        for (MovimientoBovino movimientobovinos : movimientoBovinoList) {
-            movimientobovinos.setPotrero(potrero);
-            movimientobovinos.setFecha_de_ingreso(fechaDeIngreso);
-            movimientobovinos.setBovino(movimientobovinos.getBovino());
-            movimientoBovinoRepository.save(movimientobovinos);
-
-        }
-
-
-    }*/
 

@@ -26,7 +26,7 @@ public class Bovino {
     private long abaluo;
    private int kilos;
    private long preciokilo;
-    @ManyToOne(fetch = FetchType.LAZY ,cascade= CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY ,cascade= CascadeType.REMOVE)
     @JoinColumn(name = "Propietario_id")
     private Propietario propietario;
     @OneToMany(mappedBy = "bovino")
