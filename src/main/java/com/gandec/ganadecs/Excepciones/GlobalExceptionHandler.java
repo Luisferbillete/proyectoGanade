@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -33,6 +34,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorDetailers> mannerGlobalException(Exception exception, WebRequest webRequest){
         ErrorDetailers errorDetailers = new ErrorDetailers(new Date(),exception.getMessage(), webRequest.getDescription(false));
         return new ResponseEntity<>(errorDetailers,HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    @ExceptionHandler(equalPaddocks.class)
+    @ResponseBody
+    public ResponseEntity<String> handleequalPaddocks(equalPaddocks ex) {
+        String messageerror = ex.getMessage();
+        return new ResponseEntity<>(messageerror, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(EmptyListExcepcion.class)
+    @ResponseBody
+    public ResponseEntity<String> handleEmptyListExcepcion(EmptyListExcepcion ex) {
+        String messageerror = ex.getMessage();
+        return new ResponseEntity<>(messageerror, HttpStatus.BAD_REQUEST);
     }
 
 @Override

@@ -21,7 +21,7 @@ public interface MovimientoBovinoService {
 
     public  void trasladar(long potreroOrig ,long potreroDestino);
     public void trasladarBovino(String numeroId,long potreroDestino);
-    int probarbovino(String numeroId,long potreroDestino);
+    int probarbovino(String numeroId);
 
 
 }

@@ -54,7 +54,7 @@ public interface MovimientoBovinoRepository extends JpaRepository<MovimientoBovi
             "JOIN potreros p ON m.potrero_id = p.id " +
             "JOIN bovinos b ON m.bovino_numero = b.numero " +
             "SET m.fecha_de_salida = :newFechaDeSalida " +
-            "WHERE (m.fecha_de_salida IS NULL AND p.id = :potreroId) AND b.numero= :numeroId", nativeQuery = true)
+            "WHERE m.fecha_de_salida IS NULL and b.numero= :numeroId", nativeQuery = true)
     int updateMovimientoBovinoByBovino(@Param("newFechaDeSalida") java.sql.Date newFechaDeSalida,
-                                       @Param("potreroId") long potreroId ,@Param("numeroId") String numero);
+                                       @Param("numeroId") String numero);
 }
