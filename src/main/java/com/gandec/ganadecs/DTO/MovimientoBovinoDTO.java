@@ -12,8 +12,17 @@ import java.util.Date;
 @ToString
 @EqualsAndHashCode
 public class MovimientoBovinoDTO implements EntityDTO{
+    private String numero;
+    private LocalDate fecha_de_ingreso;
+    private LocalDate fecha_de_salida;
+    private long potreroId;
+    private  String namepaddock;
 
-
+    public MovimientoBovinoDTO(String numero, LocalDate fecha_de_ingreso, String namepaddock) {
+        this.numero = numero;
+        this.fecha_de_ingreso = fecha_de_ingreso;
+        this.namepaddock = namepaddock;
+    }
 
     public MovimientoBovinoDTO(String numero, LocalDate fecha_de_ingreso, LocalDate fecha_de_salida) {
         this.numero = numero;
@@ -28,10 +37,7 @@ public class MovimientoBovinoDTO implements EntityDTO{
         this.potreroId = potreroId;
     }
 
-    private String numero;
-    private LocalDate fecha_de_ingreso;
-    private LocalDate fecha_de_salida;
-    private long potreroId;
+
 
 
 

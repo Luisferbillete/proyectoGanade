@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import static com.gandec.ganadecs.Mapeador.MapperList.mapList;
 
@@ -29,7 +28,7 @@ public class MovimientoBovinosImpl implements MovimientoBovinoService {
     private final BovinoRepository bovinoRepository;
     private final Mappers mappers;
 
-
+/*
     @Override
     public MovimientoBovinoDTO Saves(MovimientoBovinoDTO movimientoBovinoDTO) {
         MovimientoBovino movimientoBovino = new MovimientoBovino();
@@ -43,13 +42,18 @@ public class MovimientoBovinosImpl implements MovimientoBovinoService {
     public List<MovimientoBovinoDTO> getMovimientos(Potrero potrero) {
 
         return movimientoBovinoRepository.findMovimientoBovinoByPotreroAndFecha_de_salidaIsNull(potrero);
+    }*/
+
+    @Override
+    public List<MovimientoBovinoDTO> getAllBovinosBypaddock() {
+        return movimientoBovinoRepository.getAllBovinespaddock();
     }
 
     @Override
     public List<MovimientoBovinoDTO> findByMovimientosBovino(String numero) {
         long numberConvert = Long.parseLong(numero);
         Bovino bovino = bovinoRepository.findById(numero).orElseThrow(() ->
-                new ResourceNotFoundExcepcion("Bovino", "numero", numberConvert));
+                new ResourceNotFoundExcepcion("Bovino", "numero :", numberConvert));
         return movimientoBovinoRepository.findMovimientoBovinoByBovino(numero);
     }
 
@@ -59,7 +63,7 @@ public class MovimientoBovinosImpl implements MovimientoBovinoService {
                 new ResourceNotFoundExcepcion("Potrero", "id", potrero));
         return movimientoBovinoRepository.todo(potrero);
     }
-
+/*
     @Override
     public int UpdateBovinosPotrero(Potrero potrero) {
         LocalDate fechasalida = LocalDate.now();
@@ -73,25 +77,27 @@ public class MovimientoBovinosImpl implements MovimientoBovinoService {
 
         return movimientoBovinoRepository.updateFechaDeSalida(sqlCurrentDate, potrero);
     }
-
+/*
     @Override
     public List<MovimientoBovinoDTO> TraladoPotter(long potreroId) {
         return movimientoBovinoRepository.findMovimientoBovinoByPotrero(potreroId);
-    }
-
+    }*/
+/*
     @Override
     public List<MovimientoBovino> convertirEntity(long potreroId) {
         List<MovimientoBovinoDTO> movimientoBovinoDTOList =
                 movimientoBovinoRepository.findMovimientoBovinoByPotrero(potreroId);
         return mapList(movimientoBovinoDTOList, MovimientoBovino.class);
-    }
+    }*/
 
     @Override
     public void trasladar(long potreroOrig, long potreroDestino) {
         Potrero potrerodestino = potreroRepository.findById(potreroDestino).orElseThrow(() ->
-                new ResourceNotFoundExcepcion("Potrero no existe", "id", potreroDestino));
-        Potrero potreroorig = potreroRepository.findById(potreroDestino).orElseThrow(() ->
-                new ResourceNotFoundExcepcion("Potrero no existe", "id", potreroDestino));
+                new ResourceNotFoundExcepcion("Potrero no existe", "id : "
+                        + potreroDestino, potreroDestino));
+        Potrero potreroorig = potreroRepository.findById(potreroOrig).orElseThrow(() ->
+                new ResourceNotFoundExcepcion("Potrero no existe", "id : "
+                        + potreroOrig, potreroOrig));
         String nombrePotrero= potreroorig.getNombre();
         System.out.println(nombrePotrero);
         LocalDate fechaDeIngreso = LocalDate.now();
@@ -115,9 +121,9 @@ public class MovimientoBovinosImpl implements MovimientoBovinoService {
     public void trasladarBovino(String numeroId, long potreroDestino) {
         long numberConvert = Long.parseLong(numeroId);
         Potrero potrerodestino = potreroRepository.findById(potreroDestino).orElseThrow(() ->
-                new ResourceNotFoundExcepcion("Potrero no existe", "id", potreroDestino));
+                new ResourceNotFoundExcepcion("Potrero no existe", "id : " + potreroDestino, potreroDestino));
         Bovino bovino = bovinoRepository.findById(numeroId).orElseThrow(() ->
-                new ResourceNotFoundExcepcion("Bovino", "numero", numberConvert));
+                new ResourceNotFoundExcepcion("Bovino", "numero : " + numberConvert, numberConvert));
 
         LocalDate fechaDeIngreso = LocalDate.now();
         LocalDate fechasalida = LocalDate.now();

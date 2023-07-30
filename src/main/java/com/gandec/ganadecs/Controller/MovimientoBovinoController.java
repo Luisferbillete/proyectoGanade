@@ -23,23 +23,24 @@ public class MovimientoBovinoController {
         List<MovimientoBovinoDTO> movimientoBovinoDTOList=movimientoBovinoService.getMovimientoBovinosPorPotrero(potrero);
         return new ResponseEntity<>(movimientoBovinoDTOList,HttpStatus.OK);
     }
+    /*
     @GetMapping("/gettraslado/{potrero}")
     public ResponseEntity<List<MovimientoBovinoDTO>>getTraslado(@PathVariable long potrero){
         List<MovimientoBovinoDTO> movimientoBovinoDTOList=movimientoBovinoService.TraladoPotter(potrero);
         return new ResponseEntity<>(movimientoBovinoDTOList,HttpStatus.OK);
-    }
-    @GetMapping("/getconvercion/{potrero}")
+    }*/
+   /*@GetMapping("/getconvercion/{potrero}")
     public ResponseEntity<List<MovimientoBovino>>getconvercion(@PathVariable long potrero){
         List<MovimientoBovino> movimientoBovinoList=movimientoBovinoService.convertirEntity(potrero);
         return new ResponseEntity<>(movimientoBovinoList,HttpStatus.OK);
-    }
+    }*/
 
     @GetMapping("/getBybovinoByPotter/{numero}")
     @ResponseStatus(HttpStatus.OK)
     public List<MovimientoBovinoDTO> getMovimientoBovino(@PathVariable String numero){
         return movimientoBovinoService.findByMovimientosBovino(numero);
     }
-    @PutMapping("/{potrero}")
+   /* @PutMapping("/{potrero}")
     @ResponseStatus(HttpStatus.OK)
     public int UpdateBovinosPotrero(@PathVariable Potrero potrero){
         return movimientoBovinoService.UpdateBovinosPotrero(potrero);
@@ -50,8 +51,12 @@ public class MovimientoBovinoController {
     public int UpdatePotrero(@PathVariable String numeroId ){
         return movimientoBovinoService.probarbovino(numeroId);
 
-    }
+    }*/
     /*mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm*/
+    @GetMapping("/getAllBovineByPaddock")
+    public List<MovimientoBovinoDTO> getAllBovinespaddock(){
+        return movimientoBovinoService.getAllBovinosBypaddock();
+    }
     @PostMapping("/traslado/{potreroIdOrigen}/{potreroIdDestino}")
     public ResponseEntity<String> saveTraslado(@PathVariable long potreroIdOrigen,
                                @PathVariable long potreroIdDestino){

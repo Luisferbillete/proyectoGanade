@@ -2,7 +2,6 @@ package com.gandec.ganadecs.Repository;
 
 import com.gandec.ganadecs.DTO.MovimientoBovinoDTO;
 import com.gandec.ganadecs.Entity.MovimientoBovino;
-import com.gandec.ganadecs.Entity.Potrero;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -21,24 +19,30 @@ public interface MovimientoBovinoRepository extends JpaRepository<MovimientoBovi
             "and m.fecha_de_salida is null " )
 
     List<MovimientoBovinoDTO> findMovimientoBovinoByPotrero(@Param("potrero")long potrero);
+    @Query("SELECT NEW com.gandec.ganadecs.DTO.MovimientoBovinoDTO" +
+            "(b.Numero, m.fecha_de_ingreso, p.nombre) " +
+            "FROM MovimientoBovino m JOIN m.bovino b JOIN m.potrero p " +
+            "WHERE  m.fecha_de_salida IS NULL")
+    List<MovimientoBovinoDTO> getAllBovinespaddock();
     @Query("select new com.gandec.ganadecs.DTO.MovimientoBovinoDTO(b.Numero,m.fecha_de_ingreso,m.fecha_de_salida) " +
             "from MovimientoBovino m join m.bovino b where b.Numero=:numero and m.fecha_de_salida is null ")
     List<MovimientoBovinoDTO> findMovimientoBovinoByBovino(@Param("numero") String numero);
-
+/*
     @Query("select new com.gandec.ganadecs.DTO.MovimientoBovinoDTO(b.Numero,m.fecha_de_ingreso,m.fecha_de_salida) " +
             "from MovimientoBovino m join m.bovino b where m.potrero=:potrero and m.fecha_de_salida  is null ")
 
-     List<MovimientoBovinoDTO> findMovimientoBovinoByPotreroAndFecha_de_salidaIsNull(Potrero potrero);
+     List<MovimientoBovinoDTO> findMovimientoBovinoByPotreroAndFecha_de_salidaIsNull(Potrero potrero);*/
     @Query("select new com.gandec.ganadecs.DTO.MovimientoBovinoDTO(b.Numero,m.fecha_de_ingreso,m.fecha_de_salida) " +
             "from MovimientoBovino m join m.bovino b join m.potrero p where p.id=:potrero " +
             "and m.fecha_de_salida is null " )
 
     List<MovimientoBovinoDTO> todo(@Param("potrero")long potrero);
+    /*
         @Modifying
         @Transactional
         @Query("update MovimientoBovino m set  m.fecha_de_salida =:fechaSalida  where m.potrero=:potrero and m.fecha_de_salida is null " )
 
-          int UpdateMovimientobovinosFechaSalida(@Param("potrero") Potrero potrero,@Param("fechaSalida" )LocalDate fechaSalida);
+          int UpdateMovimientobovinosFechaSalida(@Param("potrero") Potrero potrero,@Param("fechaSalida" )LocalDate fechaSalida);*/
         @Modifying
         @Transactional
         @Query(value = "UPDATE moviento_de_reses m " +
