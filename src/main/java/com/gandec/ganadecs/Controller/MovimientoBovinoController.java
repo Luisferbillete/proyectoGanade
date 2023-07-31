@@ -1,6 +1,7 @@
 package com.gandec.ganadecs.Controller;
 
 import com.gandec.ganadecs.DTO.MovimientoBovinoDTO;
+import com.gandec.ganadecs.DTO.MovimientosDTO;
 import com.gandec.ganadecs.Entity.MovimientoBovino;
 import com.gandec.ganadecs.Entity.Potrero;
 import com.gandec.ganadecs.Excepciones.equalPaddocks;
@@ -54,7 +55,7 @@ public class MovimientoBovinoController {
     }*/
     /*mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm*/
     @GetMapping("/getAllBovineByPaddock")
-    public List<MovimientoBovinoDTO> getAllBovinespaddock(){
+    public List<MovimientosDTO> getAllBovinesBypaddock(){
         return movimientoBovinoService.getAllBovinosBypaddock();
     }
     @PostMapping("/traslado/{potreroIdOrigen}/{potreroIdDestino}")
@@ -70,9 +71,7 @@ public class MovimientoBovinoController {
 
     }
     @PostMapping("/trasladarBovino/{numeroId}/{potreroIdDestino}")
-    public ResponseEntity<String>trasladarBovino(
-                                                 @PathVariable long potreroIdDestino,
-                                                 @PathVariable String numeroId){
+    public ResponseEntity<String>trasladarBovino(@PathVariable String numeroId,@PathVariable long potreroIdDestino){
         movimientoBovinoService.trasladarBovino(numeroId,potreroIdDestino);
         return ResponseEntity.ok("Traslado del animal exitoso.");
     }

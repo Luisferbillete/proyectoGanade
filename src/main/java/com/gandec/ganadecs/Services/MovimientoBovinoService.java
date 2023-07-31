@@ -2,6 +2,7 @@ package com.gandec.ganadecs.Services;
 
 import com.gandec.ganadecs.DTO.MovimientoBovinoDTO;
 
+import com.gandec.ganadecs.DTO.MovimientosDTO;
 import com.gandec.ganadecs.Entity.MovimientoBovino;
 import com.gandec.ganadecs.Entity.Potrero;
 
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface MovimientoBovinoService {
-    List<MovimientoBovinoDTO>getAllBovinosBypaddock();
+    List<MovimientosDTO>getAllBovinosBypaddock();
     /*
     public MovimientoBovinoDTO Saves(MovimientoBovinoDTO movimientoBovinoDTO);
 

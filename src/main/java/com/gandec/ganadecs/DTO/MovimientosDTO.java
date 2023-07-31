@@ -1,10 +1,25 @@
 package com.gandec.ganadecs.DTO;
 
-import lombok.Data;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 
 import java.time.LocalDate;
-@Data
+
+@Getter
+@Setter
+
 public class MovimientosDTO {
     private String numero;
-    private LocalDate fecha;
+    private LocalDate fecha_de_ingreso;
+    private  String namepaddock;
+    public MovimientosDTO(String numero, LocalDate fecha_de_ingreso, String namepaddock) {
+        this.numero = numero;
+        this.fecha_de_ingreso = fecha_de_ingreso;
+        this.namepaddock = namepaddock;
+    }
+
+
 }

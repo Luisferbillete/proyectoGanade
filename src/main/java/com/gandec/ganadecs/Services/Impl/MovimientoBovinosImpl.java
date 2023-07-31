@@ -1,12 +1,12 @@
 package com.gandec.ganadecs.Services.Impl;
 
 import com.gandec.ganadecs.DTO.MovimientoBovinoDTO;
+import com.gandec.ganadecs.DTO.MovimientosDTO;
 import com.gandec.ganadecs.Entity.Bovino;
 import com.gandec.ganadecs.Entity.MovimientoBovino;
 import com.gandec.ganadecs.Entity.Potrero;
 import com.gandec.ganadecs.Excepciones.EmptyListExcepcion;
 import com.gandec.ganadecs.Excepciones.ResourceNotFoundExcepcion;
-import com.gandec.ganadecs.Mapeador.Mappers;
 import com.gandec.ganadecs.Repository.BovinoRepository;
 import com.gandec.ganadecs.Repository.MovimientoBovinoRepository;
 import com.gandec.ganadecs.Repository.PotreroRepository;
@@ -26,7 +26,6 @@ public class MovimientoBovinosImpl implements MovimientoBovinoService {
     private final PotreroRepository potreroRepository;
     private final MovimientoBovinoRepository movimientoBovinoRepository;
     private final BovinoRepository bovinoRepository;
-    private final Mappers mappers;
 
 /*
     @Override
@@ -45,7 +44,7 @@ public class MovimientoBovinosImpl implements MovimientoBovinoService {
     }*/
 
     @Override
-    public List<MovimientoBovinoDTO> getAllBovinosBypaddock() {
+    public List<MovimientosDTO> getAllBovinosBypaddock() {
         return movimientoBovinoRepository.getAllBovinespaddock();
     }
 
@@ -120,10 +119,10 @@ public class MovimientoBovinosImpl implements MovimientoBovinoService {
     @Override
     public void trasladarBovino(String numeroId, long potreroDestino) {
         long numberConvert = Long.parseLong(numeroId);
-        Potrero potrerodestino = potreroRepository.findById(potreroDestino).orElseThrow(() ->
-                new ResourceNotFoundExcepcion("Potrero no existe", "id : " + potreroDestino, potreroDestino));
         Bovino bovino = bovinoRepository.findById(numeroId).orElseThrow(() ->
-                new ResourceNotFoundExcepcion("Bovino", "numero : " + numberConvert, numberConvert));
+                new ResourceNotFoundExcepcion("Bovino", "numero  " + numberConvert, numberConvert));
+        Potrero potrerodestino = potreroRepository.findById(potreroDestino).orElseThrow(() ->
+                new ResourceNotFoundExcepcion("Potrero", "id " + potreroDestino,potreroDestino));
 
         LocalDate fechaDeIngreso = LocalDate.now();
         LocalDate fechasalida = LocalDate.now();

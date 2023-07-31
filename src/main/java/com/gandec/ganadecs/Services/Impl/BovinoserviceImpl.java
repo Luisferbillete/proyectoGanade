@@ -12,13 +12,16 @@ import com.gandec.ganadecs.Repository.MovimientoBovinoRepository;
 import com.gandec.ganadecs.Repository.PotreroRepository;
 import com.gandec.ganadecs.Repository.PropietariosRepository;
 import com.gandec.ganadecs.Services.BovinoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.gandec.ganadecs.Mapeador.MapperList.mapList;
 
 @Service
+@RequiredArgsConstructor
 public class BovinoserviceImpl implements BovinoService {
    private final BovinoRepository bovinoRepository;
 
@@ -27,38 +30,39 @@ public class BovinoserviceImpl implements BovinoService {
     private final PotreroRepository potreroRepository;
     private final MovimientoBovinoRepository movimientoBovinoRepository;
 
-    public BovinoserviceImpl(BovinoRepository bovinoRepository,
-                             PropietariosRepository propietariosRepository, Mappers mappers, PotreroRepository potreroRepository, MovimientoBovinoRepository movimientoBovinoRepository) {
-        this.bovinoRepository = bovinoRepository;
-        this.propietariosRepository = propietariosRepository;
-        this.mappers = mappers;
-        this.potreroRepository = potreroRepository;
-        this.movimientoBovinoRepository = movimientoBovinoRepository;
-    }
+
 
     @Override
     public BovinoDTO save(long propietarioid,long potreroId,BovinoDTO bovinoDTO) {
         Propietario propietario=propietariosRepository.findById(propietarioid).orElseThrow(()->
                 new ResourceNotFoundExcepcion
                         ("Propietario","id",propietarioid));
+        String numeroId=bovinoDTO.getNumero();
+        Optional<Bovino> existebovino=bovinoRepository.findById(numeroId);
+        if(existebovino.isPresent()){
+            throw new IllegalStateException("El bovino con numero " + numeroId + " ya existe en la base de datos.");
 
-               Bovino bovino=new Bovino();
 
-        bovino= (Bovino) mappers.convertToEntity(bovinoDTO,bovino);
+        }else {
+
+            Bovino bovino = new Bovino();
+
+            bovino = (Bovino) mappers.convertToEntity(bovinoDTO, bovino);
 
 
-        bovino.setPropietario(propietario);
+            bovino.setPropietario(propietario);
 
-        bovino=bovinoRepository.save(bovino);
-        Potrero potrero=potreroRepository.findById(potreroId).orElseThrow(()->
-                new ResourceNotFoundExcepcion("Potrero","id",potreroId));
-        MovimientoBovino movimientoBovino=new MovimientoBovino();
-        movimientoBovino.setBovino(bovino);
-        movimientoBovino.setPotrero(potrero);
-        movimientoBovino.setFecha_de_ingreso(bovinoDTO.getFecha_de_ingreso());
-        movimientoBovino=movimientoBovinoRepository.save(movimientoBovino);
+            bovino = bovinoRepository.save(bovino);
+            Potrero potrero = potreroRepository.findById(potreroId).orElseThrow(() ->
+                    new ResourceNotFoundExcepcion("Potrero", "id", potreroId));
+            MovimientoBovino movimientoBovino = new MovimientoBovino();
+            movimientoBovino.setBovino(bovino);
+            movimientoBovino.setPotrero(potrero);
+            movimientoBovino.setFecha_de_ingreso(bovinoDTO.getFecha_de_ingreso());
+            movimientoBovino = movimientoBovinoRepository.save(movimientoBovino);
 
-        bovinoDTO= (BovinoDTO) mappers.convertToDto(bovino,bovinoDTO);
+            bovinoDTO = (BovinoDTO) mappers.convertToDto(bovino, bovinoDTO);
+        }
         return bovinoDTO;
     }
 
