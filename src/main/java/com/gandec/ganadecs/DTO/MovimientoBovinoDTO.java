@@ -1,11 +1,10 @@
 package com.gandec.ganadecs.DTO;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.gandec.ganadecs.Entity.Bovino;
+
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Date;
+
 @Getter
 @Setter
 @NoArgsConstructor

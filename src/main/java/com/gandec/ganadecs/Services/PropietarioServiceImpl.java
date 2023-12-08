@@ -1,6 +1,7 @@
 package com.gandec.ganadecs.Services;
 
 
+import com.gandec.ganadecs.DTO.PropietarioDTO;
 import com.gandec.ganadecs.DTO.PropietaryComboDto;
 import com.gandec.ganadecs.DTO.PropietaryDTO;
 import com.gandec.ganadecs.Entity.Propietario;
@@ -85,6 +86,8 @@ public class PropietarioServiceImpl implements PropietarioService{
                                 ("Propietario","id",id));
         return (PropietaryDTO) mappers.convertToDto(propietario,dto);
     }
+
+
 
 
 }

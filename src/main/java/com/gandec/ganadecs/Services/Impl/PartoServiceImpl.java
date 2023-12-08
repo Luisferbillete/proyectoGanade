@@ -14,6 +14,7 @@ import com.gandec.ganadecs.Services.PartosService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -24,60 +25,57 @@ public class PartoServiceImpl implements PartosService {
     private final BovinoRepository bovinoRepository;
     private final CriaRepository criaRepository;
     private final Mappers mappers;
-    /*@Override
 
-    public PartoDTO save(PartoDTO partoDTO, String bovinoId) {
-        Parto parto=new Parto();
-        parto= (Parto) mappers.convertToEntity(partoDTO,parto);
-
-        long numberConvert = Long.parseLong(bovinoId);
-
-        Bovino bovino = bovinoRepository.findById(bovinoId).orElseThrow(() ->
-                new ResourceNotFoundExcepcion("Bovino", "numero  " + numberConvert, numberConvert));
-        parto.setBovino(bovino);
-        parto=partosRepository.save(parto);
-
-        partoDTO= (PartoDTO) mappers.convertToDto(parto,partoDTO);
-
-        return partoDTO;
-    }
-
-    @Override
-    public Parto saves(Parto parto,Bovino bovino) {
-
-        parto.setBovino(bovino);
-        System.out.println("fgfgfg"+parto.getFecha_de_parto());
-         partosRepository.save(parto);
-
-        return parto;
-    }*/
 
     @Override
     public void savess(PartoDTO partoDTO, String bovinoId) {
-        long counPartos= partosRepository.countPartosByBovinoNumeroId(bovinoId)+1;
-        Parto parto=new Parto();
-        parto= (Parto) mappers.convertToEntity(partoDTO,parto);
+
+
+        long counPartos = partosRepository.countPartosByBovinoNumeroId(bovinoId) + 1;
+        Parto parto = new Parto();
+        List<PartoDTO> partoDTOList = partosRepository.findByNumeroBovinoAndFechaDesteteIsNull(bovinoId);
+
+        parto = (Parto) mappers.convertToEntity(partoDTO, parto);
         long numberConvert = Long.parseLong(bovinoId);
+
+
+        if (partoDTOList.size() >= 1) {
+            throw new IllegalStateException("El bovino con numero " + numberConvert +
+                    " ya tiene un parto sin destetar.");
+        }
         Bovino bovino = bovinoRepository.findById(bovinoId).orElseThrow(() ->
-                new ResourceNotFoundExcepcion("Bovino", "numero  " + numberConvert, numberConvert));
+                new ResourceNotFoundExcepcion("Bovino",
+                        "numero  " + numberConvert, numberConvert));
         parto.setBovino(bovino);
-        parto=partosRepository.save(parto);
-
-        Cria cria=new Cria();
-        cria.setNum(bovinoId + counPartos);
-        cria.setNumero(bovinoId);
-        cria.setSexo("Hembra");
-        cria.setParto(parto);
+        if (bovino.getSexo().equals("hembra")) {
 
 
-        criaRepository.save(cria);
+            parto = partosRepository.save(parto);
 
+            Cria cria = new Cria();
+            cria.setNum(bovinoId + counPartos);
+            cria.setNumero(bovinoId);
+            cria.setSexo("Hembra");
+            cria.setParto(parto);
+
+
+            criaRepository.save(cria);
+        } else {
+            throw new IllegalStateException("El bovino con numero " + numberConvert + " no es hembra.");
+        }
 
     }
 
     @Override
     public List<PartosDTO> getPartoBovino(String numeroId) {
         return partosRepository.findPartosByFechaNullAndBovinoNumeroId(numeroId);
+    }
+
+    @Override
+    public int actualizarFechaDestete(String numeroBovino, LocalDate nuevaFechaDestete) {
+
+        int count = partosRepository.actualizarFechaDestete(numeroBovino, nuevaFechaDestete);
+        return count;
     }
 
 

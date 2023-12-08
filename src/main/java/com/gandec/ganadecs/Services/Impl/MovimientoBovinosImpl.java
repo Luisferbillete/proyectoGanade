@@ -151,13 +151,6 @@ public class MovimientoBovinosImpl implements MovimientoBovinoService {
         }
     }
 
-    @Override
-    public int probarbovino(String numeroId) {
-        LocalDate fechasalida = LocalDate.now();
-        Date sqlCurrentDate = Date.valueOf(fechasalida); // Convert LocalDate to java.sql.Date
-        return movimientoBovinoRepository.updateMovimientoBovinoByBovino(sqlCurrentDate,numeroId);
-
-    }
 
 
 }

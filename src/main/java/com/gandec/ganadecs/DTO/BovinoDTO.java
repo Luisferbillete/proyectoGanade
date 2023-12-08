@@ -26,7 +26,7 @@ public class BovinoDTO implements EntityDTO {
     private LocalDate Fecha_de_ingreso;
     private String sexo;
     private String color,raza;
-    //private long propietario;
+    private long propietario;
     @NotEmpty(message = "Selecione un tipo de negocio")
     private String negocio;
     private long abaluo;

@@ -33,7 +33,7 @@ public class BovinoserviceImpl implements BovinoService {
 
 
     @Override
-    public BovinoDTO save(long propietarioid,long potreroId,BovinoDTO bovinoDTO) {
+    public String save(long propietarioid,long potreroId,BovinoDTO bovinoDTO) {
         Propietario propietario=propietariosRepository.findById(propietarioid).orElseThrow(()->
                 new ResourceNotFoundExcepcion
                         ("Propietario","id",propietarioid));
@@ -59,24 +59,13 @@ public class BovinoserviceImpl implements BovinoService {
             movimientoBovino.setBovino(bovino);
             movimientoBovino.setPotrero(potrero);
             movimientoBovino.setFecha_de_ingreso(bovinoDTO.getFecha_de_ingreso());
-            movimientoBovino = movimientoBovinoRepository.save(movimientoBovino);
+            movimientoBovinoRepository.save(movimientoBovino);
 
-            bovinoDTO = (BovinoDTO) mappers.convertToDto(bovino, bovinoDTO);
         }
-        return bovinoDTO;
+        return "Bovino guardado con exito";
     }
 
-    @Override
-    public BovinoDTO saves(BovinoDTO bovinoDTO) {
-       // BovinoDTO bovinoDTO1=new BovinoDTO();
-        Bovino bovino=new Bovino();
-        bovino=(Bovino)mappers.convertToEntity(bovinoDTO,bovino);
-        //bovino.setPropietario(bovinoDTO.getPropietario());
-        bovino=bovinoRepository.save(bovino);
 
-        bovinoDTO= (BovinoDTO) mappers.convertToDto(bovino,bovinoDTO);
-        return bovinoDTO;
-    }
 
 
     @Override
@@ -103,4 +92,6 @@ public class BovinoserviceImpl implements BovinoService {
     public void DeleteBovino(String number) {
 
     }
+
+
 }

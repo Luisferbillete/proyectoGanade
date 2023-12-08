@@ -31,9 +31,8 @@ public class PropietarioController {
    }
    @GetMapping("/combo")
    public ResponseEntity<List<PropietaryComboDto>> GetAllcombo(){
-        PropietaryComboDto propietaryComboDto= new PropietaryComboDto();
         List<PropietaryComboDto> propietaryComboDtoList=
-                propietarioService.PROPIETARY_COMBO_DTO_LIST();
+                propietarioService.PROPIETARY_COMBO_DTO_LIST()
         ;
         return  new ResponseEntity<>(propietaryComboDtoList,HttpStatus.OK);
    }

@@ -24,35 +24,14 @@ public class MovimientoBovinoController {
         List<MovimientoBovinoDTO> movimientoBovinoDTOList=movimientoBovinoService.getMovimientoBovinosPorPotrero(potrero);
         return new ResponseEntity<>(movimientoBovinoDTOList,HttpStatus.OK);
     }
-    /*
-    @GetMapping("/gettraslado/{potrero}")
-    public ResponseEntity<List<MovimientoBovinoDTO>>getTraslado(@PathVariable long potrero){
-        List<MovimientoBovinoDTO> movimientoBovinoDTOList=movimientoBovinoService.TraladoPotter(potrero);
-        return new ResponseEntity<>(movimientoBovinoDTOList,HttpStatus.OK);
-    }*/
-   /*@GetMapping("/getconvercion/{potrero}")
-    public ResponseEntity<List<MovimientoBovino>>getconvercion(@PathVariable long potrero){
-        List<MovimientoBovino> movimientoBovinoList=movimientoBovinoService.convertirEntity(potrero);
-        return new ResponseEntity<>(movimientoBovinoList,HttpStatus.OK);
-    }*/
+
 
     @GetMapping("/getBybovinoByPotter/{numero}")
     @ResponseStatus(HttpStatus.OK)
     public List<MovimientoBovinoDTO> getMovimientoBovino(@PathVariable String numero){
         return movimientoBovinoService.findByMovimientosBovino(numero);
     }
-   /* @PutMapping("/{potrero}")
-    @ResponseStatus(HttpStatus.OK)
-    public int UpdateBovinosPotrero(@PathVariable Potrero potrero){
-        return movimientoBovinoService.UpdateBovinosPotrero(potrero);
 
-    }
-    @PutMapping("update/{numeroId}")
-    @ResponseStatus(HttpStatus.OK)
-    public int UpdatePotrero(@PathVariable String numeroId ){
-        return movimientoBovinoService.probarbovino(numeroId);
-
-    }*/
     /*mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm*/
     @GetMapping("/getAllBovineByPaddock")
     public List<MovimientosDTO> getAllBovinesBypaddock(){
@@ -67,7 +46,7 @@ public class MovimientoBovinoController {
         }else {
             movimientoBovinoService.trasladar(potreroIdOrigen, potreroIdDestino);
         }
-        return ResponseEntity.ok("Traslado  exitosamente.");
+        return ResponseEntity.ok("Traslado  exitoso.");
 
     }
     @PostMapping("/trasladarBovino/{numeroId}/{potreroIdDestino}")
