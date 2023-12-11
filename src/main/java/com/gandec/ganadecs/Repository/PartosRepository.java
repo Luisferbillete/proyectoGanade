@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PartosRepository extends JpaRepository<Parto,Long> {
@@ -31,5 +32,15 @@ public interface PartosRepository extends JpaRepository<Parto,Long> {
     @Query("UPDATE Parto p SET p.fecha_de_destete = :nuevaFechaDestete WHERE p.bovino.Numero = :numeroBovino")
     int actualizarFechaDestete(@Param("numeroBovino") String numeroBovino, @Param("nuevaFechaDestete")
     LocalDate nuevaFechaDestete);
+
+    @Query("SELECT p FROM Parto p WHERE p.bovino.Numero = :numero")
+    Optional<Parto> findByNumeroParto(String numero);
+    @Query("SELECT p FROM Parto p WHERE p.bovino.Numero = :numeroBovino")
+    List<PartoDTO> obtenerPartosPorNumeroBovino(@Param("numeroBovino") String numeroBovino);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Parto p SET p.nombre = :nuevoNombre WHERE p.bovino.Numero = :numero")
+    void actualizarNombreParto(@Param("numero") String numero, @Param("nuevoNombre") String nuevoNombre);
 }
 

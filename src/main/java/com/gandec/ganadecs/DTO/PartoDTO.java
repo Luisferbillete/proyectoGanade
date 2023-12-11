@@ -2,29 +2,29 @@ package com.gandec.ganadecs.DTO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gandec.ganadecs.Entity.Bovino;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Date;
+
 @Getter
 @Setter
 
 @NoArgsConstructor
-@ToString
-@EqualsAndHashCode
+@AllArgsConstructor
+
+
 public class PartoDTO implements EntityDTO {
-    @JsonFormat(pattern = "dd/MM/yyyy",timezone = "GMT-5")
 
+    private long id;
+    @NotNull(message = "La fecha de parto no puede estar vacia")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate fecha_de_parto;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate fecha_de_destete;
-
-    public PartoDTO(LocalDate fecha_de_parto, LocalDate fecha_de_destete, String nombre, Bovino bovino) {
-        this.fecha_de_parto = fecha_de_parto;
-        this.fecha_de_destete = fecha_de_destete;
-        this.nombre = nombre;
-        this.bovino = bovino;
-    }
-
+    @NotEmpty(message = "El nombre no puede estar vacio")
     private String nombre;
     private Bovino bovino;
 }

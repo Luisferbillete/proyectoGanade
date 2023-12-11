@@ -14,6 +14,7 @@ import com.gandec.ganadecs.Services.PartosService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -74,9 +75,39 @@ public class PartoServiceImpl implements PartosService {
     @Override
     public int actualizarFechaDestete(String numeroBovino, LocalDate nuevaFechaDestete) {
 
-        int count = partosRepository.actualizarFechaDestete(numeroBovino, nuevaFechaDestete);
-        return count;
+        return partosRepository.actualizarFechaDestete(numeroBovino, nuevaFechaDestete);
+    }
+
+    @Override
+    public PartoDTO actualizarFechaParto(String numeroBovino, PartoDTO partoDTO) {
+        long numero = Long.parseLong(numeroBovino);
+        Parto parto = partosRepository.findByNumeroParto(numeroBovino).orElseThrow(() ->
+                new ResourceNotFoundExcepcion("Parto",
+                        "numero  " + numeroBovino, numero));
+        parto.setNombre(partoDTO.getNombre());
+        parto.setFecha_de_parto(partoDTO.getFecha_de_parto());
+
+        partosRepository.save(parto);
+        partoDTO = (PartoDTO) mappers.convertToDto(parto, partoDTO);
+        return partoDTO;
+    }
+
+
+
+    @Override
+    public void actualizarNombreParto(String numero, String nuevoNombre) {
+        Parto parto = partosRepository.findByNumeroParto(numero).orElseThrow(() ->
+                new ResourceNotFoundExcepcion("Parto",
+                        "numero  " + numero, Long.parseLong(numero)));
+        partosRepository.actualizarNombreParto(numero, nuevoNombre);
     }
 
 
 }
+
+
+
+
+
+
+

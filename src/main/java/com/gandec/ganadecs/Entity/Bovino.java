@@ -1,6 +1,7 @@
 package com.gandec.ganadecs.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -32,6 +33,7 @@ public class Bovino {
     @OneToMany(mappedBy = "bovino")
     private List<MovimientoBovino> movimientoBovinos;
     @OneToMany(mappedBy = "bovino")
+    @JsonIgnore
     private List<Parto> partos;
 
 }
