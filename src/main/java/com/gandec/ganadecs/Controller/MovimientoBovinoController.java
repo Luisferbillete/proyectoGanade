@@ -2,8 +2,6 @@ package com.gandec.ganadecs.Controller;
 
 import com.gandec.ganadecs.DTO.MovimientoBovinoDTO;
 import com.gandec.ganadecs.DTO.MovimientosDTO;
-import com.gandec.ganadecs.Entity.MovimientoBovino;
-import com.gandec.ganadecs.Entity.Potrero;
 import com.gandec.ganadecs.Excepciones.equalPaddocks;
 import com.gandec.ganadecs.Services.MovimientoBovinoService;
 import lombok.RequiredArgsConstructor;

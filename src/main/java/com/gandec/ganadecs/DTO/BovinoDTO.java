@@ -1,8 +1,7 @@
 package com.gandec.ganadecs.DTO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.gandec.ganadecs.Entity.Propietario;
-import jakarta.persistence.Column;
+
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,14 +13,14 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
+
 
 public class BovinoDTO implements EntityDTO {
-    //@Column(unique = true)
-    @NotEmpty(message = "Debe ingesar el numero")
+
+
     private String numero;
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date Fecha_de_nacimiento;
+    private LocalDate Fecha_de_nacimiento;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate Fecha_de_ingreso;
     private String sexo;
@@ -33,6 +32,11 @@ public class BovinoDTO implements EntityDTO {
     private int kilos;
     private long preciokilo;
 
-
-
+    public BovinoDTO(String numero, LocalDate fecha_de_nacimiento,  String sexo, String color, String raza) {
+        this.numero = numero;
+        Fecha_de_nacimiento = fecha_de_nacimiento;
+        this.sexo = sexo;
+        this.color = color;
+        this.raza = raza;
+    }
 }

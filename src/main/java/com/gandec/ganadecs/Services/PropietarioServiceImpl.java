@@ -40,6 +40,7 @@ public class PropietarioServiceImpl implements PropietarioService{
     public PropietaryDTO saves(PropietaryDTO propietaryDTO) {
         Propietario propietario=new Propietario();
         propietario= (Propietario) mappers.convertToEntity(propietaryDTO,propietario);
+
         propietario=propietariosRepository.save(propietario);
         propietaryDTO=(PropietaryDTO) mappers.convertToDto(propietario,propietaryDTO);
         return propietaryDTO;
@@ -87,7 +88,10 @@ public class PropietarioServiceImpl implements PropietarioService{
         return (PropietaryDTO) mappers.convertToDto(propietario,dto);
     }
 
-
+    @Override
+    public PropietaryComboDto findPropietaryComboDtoByNombresAndApellidos(String nombres, String apellidos) {
+        return propietariosRepository.findPropietaryComboDtoByNombresAndApellidos(nombres,apellidos);
+    }
 
 
 }
