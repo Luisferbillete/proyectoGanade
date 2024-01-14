@@ -1,12 +1,15 @@
 package com.gandec.ganadecs.Services.Impl;
 
 import com.gandec.ganadecs.DTO.BovinoDTO;
+
+import com.gandec.ganadecs.DTO.Bovinos.BovinosDTO;
 import com.gandec.ganadecs.Entity.Bovino;
 import com.gandec.ganadecs.Entity.MovimientoBovino;
 import com.gandec.ganadecs.Entity.Potrero;
 import com.gandec.ganadecs.Entity.Propietario;
 import com.gandec.ganadecs.Excepciones.ResourceNotFoundExcepcion;
 import com.gandec.ganadecs.Mapeador.Mappers;
+import com.gandec.ganadecs.Mapeador.Util.CalculadoraEdadUtil;
 import com.gandec.ganadecs.Repository.BovinoRepository;
 import com.gandec.ganadecs.Repository.MovimientoBovinoRepository;
 import com.gandec.ganadecs.Repository.PotreroRepository;
@@ -14,11 +17,13 @@ import com.gandec.ganadecs.Repository.PropietariosRepository;
 import com.gandec.ganadecs.Services.BovinoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
-import static com.gandec.ganadecs.Mapeador.MapperList.mapList;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +34,7 @@ public class BovinoserviceImpl implements BovinoService {
     private final Mappers mappers;
     private final PotreroRepository potreroRepository;
     private final MovimientoBovinoRepository movimientoBovinoRepository;
+    private final CalculadoraEdadUtil calculadoraEdadUtil;
 
 
 
@@ -48,7 +54,7 @@ public class BovinoserviceImpl implements BovinoService {
             Bovino bovino = new Bovino();
 
             bovino = (Bovino) mappers.convertToEntity(bovinoDTO, bovino);
-
+            ValidarNegocio(bovinoDTO);
 
             bovino.setPropietario(propietario);
 
@@ -65,32 +71,116 @@ public class BovinoserviceImpl implements BovinoService {
         return "Bovino guardado con exito";
     }
 
-
-
-
-    @Override
-    public List<BovinoDTO> BOVINO_DTO_LIST() {
-        List<Bovino> bovinoList=bovinoRepository.findAll();
-        return mapList(bovinoList,BovinoDTO.class);
+    private void ValidarNegocio(BovinoDTO bovinoDTO) {
+        if (Objects.equals(bovinoDTO.getNegocio(), "Kilos")) {
+            if (bovinoDTO.getKilos() == 0) {
+                throw new IllegalStateException("los kilos no pueden ser cero");
+            }
+            if (bovinoDTO.getKilos() < 0) {
+                throw new IllegalStateException("los kilos no pueden ser negativos");
+            }
+        }
+        if (Objects.equals(bovinoDTO.getNegocio(), "Abaluo")) {
+            if (bovinoDTO.getAbaluo() == 0) {
+                throw new IllegalStateException("El abaluo no puede ser cero");
+            }
+            if (bovinoDTO.getAbaluo() < 0) {
+                throw new IllegalStateException("El abaluo no puede ser negativo");
+            }
+        }
+        if (Objects.equals(bovinoDTO.getNegocio(), "Kilos y Precio")) {
+            if (bovinoDTO.getKilos() == 0) {
+                throw new IllegalStateException("los kilos no pueden ser cero");
+            }
+            if (bovinoDTO.getKilos() < 0) {
+                throw new IllegalStateException("los kilos no pueden ser negativos");
+            }
+            if (bovinoDTO.getPreciokilo() == 0) {
+                throw new IllegalStateException("El precio no pueden estar en cero");
+            }
+            if (bovinoDTO.getPreciokilo() < 0) {
+                throw new IllegalStateException("El precio no pueden ser negativos");
+            }
+        }
     }
 
     @Override
-    public BovinoDTO GetBovino(String number) {
-        BovinoDTO bovinoDTO=new BovinoDTO();
-        long numberConvert=Long.parseLong(number);
-        Bovino bovino=bovinoRepository.findById(number).orElseThrow(()->
-                new ResourceNotFoundExcepcion("Bovino","numero",numberConvert));
-        return (BovinoDTO) mappers.convertToDto(bovino,bovinoDTO);
+    public String update(BovinoDTO bovinoDTO, String NumerBovino) {
+       long numero=Long.parseLong(NumerBovino);
+        Bovino bovino=bovinoRepository.findById(NumerBovino).orElseThrow(()->
+                new ResourceNotFoundExcepcion("Bovino","numero",numero));
+        bovino= (Bovino) mappers.convertToEntity(bovinoDTO,bovino);
+
+        Propietario propietario=propietariosRepository.findById(bovinoDTO.getPropietario()).orElseThrow(()->
+                new ResourceNotFoundExcepcion("Propietario","id",bovinoDTO.getPropietario()));
+
+        Bovino bovinos;
+        bovinos = (Bovino) mappers.convertToEntity(bovinoDTO, bovino);
+        bovinos.setNumero(NumerBovino);
+        bovinos.setPropietario(propietario);
+
+        ValidarNegocio(bovinoDTO);
+        bovinoRepository.save(bovinos);
+        return "Bovino actualizado con exito";
     }
 
     @Override
-    public BovinoDTO UpdateBovino(BovinoDTO bovinoDTO, String number) {
-        return null;
+    public List<BovinosDTO> BovinesGetAll() {
+        List<BovinosDTO> bovinosConCategoria = new ArrayList<>();
+        List<BovinosDTO> todosBovinos = bovinoRepository.BovinesGetAll();
+        bovinesCategory(bovinosConCategoria, todosBovinos);
+        return bovinosConCategoria;
+
+    }
+
+
+
+    @Override
+    public List<BovinosDTO> BovinesGetallByPropietary(long propietarioId) {
+
+        List<BovinosDTO> bovinosConCategoria = new ArrayList<>();
+        List<BovinosDTO> todosBovinos = bovinoRepository.BovinesGetallByPropietary(propietarioId);
+        bovinesCategory(bovinosConCategoria, todosBovinos);
+        return bovinosConCategoria;   }
+
+    @Override
+    public List<BovinosDTO> BovinesGetallByPropietaryAndSexo(long propietarioId, String sexo) {
+        List<BovinosDTO> bovinosConCategoria = new ArrayList<>();
+        List<BovinosDTO> todosBovinos = bovinoRepository.BovinesGetallByPropietaryAndSexo(propietarioId, sexo);
+        bovinesCategory(bovinosConCategoria, todosBovinos);
+        return bovinosConCategoria;
     }
 
     @Override
-    public void DeleteBovino(String number) {
+    public List<BovinosDTO> BovinesGetallBySexo(String sexo) {
+        List<BovinosDTO> bovinosConCategoria = new ArrayList<>();
+        List<BovinosDTO> todosBovinos = bovinoRepository.BovinesGetallBySexo(sexo);
+        bovinesCategory(bovinosConCategoria, todosBovinos);
+        return bovinosConCategoria;
+    }
 
+    @Override
+    public Optional<BovinosDTO> BovinesGetallByNumero(String numero) {
+        List<BovinosDTO> bovinosConCategoria = new ArrayList<>();
+        List<BovinosDTO> todosBovinos = bovinoRepository.BovinesGetallByNumero(numero);
+        bovinesCategory(bovinosConCategoria, todosBovinos);
+        return bovinosConCategoria.stream().findFirst();
+
+    }
+
+    @Override
+    public void UpdatePropietarioEnBovino(String numero, Propietario nuevoPropietarioId) {
+        bovinoRepository.UpdatePropietarioEnBovino(numero, nuevoPropietarioId);
+
+    }
+
+
+    private void bovinesCategory(List<BovinosDTO> bovinosConCategoria, List<BovinosDTO> todosBovinos) {
+        for (BovinosDTO bovDTO : todosBovinos) {
+            String categoria = calculadoraEdadUtil.calcularCategoria(bovDTO.getFecha_de_nacimiento(), bovDTO.getSexo());
+            bovDTO.setCategoria(categoria);
+            bovinosConCategoria.add(bovDTO);
+        }
     }
 
 

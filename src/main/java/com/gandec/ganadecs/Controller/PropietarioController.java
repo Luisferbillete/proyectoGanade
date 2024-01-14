@@ -52,5 +52,10 @@ public class PropietarioController {
         propietarioService.DeletePropietary(id);
         return new ResponseEntity<>("Propietario Eliminado con exito",HttpStatus.OK);
    }
+   @GetMapping("/search/{nombres}/{apellidos}")
+    public ResponseEntity<PropietaryComboDto> SearchPropietary(@PathVariable(name = "nombres")String nombres,
+                                                             @PathVariable(name = "apellidos")String apellidos){
+          return ResponseEntity.ok(propietarioService.findPropietaryComboDtoByNombresAndApellidos(nombres,apellidos));
+    }
 
 }

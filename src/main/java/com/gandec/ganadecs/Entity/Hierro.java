@@ -18,7 +18,7 @@ public class Hierro {
     private long id;
     @Column(name = "figuras")
     private String figura;
-    @ManyToOne(fetch = FetchType.LAZY ,cascade= CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY ,cascade= CascadeType.REMOVE)
     @JoinColumn(name = "Propietario_id",nullable=false)
     private Propietario propietario;
 }

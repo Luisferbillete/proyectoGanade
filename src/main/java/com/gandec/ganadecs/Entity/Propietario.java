@@ -11,7 +11,6 @@ import java.util.List;
 public class Propietario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
-    @Column(name = "id", unique = true)
     private long id;
     @Column(name="Nombres")
     private  String nombres;
@@ -25,4 +24,6 @@ public class Propietario {
     private List<Bovino> bovino;
     @OneToMany(mappedBy = "propietario")
     private List<Hierro> hierro;
+    @OneToMany(mappedBy = "propietario")
+    private List<VentaInterna> ventaInterna;
 }

@@ -1,25 +1,25 @@
 package com.gandec.ganadecs.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="bovinos")
 @Data
 public class Bovino {
  @Id
- //@GeneratedValue(strategy = GenerationType. )
+
 
    private String Numero;
-    @JsonFormat(pattern = "dd/MM/yyyy",timezone = "GMT-5")
-
-  private   Date Fecha_de_nacimiento;
+ @JsonFormat(pattern = "dd/MM/yyyy")
+  private   LocalDate Fecha_de_nacimiento;
+ @JsonFormat(pattern = "dd/MM/yyyy")
    private LocalDate Fecha_de_ingreso;
    private String sexo;
    private String color,raza;
@@ -33,7 +33,15 @@ public class Bovino {
     @OneToMany(mappedBy = "bovino")
     private List<MovimientoBovino> movimientoBovinos;
     @OneToMany(mappedBy = "bovino")
-    @JsonIgnore
-    private List<Parto> partos;
+    private Set<Partos> listaPartos=new HashSet<>();
+    @OneToMany(mappedBy = "bovino")
+    private Set<BovinosMuertos> listaBovinosMuertos=new HashSet<>();
+    @OneToMany(mappedBy = "bovino")
+    private Set<Detalle_Venta> detalle_ventas = new HashSet<>();
+    @OneToMany(mappedBy = "bovino")
+    private Set<DetalleVentaInterna> detalle_ventas_internas = new HashSet<>();
+
+
+
 
 }

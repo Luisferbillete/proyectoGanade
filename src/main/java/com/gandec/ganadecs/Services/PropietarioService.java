@@ -7,12 +7,14 @@ import java.util.List;
 
 public interface PropietarioService {
 
-    public List<PropietaryDTO> PropietaryGetAll();
-    public PropietaryDTO saves (PropietaryDTO propietaryDTO);
-    public void DeletePropietary(long id);
-    public List<PropietaryComboDto> PROPIETARY_COMBO_DTO_LIST();
-    public PropietaryDTO UpdatePropietary(PropietaryDTO propietaryDTO,long id);
-    public  PropietaryDTO GetPropietary(long id);
+    List<PropietaryDTO> PropietaryGetAll();
+    PropietaryDTO saves (PropietaryDTO propietaryDTO);
+    void DeletePropietary(long id);
+    List<PropietaryComboDto> PROPIETARY_COMBO_DTO_LIST();
+    PropietaryDTO UpdatePropietary(PropietaryDTO propietaryDTO,long id);
+     PropietaryDTO GetPropietary(long id);
+     PropietaryComboDto findPropietaryComboDtoByNombresAndApellidos(String nombres, String apellidos);
+
 
 
 
