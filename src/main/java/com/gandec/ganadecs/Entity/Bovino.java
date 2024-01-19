@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name="bovinos")
 @Data
 public class Bovino {
  @Id

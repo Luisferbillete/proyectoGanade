@@ -22,7 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class VentaInternaServiceImpl implements VentaInternaService {
 
-private final ClienteReository clienteReository;
+private final ClienteRepository clienteRepository;
 private final VentaInternaRepository ventaInternaRepository;
 private final PropietariosRepository propietariosRepository;
 private final BovinoRepository bovinoRepository;
@@ -36,10 +36,7 @@ private final CalculadoraEdadUtil calculadoraEdadUtil;
         return !detalle_ventas.isEmpty();
           }
 
-    @Override
-    public Optional<VentaInternaCompradorVendedorBovino> verifificarventaInternaAnterior(String numero, long propietarioId) {
-        return ventaInternaRepository.verifificarventaInternaAnterior(numero,propietarioId);
-    }
+
 
     @Override
     public void save(VentaInterna ventaInterna, List<DetalleVentaInterna> detalleVentaInternaList,
@@ -75,7 +72,7 @@ private final CalculadoraEdadUtil calculadoraEdadUtil;
 
 
             }
-            Cliente cliente = clienteReository.findById(IdCliente).orElseThrow(() ->
+            Cliente cliente = clienteRepository.findById(IdCliente).orElseThrow(() ->
                     new ResourceNotFoundExcepcion("Client ", "id", IdCliente));
             ventaInterna.setCliente(cliente);
             ventaInterna.setPropietario(vendedor);
@@ -145,11 +142,18 @@ private final CalculadoraEdadUtil calculadoraEdadUtil;
     public List<VentaInternaCompradorVendedorBovino> findByDetalle_ventas_internasBovinoNumero(String numero) {
         List<VentaInternaCompradorVendedorBovino> ventaInternaCompradorVendedorBovino=new ArrayList<>();
          List<VentaInternaCompradorVendedorBovino> ventaInternaCompradorVendedorBovinoList  =  ventaInternaRepository.findByDetalle_ventas_internasBovinoNumero(numero);
-       for (VentaInternaCompradorVendedorBovino ventaInternaCompradorVendedorBovino1:ventaInternaCompradorVendedorBovinoList){
+       for (VentaInternaCompradorVendedorBovino ventaInternaCompradorVendedorBovino1:ventaInternaCompradorVendedorBovinoList) {
            Optional<BovinesDTO> bovino = bovinoRepository.findBovinoByNumero(numero);
-           String Categoria=calculadoraEdadUtil.calcularCategoria(bovino.get().getFecha_de_nacimiento(),bovino.get().getSexo());
-              ventaInternaCompradorVendedorBovino1.setCategoria(Categoria);
+            if (bovino.isPresent()) {
+                String Categoria = calculadoraEdadUtil.calcularCategoria(bovino.get().getFecha_de_nacimiento(), bovino.get().getSexo());
+                ventaInternaCompradorVendedorBovino1.setCategoria(Categoria);
                 ventaInternaCompradorVendedorBovino.add(ventaInternaCompradorVendedorBovino1);
+            }else {
+                throw new IllegalStateException("bovino numero : " + numero + " encontrado");
+
+            }
+
+
        }
         return ventaInternaCompradorVendedorBovino;
     }

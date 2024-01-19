@@ -16,7 +16,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/Ganadec/Bovinos")
-public class BovinoCotroller {
+public class BovinoController {
     private final BovinoService bovinoService;
 
 
@@ -54,6 +54,7 @@ public class BovinoCotroller {
                                          @Valid @RequestBody BovinoDTO bovinoDTO) {
         return new ResponseEntity<>(bovinoService.update(bovinoDTO, numero), HttpStatus.CREATED);
     }
+
 
 
 

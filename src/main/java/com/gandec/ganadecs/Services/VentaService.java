@@ -9,7 +9,6 @@ import com.gandec.ganadecs.Entity.Venta;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 public interface VentaService {
     void save(Venta venta,List<Detalle_Venta>  detalle_ventas, long IdCliente);

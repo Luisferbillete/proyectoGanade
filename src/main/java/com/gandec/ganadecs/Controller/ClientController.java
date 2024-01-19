@@ -31,8 +31,8 @@ public class ClientController {
     public ClientesDTO update(@Valid @RequestBody ClientesDTO clientesDTO,@PathVariable long id){
         return clientService.update(clientesDTO,id);
     }
-    @GetMapping("/findAllClientes")
-    public List<ClienteCmbDTO> findAllClientes(){
+    @GetMapping("/findAllClients")
+    public List<ClienteCmbDTO> findAllClients(){
         return clientService.findAllClientes();
     }
 

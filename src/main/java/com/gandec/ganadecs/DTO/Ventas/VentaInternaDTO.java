@@ -2,7 +2,6 @@ package com.gandec.ganadecs.DTO.Ventas;
 
 import com.gandec.ganadecs.Entity.DetalleVentaInterna;
 import com.gandec.ganadecs.Entity.VentaInterna;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

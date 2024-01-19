@@ -4,7 +4,6 @@ import com.gandec.ganadecs.DTO.VentaInterna.VentaInternaCompradorVendedor;
 import com.gandec.ganadecs.DTO.VentaInterna.VentaInternaCompradorVendedorBovino;
 import com.gandec.ganadecs.DTO.Ventas.VentaInternaDTO;
 import com.gandec.ganadecs.Entity.DetalleVentaInterna;
-import com.gandec.ganadecs.Entity.Venta;
 import com.gandec.ganadecs.Entity.VentaInterna;
 import com.gandec.ganadecs.Services.VentaInternaService;
 import jakarta.validation.Valid;

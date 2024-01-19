@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ClienteReository extends JpaRepository<Cliente,Long> {
-    @Query("SELECT new com.gandec.ganadecs.DTO.Clientes.ClienteCmbDTO(c.id,CONCAT(c.nombres,' ',c.apellidos))  FROM Cliente c ")
+public interface ClienteRepository extends JpaRepository<Cliente,Long> {
+    @Query("SELECT new com.gandec.ganadecs.DTO.Clientes.ClienteCmbDTO(c.Id,CONCAT(c.nombres,' ',c.apellidos))  FROM Cliente c ")
     List<ClienteCmbDTO> findAllClientes();
 }

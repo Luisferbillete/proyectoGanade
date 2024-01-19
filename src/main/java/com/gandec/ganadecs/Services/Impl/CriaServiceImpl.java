@@ -43,7 +43,7 @@ public class CriaServiceImpl implements CriaService {
                 int con=crias.getFecha_nacimiento().compareTo(fechaNacimiento);
 
                 if (con!=0)
-                    throw new RuntimeException("El vaca  numero : " + numeroBovino +
+                    throw new RuntimeException("La vaca  numero : " + numeroBovino +
                             "  se encuentra parida ");
             }
 

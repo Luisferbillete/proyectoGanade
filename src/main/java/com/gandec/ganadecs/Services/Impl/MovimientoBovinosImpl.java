@@ -2,7 +2,6 @@ package com.gandec.ganadecs.Services.Impl;
 
 import com.gandec.ganadecs.DTO.MovimientoBovinoDTO;
 import com.gandec.ganadecs.DTO.MovimientosDTO;
-import com.gandec.ganadecs.Entity.Bovino;
 import com.gandec.ganadecs.Entity.MovimientoBovino;
 import com.gandec.ganadecs.Entity.Potrero;
 import com.gandec.ganadecs.Excepciones.EmptyListExcepcion;
@@ -27,21 +26,7 @@ public class MovimientoBovinosImpl implements MovimientoBovinoService {
     private final MovimientoBovinoRepository movimientoBovinoRepository;
     private final BovinoRepository bovinoRepository;
 
-/*
-    @Override
-    public MovimientoBovinoDTO Saves(MovimientoBovinoDTO movimientoBovinoDTO) {
-        MovimientoBovino movimientoBovino = new MovimientoBovino();
-        movimientoBovino = (MovimientoBovino) mappers.convertToEntity(movimientoBovinoDTO, movimientoBovino);
-        movimientoBovino = movimientoBovinoRepository.save(movimientoBovino);
-        movimientoBovinoDTO = (MovimientoBovinoDTO) mappers.convertToDto(movimientoBovino, movimientoBovinoDTO);
-        return movimientoBovinoDTO;
-    }
 
-    @Override
-    public List<MovimientoBovinoDTO> getMovimientos(Potrero potrero) {
-
-        return movimientoBovinoRepository.findMovimientoBovinoByPotreroAndFecha_de_salidaIsNull(potrero);
-    }*/
 
     @Override
     public List<MovimientosDTO> getAllBovinosBypaddock() {
@@ -51,43 +36,17 @@ public class MovimientoBovinosImpl implements MovimientoBovinoService {
     @Override
     public List<MovimientoBovinoDTO> findByMovimientosBovino(String numero) {
         long numberConvert = Long.parseLong(numero);
-        Bovino bovino = bovinoRepository.findById(numero).orElseThrow(() ->
+        bovinoRepository.findById(numero).orElseThrow(() ->
                 new ResourceNotFoundExcepcion("Bovino", "numero :", numberConvert));
         return movimientoBovinoRepository.findMovimientoBovinoByBovino(numero);
     }
 
     @Override
     public List<MovimientoBovinoDTO> getMovimientoBovinosPorPotrero(long potrero) {
-        Potrero potter = potreroRepository.findById(potrero).orElseThrow(() ->
+        potreroRepository.findById(potrero).orElseThrow(() ->
                 new ResourceNotFoundExcepcion("Potrero", "id", potrero));
         return movimientoBovinoRepository.todo(potrero);
     }
-/*
-    @Override
-    public int UpdateBovinosPotrero(Potrero potrero) {
-        LocalDate fechasalida = LocalDate.now();
-        return movimientoBovinoRepository.UpdateMovimientobovinosFechaSalida(potrero, fechasalida);
-    }
-
-    @Override
-    public int updateFechaDeSalida(Long potrero) {
-        LocalDate fechasalida = LocalDate.now();
-        Date sqlCurrentDate = Date.valueOf(fechasalida); // Convert LocalDate to java.sql.Date
-
-        return movimientoBovinoRepository.updateFechaDeSalida(sqlCurrentDate, potrero);
-    }
-/*
-    @Override
-    public List<MovimientoBovinoDTO> TraladoPotter(long potreroId) {
-        return movimientoBovinoRepository.findMovimientoBovinoByPotrero(potreroId);
-    }*/
-/*
-    @Override
-    public List<MovimientoBovino> convertirEntity(long potreroId) {
-        List<MovimientoBovinoDTO> movimientoBovinoDTOList =
-                movimientoBovinoRepository.findMovimientoBovinoByPotrero(potreroId);
-        return mapList(movimientoBovinoDTOList, MovimientoBovino.class);
-    }*/
 
     @Override
     public void trasladar(long potreroOrig, long potreroDestino) {
@@ -106,8 +65,8 @@ public class MovimientoBovinosImpl implements MovimientoBovinoService {
         List<MovimientoBovinoDTO> movimientoBovinoDTOList =
                 movimientoBovinoRepository.findMovimientoBovinoByPotrero(potreroOrig);
         if (movimientoBovinoDTOList.isEmpty()) {
-            throw new EmptyListExcepcion("Se encuentra vacio el potrero : "
-                    + nombrePotrero,nombrePotrero );
+            throw new EmptyListExcepcion("Se encuentra vacio el potrero : ",
+            " potrero "+ nombrePotrero);
 
         }else {
             //asigna la fechas de salida a los bovinos
@@ -119,7 +78,7 @@ public class MovimientoBovinosImpl implements MovimientoBovinoService {
     @Override
     public void trasladarBovino(String numeroId, long potreroDestino) {
         long numberConvert = Long.parseLong(numeroId);
-        Bovino bovino = bovinoRepository.findById(numeroId).orElseThrow(() ->
+        bovinoRepository.findById(numeroId).orElseThrow(() ->
                 new ResourceNotFoundExcepcion("Bovino", "numero  " + numberConvert, numberConvert));
         Potrero potrerodestino = potreroRepository.findById(potreroDestino).orElseThrow(() ->
                 new ResourceNotFoundExcepcion("Potrero", "id " + potreroDestino,potreroDestino));

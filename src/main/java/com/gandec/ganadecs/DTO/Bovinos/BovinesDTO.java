@@ -8,7 +8,6 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 public class BovinesDTO implements EntityDTO {
-    //private String Nombre;
     private String Numero;
     private LocalDate Fecha_de_nacimiento;
     private String Sexo;

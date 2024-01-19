@@ -2,7 +2,6 @@ package com.gandec.ganadecs.Excepciones;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.Serial;
@@ -20,7 +19,7 @@ public class ResourceNotFoundExcepcion extends  RuntimeException{
     private String nombredelCampo;
     private  long valordelCampo;
     public ResourceNotFoundExcepcion(String nombredelRecurso,String nombredelCampo, long valordelCampo){
-        super(String.format("%s no encontrado con : %s : ",nombredelRecurso,nombredelCampo,valordelCampo));
+        super(String.format("\"%s no encontrado con %s: %d\"",nombredelRecurso,nombredelCampo,valordelCampo));
         this.nombredelRecurso=nombredelRecurso;
         this.nombredelCampo=nombredelCampo;
         this.valordelCampo=valordelCampo;

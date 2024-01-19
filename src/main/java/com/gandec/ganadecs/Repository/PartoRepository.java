@@ -1,6 +1,5 @@
 package com.gandec.ganadecs.Repository;
 
-import com.gandec.ganadecs.DTO.Bovinos.BovinesDTO;
 import com.gandec.ganadecs.DTO.Parto.PartosFindPropietarioDTO;
 import com.gandec.ganadecs.DTO.Parto.PartosPorPropietarioYCriasYSexo;
 import com.gandec.ganadecs.DTO.Parto.PartosPropietariosDTO;

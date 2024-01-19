@@ -9,7 +9,7 @@ import com.gandec.ganadecs.Entity.*;
 import com.gandec.ganadecs.Excepciones.ResourceNotFoundExcepcion;
 import com.gandec.ganadecs.Mapeador.Util.CalculadoraEdadUtil;
 import com.gandec.ganadecs.Repository.BovinoRepository;
-import com.gandec.ganadecs.Repository.ClienteReository;
+import com.gandec.ganadecs.Repository.ClienteRepository;
 import com.gandec.ganadecs.Repository.DetalleVentaRepository;
 import com.gandec.ganadecs.Repository.VentaRepository;
 import com.gandec.ganadecs.Services.VentaService;
@@ -27,7 +27,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class VentaServiceImp implements VentaService {
     private final VentaRepository ventaRepository;
-    private final ClienteReository clienteReository;
+    private final ClienteRepository clienteRepository;
     private final DetalleVentaRepository detalleVentaRepository;
     private final BovinoRepository bovinoRepository;
     private final CalculadoraEdadUtil calculadoraEdadUtil;
@@ -50,7 +50,7 @@ public class VentaServiceImp implements VentaService {
                     }
              }
 
-             Cliente cliente=clienteReository.findById(IdCliente).orElseThrow(()->
+             Cliente cliente= clienteRepository.findById(IdCliente).orElseThrow(()->
                      new ResourceNotFoundExcepcion("Client ","id", IdCliente));
                 venta.setCliente(cliente);
                 venta.setFecha(venta.getFecha());
@@ -97,10 +97,14 @@ public class VentaServiceImp implements VentaService {
         List<VentaClienteDetalleBovino> ventaClienteDetalleBovinos1=ventaRepository.findDetailsForSoldBovino(numero);
         for (VentaClienteDetalleBovino ventaClienteDetalleBovino:ventaClienteDetalleBovinos1){
             Optional<BovinesDTO> bovino = bovinoRepository.findBovinoByNumero(numero);
-            String categoria = calculadoraEdadUtil.calcularCategoria(bovino.get().
-                    getFecha_de_nacimiento(), bovino.get().getSexo());
-            ventaClienteDetalleBovino.setCategoria(categoria);
-            ventaClienteDetalleBovinos.add(ventaClienteDetalleBovino);
+            if (bovino.isPresent()) {
+                String categoria = calculadoraEdadUtil.calcularCategoria(bovino.get().
+                        getFecha_de_nacimiento(), bovino.get().getSexo());
+                ventaClienteDetalleBovino.setCategoria(categoria);
+                ventaClienteDetalleBovinos.add(ventaClienteDetalleBovino);
+            }else {
+                throw new IllegalStateException("bovino no encontrado");
+            }
         }
 
         return ventaClienteDetalleBovinos;

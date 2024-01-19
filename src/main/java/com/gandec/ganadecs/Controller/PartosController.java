@@ -1,6 +1,5 @@
 package com.gandec.ganadecs.Controller;
 
-import com.gandec.ganadecs.DTO.Bovinos.BovinosDTO;
 import com.gandec.ganadecs.DTO.Parto.Birthsdto;
 import com.gandec.ganadecs.DTO.Parto.PartosFindPropietarioDTO;
 import com.gandec.ganadecs.DTO.Parto.PartosPorPropietarioYCriasYSexo;
@@ -26,7 +25,7 @@ public class PartosController {
                                              @PathVariable String bovinoId) {
 
         partoService.save(birthsDTO,bovinoId);
-        return ResponseEntity.ok("Parto guardado");
+        return ResponseEntity.ok("Parto Registrado");
     }
 
     @GetMapping("/findPartosAndPropietarioWithNullDestete")
@@ -53,11 +52,11 @@ public class PartosController {
         return ResponseEntity.ok(partoService.FinAllPartosPorSexoCriaYPropietary(sexoCria,propietarioId));
 
     }
-    @PutMapping("/ActulizarParto/{bovinoId}")
-    public ResponseEntity<String> ActulizarParto(@Valid @RequestBody Birthsdto birthsDTO,
+    @PutMapping("/ActualizarParto/{bovinoId}")
+    public ResponseEntity<String> ActualizarParto(@Valid @RequestBody Birthsdto birthsDTO,
                                                  @PathVariable String bovinoId) {
 
-        partoService.ActulizarParto(birthsDTO,bovinoId);
+        partoService.ActualizarParto(birthsDTO,bovinoId);
         return ResponseEntity.ok("Parto Actualizado");
     }
 

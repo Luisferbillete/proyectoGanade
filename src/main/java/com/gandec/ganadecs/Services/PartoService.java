@@ -10,7 +10,7 @@ import java.util.List;
 public interface PartoService {
 
     void save(Birthsdto birthsDTO, String bovinoId);
-    void ActulizarParto(Birthsdto birthsDTO, String bovinoId);
+    void ActualizarParto(Birthsdto birthsDTO, String bovinoId);
 
     List<PartosPropietariosDTO> findPartosAndPropietarioWithNullDestete();
     List<PartosFindPropietarioDTO> findPartosAndPropietarioDTOWithNullDesteteAndPropietarioId(Long propietarioId);

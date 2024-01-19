@@ -40,7 +40,7 @@ public class CriasController {
         return ResponseEntity.ok("Cria destetada");
     }
     @GetMapping("/obtenerCriasPorNumeroParto/{numeroBovino}")
-    public ResponseEntity<?> obtenerCriasPorNumeroParto(@PathVariable String numeroBovino){
+    public ResponseEntity<?> openerCriasPoorNumeroParts(@PathVariable String numeroBovino){
         return ResponseEntity.ok(criaService.obtenerCriasPorNumeroParto(numeroBovino));
     }
     @GetMapping("/findByNumeroCria/{numeroCria}")

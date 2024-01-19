@@ -2,7 +2,6 @@ package com.gandec.ganadecs.Services.Impl;
 
 import com.gandec.ganadecs.DTO.Bovinos.BovinesDTO;
 import com.gandec.ganadecs.DTO.Detalles_venta_interna.DetalleVentaInternaDTO;
-import com.gandec.ganadecs.Entity.DetalleVentaInterna;
 import com.gandec.ganadecs.Mapeador.Util.CalculadoraEdadUtil;
 import com.gandec.ganadecs.Repository.BovinoRepository;
 import com.gandec.ganadecs.Repository.DetalleVentaInternaRepository;
@@ -26,10 +25,15 @@ public class DetallesVentaInternaServiceImpl implements DetallesVentaInternaServ
       List<DetalleVentaInternaDTO> detalleVentaInternaDTOS = detalleVentaInternaRepository.findByVentaInternaId(ventaInternaId);
         for (DetalleVentaInternaDTO detalle:detalleVentaInternaDTOS) {
             Optional<BovinesDTO> bovino = bovinoRepository.findBovinoByNumero(detalle.getBovino());
-            String categoria = calculadoraEdadUtil.calcularCategoria(bovino.get().
-                    getFecha_de_nacimiento(), bovino.get().getSexo());
-            detalle.setCategoria(categoria);
-            detalleVentaInternaDTOList.add(detalle);
+            if (bovino.isPresent()) {
+                String categoria = calculadoraEdadUtil.calcularCategoria(bovino.get().
+                        getFecha_de_nacimiento(), bovino.get().getSexo());
+                detalle.setCategoria(categoria);
+                detalleVentaInternaDTOList.add(detalle);
+            }else {
+                throw new IllegalStateException("bovino numero : " + detalle.getBovino() + " encontrado");
+            }
+
         }
         return detalleVentaInternaDTOList;
     }

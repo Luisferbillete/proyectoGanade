@@ -1,6 +1,5 @@
 package com.gandec.ganadecs.DTO.Detalles_ventas;
 
-import com.gandec.ganadecs.Entity.Bovino;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

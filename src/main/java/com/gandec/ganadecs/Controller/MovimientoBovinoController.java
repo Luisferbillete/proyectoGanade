@@ -30,7 +30,7 @@ public class MovimientoBovinoController {
         return movimientoBovinoService.findByMovimientosBovino(numero);
     }
 
-    /*mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm*/
+
     @GetMapping("/getAllBovineByPaddock")
     public List<MovimientosDTO> getAllBovinesBypaddock(){
         return movimientoBovinoService.getAllBovinosBypaddock();
@@ -39,12 +39,12 @@ public class MovimientoBovinoController {
     public ResponseEntity<String> saveTraslado(@PathVariable long potreroIdOrigen,
                                @PathVariable long potreroIdDestino){
         if(potreroIdOrigen==potreroIdDestino){
-            throw new equalPaddocks("El potrero orige no puede ser el mismo que el potrero destino");
+            throw new equalPaddocks("El potrero origen igual que el potrero destino");
 
         }else {
             movimientoBovinoService.trasladar(potreroIdOrigen, potreroIdDestino);
         }
-        return ResponseEntity.ok("Traslado  exitoso.");
+        return ResponseEntity.ok("Traslado  Exitoso.");
 
     }
     @PostMapping("/trasladarBovino/{numeroId}/{potreroIdDestino}")

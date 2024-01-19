@@ -1,16 +1,15 @@
 package com.gandec.ganadecs.Mapeador;
 
 import com.gandec.ganadecs.DTO.EntityDTO;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class Mappers {
-    @Autowired
-    ModelMapper modelMapper;
+private final  ModelMapper modelMapper;
     public EntityDTO convertToDto(Object obj,EntityDTO dto){
         return modelMapper.map(obj,dto.getClass());
     }

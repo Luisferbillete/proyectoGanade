@@ -42,7 +42,7 @@ public class PartosServiceImpl implements PartoService {
     }
 
     @Override
-    public void ActulizarParto(Birthsdto birthsDTO, String bovinoId) {
+    public void ActualizarParto(Birthsdto birthsDTO, String bovinoId) {
         Bovino bovino= bovinoRepository.findById(bovinoId).orElseThrow(() ->
                 new RuntimeException("Bovino no encontrado"));
         Partos partos;

@@ -1,6 +1,5 @@
 package com.gandec.ganadecs.DTO;
 
-import lombok.Builder;
 import lombok.Data;
 
 @Data

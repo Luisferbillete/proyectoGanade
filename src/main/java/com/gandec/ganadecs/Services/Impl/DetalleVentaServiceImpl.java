@@ -25,10 +25,15 @@ public class DetalleVentaServiceImpl implements DetallesVentaService {
         List<DetallesVentasDTO>detalles=detalleVentaRepository.findByVentaId(ventaId);
         for (DetallesVentasDTO detalle:detalles) {
             Optional<BovinesDTO> bovino = bovinoRepository.findBovinoByNumero(detalle.getBovino());
-           String categoria = calculadoraEdadUtil.calcularCategoria(bovino.get().
-                   getFecha_de_nacimiento(), bovino.get().getSexo());
-              detalle.setCategoria(categoria);
-            detallesVentasDTOS.add(detalle);
+            if (bovino.isPresent()) {
+                String categoria = calculadoraEdadUtil.calcularCategoria(bovino.get().
+                        getFecha_de_nacimiento(), bovino.get().getSexo());
+                detalle.setCategoria(categoria);
+                detallesVentasDTOS.add(detalle);
+            }else {
+                throw new IllegalStateException("bovino numero : " + detalle.getBovino() + " encontrado");
+
+            }
         }
         return detallesVentasDTOS;
 

@@ -18,11 +18,7 @@ public class MovimientoBovinoDTO implements EntityDTO{
     private long potreroId;
     private  String namepaddock;
 
-    public MovimientoBovinoDTO(String numero, LocalDate fecha_de_ingreso, String namepaddock) {
-        this.numero = numero;
-        this.fecha_de_ingreso = fecha_de_ingreso;
-        this.namepaddock = namepaddock;
-    }
+
 
     public MovimientoBovinoDTO(String numero, LocalDate fecha_de_ingreso, LocalDate fecha_de_salida) {
         this.numero = numero;
