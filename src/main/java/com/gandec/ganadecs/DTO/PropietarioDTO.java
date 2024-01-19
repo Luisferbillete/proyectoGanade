@@ -17,4 +17,18 @@ public class PropietarioDTO  {
     private long telefonos;
     private List<BovinoDTO>bovinoDTOList;
 
+    public PropietarioDTO(Long id, String nombres, String apellidos, String direccion, long telefonos, List<BovinoDTO> bovinoDTOList) {
+        this.id = id;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.direccion = direccion;
+        this.telefonos = telefonos;
+        this.bovinoDTOList = bovinoDTOList;
     }
+
+    public PropietarioDTO(Long id, String nombres, String apellidos) {
+        this.id = id;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+    }
+}

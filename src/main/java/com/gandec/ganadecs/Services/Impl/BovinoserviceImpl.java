@@ -17,6 +17,7 @@ import com.gandec.ganadecs.Repository.PropietariosRepository;
 import com.gandec.ganadecs.Services.BovinoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,20 +161,18 @@ public class BovinoserviceImpl implements BovinoService {
 
     @Override
     public Optional<BovinosDTO> BovinesGetallByNumero(String numero) {
-
         List<BovinosDTO> bovinosConCategoria = new ArrayList<>();
         List<BovinosDTO> todosBovinos = bovinoRepository.BovinesGetallByNumero(numero);
-        if (todosBovinos.isEmpty()){
-            long num = Long.parseLong(numero);
-            throw new ResourceNotFoundExcepcion("Bovino","numero",num);
-        }
-
         bovinesCategory(bovinosConCategoria, todosBovinos);
         return bovinosConCategoria.stream().findFirst();
 
     }
 
+    @Override
+    public void UpdatePropietarioEnBovino(String numero, Propietario nuevoPropietarioId) {
+        bovinoRepository.UpdatePropietarioEnBovino(numero, nuevoPropietarioId);
 
+    }
 
 
     private void bovinesCategory(List<BovinosDTO> bovinosConCategoria, List<BovinosDTO> todosBovinos) {

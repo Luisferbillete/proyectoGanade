@@ -36,6 +36,10 @@ private final CalculadoraEdadUtil calculadoraEdadUtil;
         return !detalle_ventas.isEmpty();
           }
 
+    @Override
+    public Optional<VentaInternaCompradorVendedorBovino> verifificarventaInternaAnterior(String numero, long propietarioId) {
+        return ventaInternaRepository.verifificarventaInternaAnterior(numero,propietarioId);
+    }
 
 
     @Override

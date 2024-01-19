@@ -2,6 +2,7 @@ package com.gandec.ganadecs.Controller;
 
 import com.gandec.ganadecs.DTO.Detalles_venta_interna.DetalleVentaInternaDTO;
 import com.gandec.ganadecs.Services.DetallesVentaInternaService;
+import com.gandec.ganadecs.Services.DetallesVentaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
