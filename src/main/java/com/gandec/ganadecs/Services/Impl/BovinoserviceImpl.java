@@ -17,7 +17,6 @@ import com.gandec.ganadecs.Repository.PropietariosRepository;
 import com.gandec.ganadecs.Services.BovinoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -168,11 +167,6 @@ public class BovinoserviceImpl implements BovinoService {
 
     }
 
-    @Override
-    public void UpdatePropietarioEnBovino(String numero, Propietario nuevoPropietarioId) {
-        bovinoRepository.UpdatePropietarioEnBovino(numero, nuevoPropietarioId);
-
-    }
 
 
     private void bovinesCategory(List<BovinosDTO> bovinosConCategoria, List<BovinosDTO> todosBovinos) {
