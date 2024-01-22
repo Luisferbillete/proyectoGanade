@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="tbl_detalle_ventas")
 public class Detalle_Venta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,9 +16,9 @@ public class Detalle_Venta {
     private int peso;
     private float precio;
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "venta_id")
+
     private Venta venta;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "id_bovino")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+
     private Bovino bovino;
 }

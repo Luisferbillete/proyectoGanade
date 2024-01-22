@@ -14,19 +14,16 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="tbl_Ventas_Internas")
 public class VentaInterna {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate fecha;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "id_cliente")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Cliente cliente;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "id_propietario")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Propietario propietario;
-    @OneToMany(mappedBy = "ventaInterna", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ventaInterna", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<DetalleVentaInterna> detalle_ventas_internas=new ArrayList<>();
 }

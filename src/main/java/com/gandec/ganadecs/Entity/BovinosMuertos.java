@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="tbl_bovinos_muertos")
 public class BovinosMuertos {
     @Id
     private String number;

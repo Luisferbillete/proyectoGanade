@@ -13,7 +13,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="tbl_crias")
 public class Crias {
     @Id
     private String numero;

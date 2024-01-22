@@ -12,7 +12,6 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="tbl_partos")
 public class Partos {
     @Id
 

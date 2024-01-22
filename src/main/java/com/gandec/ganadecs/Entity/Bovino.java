@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,8 +27,8 @@ public class Bovino {
     private long abaluo;
    private int kilos;
    private long preciokilo;
-    @ManyToOne(fetch = FetchType.LAZY ,cascade= CascadeType.REMOVE)
-    @JoinColumn(name = "Propietario_id")
+    @ManyToOne(fetch = FetchType.LAZY ,cascade= CascadeType.MERGE)
+
     private Propietario propietario;
     @OneToMany(mappedBy = "bovino")
     private List<MovimientoBovino> movimientoBovinos;
@@ -39,7 +40,8 @@ public class Bovino {
     private Set<Detalle_Venta> detalle_ventas = new HashSet<>();
     @OneToMany(mappedBy = "bovino")
     private Set<DetalleVentaInterna> detalle_ventas_internas = new HashSet<>();
-
+    @OneToMany(mappedBy = "bovino")
+    private List<FotoBovinos> fotoBovinos=new ArrayList<>();
 
 
 
