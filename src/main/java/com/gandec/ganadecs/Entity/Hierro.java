@@ -13,11 +13,8 @@ public class Hierro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private String figura;
-
     private String HierroUrl;
-
     private String HierroId;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 

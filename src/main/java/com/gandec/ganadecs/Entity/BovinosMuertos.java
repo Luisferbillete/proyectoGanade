@@ -15,6 +15,6 @@ public class BovinosMuertos {
     private String fecha;
     private String causa;
     private String observacion;
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     private Bovino bovino;
 }

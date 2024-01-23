@@ -16,19 +16,7 @@ import java.util.Objects;
 @Service
 public class CloudinaryService {
 Cloudinary cloudinary;
-/*public ArrayList<Integer> uploadImage(String image) throws IOException {
-    Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-            "cloud_name", "da1hfxach",
-            "api_key", "222695267151493",
-            "api_secret", "NpJhEbSb9ai-YrqwfKYPBUuITPU"));
 
-    Map uploadResult = cloudinary.uploader().upload(image, ObjectUtils.emptyMap());
-    ArrayList<Integer> result = new ArrayList<Integer>();
-    result.add((Integer) uploadResult.get("url"));
-    result.add((Integer) uploadResult.get("public_id"));
-    return result;
-
-}*/
 public CloudinaryService() {
     Map<String, String> valuesMap = new HashMap<>();
     valuesMap.put("cloud_name", "da1hfxach");

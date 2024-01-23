@@ -1,11 +1,6 @@
 package com.gandec.ganadecs.DTO.Hierro;
 
 import com.gandec.ganadecs.DTO.EntityDTO;
-import com.gandec.ganadecs.Entity.Propietario;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 @NoArgsConstructor
 @Data

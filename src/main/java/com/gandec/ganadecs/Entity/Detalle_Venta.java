@@ -15,7 +15,7 @@ public class Detalle_Venta {
     private long Id;
     private int peso;
     private float precio;
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
 
     private Venta venta;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
