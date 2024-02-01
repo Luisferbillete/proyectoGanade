@@ -46,7 +46,7 @@ public class HierroServiceImp implements HierroService {
         Hierro hierro=hierroRepository.findById(id)
                 .orElseThrow(()->new ResourceNotFoundExcepcion
                         ("Hierro","id",id));
-        Map<?,?> result = cloudinaryService.delete(hierro.getHierroId());
+        cloudinaryService.delete(hierro.getHierroId());
         hierroRepository.delete(hierro);
     }
 

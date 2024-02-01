@@ -44,7 +44,7 @@ public class FotoBovinoServiceImpl implements FotoBovinoService {
     public void deleteFotoBovino(long id) throws IOException {
         FotoBovinos fotoBovinos=fotoBovinosRepository.findById(id).orElseThrow(()->
                 new ResourceNotFoundExcepcion("FotoBovino","id",id));
-        Map<?,?> result = cloudinaryService.delete((fotoBovinos.getIdFoto()));
+        cloudinaryService.delete((fotoBovinos.getIdFoto()));
         fotoBovinosRepository.delete(fotoBovinos);
     }
 
