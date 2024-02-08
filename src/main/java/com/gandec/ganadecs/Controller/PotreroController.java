@@ -6,6 +6,7 @@ import com.gandec.ganadecs.Services.PotterService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class PotreroController {
     public ResponseEntity<PotreroDto> SavePotter(@Valid @RequestBody PotreroDto potreroDto){
         return new ResponseEntity<>(potterService.Saves(potreroDto), HttpStatus.CREATED);
     }
+   @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @GetMapping("/GetAll")
     public ResponseEntity<List<PotreroDto>> GetAllPotter(){
         List<PotreroDto> potreroDtoList=potterService.POTRERO_DTO_LIST();

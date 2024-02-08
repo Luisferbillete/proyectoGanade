@@ -33,7 +33,7 @@ public class GanadecsApplication {
 	CommandLineRunner init(){
 		return args -> {
 
-			UserEntity userEntity = UserEntity.builder()
+			/*UserEntity userEntity = UserEntity.builder()
 					.email("santiago@mail.com")
 					.username("santiago")
 					.password(passwordEncoder.encode("1234"))
@@ -62,7 +62,7 @@ public class GanadecsApplication {
 
 			userRepository.save(userEntity);
 			userRepository.save(userEntity2);
-			userRepository.save(userEntity3);
+			userRepository.save(userEntity3);*/
 		};
 	}
 
