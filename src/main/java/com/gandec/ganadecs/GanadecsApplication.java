@@ -1,8 +1,6 @@
 package com.gandec.ganadecs;
 
-import com.gandec.ganadecs.Entity.ERole;
-import com.gandec.ganadecs.Entity.RoleEntity;
-import com.gandec.ganadecs.Entity.UserEntity;
+
 import com.gandec.ganadecs.Repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

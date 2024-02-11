@@ -3,6 +3,8 @@ package com.gandec.ganadecs.Services.Impl;
 import com.gandec.ganadecs.DTO.BovinoDTO;
 
 import com.gandec.ganadecs.DTO.Bovinos.BovinosDTO;
+import com.gandec.ganadecs.DTO.Bovinos.CreateBovino;
+import com.gandec.ganadecs.DTO.EntityDTO;
 import com.gandec.ganadecs.Entity.Bovino;
 import com.gandec.ganadecs.Entity.MovimientoBovino;
 import com.gandec.ganadecs.Entity.Potrero;
@@ -36,6 +38,29 @@ public class BovinoserviceImpl implements BovinoService {
     private final CalculadoraEdadUtil calculadoraEdadUtil;
 
 
+    @Override
+    public String savess(CreateBovino createBovino) {
+       Propietario propietario=propietariosRepository.findById(createBovino.getPropietario()).orElseThrow(()->
+               new ResourceNotFoundExcepcion("Propietario","id",createBovino.getPropietario()));
+        String numeroId=createBovino.getNumero();
+        Optional<Bovino> existebovino=bovinoRepository.findById(numeroId);
+        if(existebovino.isPresent()) {
+            throw new IllegalStateException("El bovino con numero " + numeroId + " ya existe en la base de datos.");
+        }
+        Bovino bovino = new Bovino();
+        bovino = (Bovino) mappers.convertToEntity((EntityDTO) createBovino, bovino);
+
+        bovino.setPropietario(propietario);
+        bovino = bovinoRepository.save(bovino);
+        Potrero potrero = potreroRepository.findById(createBovino.getPotrero()).orElseThrow(() ->
+                new ResourceNotFoundExcepcion("Potrero", "id", createBovino.getPotrero()));
+        MovimientoBovino movimientoBovino = new MovimientoBovino();
+        movimientoBovino.setBovino(bovino);
+        movimientoBovino.setPotrero(potrero);
+        movimientoBovino.setFecha_de_ingreso(createBovino.getFecha_de_ingreso());
+        movimientoBovinoRepository.save(movimientoBovino);
+        return "Bovino guardado con exito";
+    }
 
     @Override
     public String save(long propietarioid,long potreroId,BovinoDTO bovinoDTO) {

@@ -2,13 +2,14 @@ package com.gandec.ganadecs.Services;
 
 import com.gandec.ganadecs.DTO.BovinoDTO;
 import com.gandec.ganadecs.DTO.Bovinos.BovinosDTO;
+import com.gandec.ganadecs.DTO.Bovinos.CreateBovino;
 import com.gandec.ganadecs.Entity.Propietario;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface BovinoService {
-
+    String savess(CreateBovino createBovino);
     String save(long propietarioid,long potreroId, BovinoDTO bovinoDTO);
     String update(BovinoDTO bovinoDTO,String NumerBovino);
     List<BovinosDTO> BovinesGetAll();

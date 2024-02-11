@@ -22,8 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/Ganadec/auth")
 public class UserController {
-  private final UserRepository userRepository;
-  private final PasswordEncoder passwordEncoder;
+  
   private final AuthService authService;
 
     @PostMapping(value = "login")
@@ -35,31 +34,15 @@ public class UserController {
 
 
   @PostMapping("/save")
-    public ResponseEntity<?> createUser(@Valid @RequestBody CreateUserDTO createUserDTO){
-        Set<RoleEntity> roleEntities = createUserDTO.getRoles().stream()
-                .map(role -> RoleEntity.builder()
-                        .name(ERole.valueOf(role))
-                        .build())
-                .collect(Collectors.toSet());
-        UserEntity userEntity = UserEntity.builder()
-                .username(createUserDTO.getUsername())
-                .password(passwordEncoder.encode(createUserDTO.getPassword()))
-                .email(createUserDTO.getEmail())
-                .roles(roleEntities)
-                .build();
-
-        userRepository.save(userEntity);
-
-        return ResponseEntity.ok(userEntity);
+    public ResponseEntity<AuthResponse> createUser(@Valid @RequestBody CreateUserDTO createUserDTO){
+        return ResponseEntity.ok(authService.register(createUserDTO));
 
     }
-
-    @DeleteMapping("/deleteUser/{id}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
-    public ResponseEntity<String >deleteUser(@PathVariable(name = "id")String id){
-        System.out.println("id = " + id);
-        userRepository.deleteById(Long.parseLong(id));
-        return ResponseEntity.ok("Se ha borrado el user con id ".concat(id));
+    @DeleteMapping("/deleteUser/{id}")
+    public ResponseEntity<String >deleteUser(@PathVariable(name = "id")Long id){
+        authService.deleteUser(id);
+        return ResponseEntity.ok("User Deleted");
     }
 
 }

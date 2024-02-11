@@ -21,12 +21,12 @@ public class PotreroController {
     public PotreroController(PotterService potterService) {
         this.potterService = potterService;
     }
-
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @PostMapping("/save")
     public ResponseEntity<PotreroDto> SavePotter(@Valid @RequestBody PotreroDto potreroDto){
         return new ResponseEntity<>(potterService.Saves(potreroDto), HttpStatus.CREATED);
     }
-   @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+
     @GetMapping("/GetAll")
     public ResponseEntity<List<PotreroDto>> GetAllPotter(){
         List<PotreroDto> potreroDtoList=potterService.POTRERO_DTO_LIST();

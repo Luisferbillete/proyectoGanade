@@ -2,6 +2,7 @@ package com.gandec.ganadecs.Controller;
 
 import com.gandec.ganadecs.DTO.BovinoDTO;
 import com.gandec.ganadecs.DTO.Bovinos.BovinosDTO;
+import com.gandec.ganadecs.DTO.Bovinos.CreateBovino;
 import com.gandec.ganadecs.Services.BovinoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +47,10 @@ public class BovinoController {
                                              @Valid @RequestBody BovinoDTO bovinoDTO) {
         return new ResponseEntity<>(bovinoService.save(propietarioid, potreroId, bovinoDTO), HttpStatus.CREATED);
 
+    }
+    @PostMapping("/saves")
+    public ResponseEntity<String> SaveBovino(@Valid @RequestBody CreateBovino createBovino) {
+        return new ResponseEntity<>(bovinoService.savess(createBovino), HttpStatus.CREATED);
     }
 
 

@@ -8,4 +8,5 @@ import com.gandec.ganadecs.DTO.Auth.LoginRequest;
 public interface AuthService {
     AuthResponse login(LoginRequest request);
     AuthResponse register(CreateUserDTO request);
+    void deleteUser(Long id);
 }
