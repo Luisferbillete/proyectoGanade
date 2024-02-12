@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.Optional;
 public class BovinoController {
     private final BovinoService bovinoService;
 
-
+ @PreAuthorize("hasRole('PROPIETARIO') or hasRole('ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<List<BovinosDTO>> getAll() {
         return new ResponseEntity<>(bovinoService.BovinesGetAll(), HttpStatus.OK);
@@ -42,12 +43,14 @@ public class BovinoController {
    public ResponseEntity<Optional<BovinosDTO>> getAllByNumero(@PathVariable String numero) {
         return new ResponseEntity<>(bovinoService.BovinesGetallByNumero(numero), HttpStatus.OK);
     }
+
     @PostMapping("/save/{propietarioid}/{potreroId}")
     public ResponseEntity<String> SaveBovino(@PathVariable long propietarioid, @PathVariable long potreroId,
                                              @Valid @RequestBody BovinoDTO bovinoDTO) {
         return new ResponseEntity<>(bovinoService.save(propietarioid, potreroId, bovinoDTO), HttpStatus.CREATED);
 
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/saves")
     public ResponseEntity<String> SaveBovino(@Valid @RequestBody CreateBovino createBovino) {
         return new ResponseEntity<>(bovinoService.savess(createBovino), HttpStatus.CREATED);

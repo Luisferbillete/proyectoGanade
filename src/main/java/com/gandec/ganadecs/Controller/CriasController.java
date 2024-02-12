@@ -1,11 +1,13 @@
 package com.gandec.ganadecs.Controller;
 
+import com.gandec.ganadecs.DTO.Crias.CrearCrias;
 import com.gandec.ganadecs.DTO.Crias.CriasDTO;
 import com.gandec.ganadecs.DTO.Parto.Birthsdto;
 import com.gandec.ganadecs.Services.CriaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -15,16 +17,14 @@ import java.time.LocalDate;
 @RequestMapping("/Ganadec/Crias")
 public class CriasController {
     private final CriaService criaService;
-
-    @PostMapping("/save/{numeroBovino}/{fechaNacimiento}")
-    public ResponseEntity<String> saveCria(@RequestBody CriasDTO criasDTO,
-                                           @PathVariable String numeroBovino,
-                                           @PathVariable LocalDate fechaNacimiento)
-    {
-
-        criaService.save(criasDTO,numeroBovino,fechaNacimiento);
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/save")
+    public ResponseEntity<String> saves(@Valid @RequestBody CrearCrias crearCrias){
+        criaService.save(crearCrias);
         return ResponseEntity.ok("Cria guardada");
     }
+
+
     @PutMapping("/update/{numeroCria}")
     public ResponseEntity<String> updateCria(@Valid @RequestBody CriasDTO criasDTO,
                                              @PathVariable String numeroCria)

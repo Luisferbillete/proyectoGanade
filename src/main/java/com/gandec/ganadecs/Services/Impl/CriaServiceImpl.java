@@ -1,6 +1,7 @@
 package com.gandec.ganadecs.Services.Impl;
 
 import com.gandec.ganadecs.DTO.Crias.Cdto;
+import com.gandec.ganadecs.DTO.Crias.CrearCrias;
 import com.gandec.ganadecs.DTO.Crias.CriasDTO;
 import com.gandec.ganadecs.DTO.Crias.CriasPorParto;
 import com.gandec.ganadecs.DTO.Parto.Birthsdto;
@@ -10,6 +11,7 @@ import com.gandec.ganadecs.Mapeador.Mappers;
 import com.gandec.ganadecs.Repository.CriasRepository;
 import com.gandec.ganadecs.Repository.PartoRepository;
 import com.gandec.ganadecs.Services.CriaService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,37 +29,31 @@ public class CriaServiceImpl implements CriaService {
     private final PartoRepository partoRepository;
     private final Mappers mappers;
 
-
-
-
+    @Transactional
     @Override
-    public void save(CriasDTO criasDTO, String numeroBovino, LocalDate fechaNacimiento) {
-        Partos partos = partoRepository.findById(numeroBovino).orElseThrow(() ->
+    public void save(CrearCrias crearCrias) {
+        Partos partos = partoRepository.findById(crearCrias.getBovino()).orElseThrow(() ->
                 new RuntimeException("Parto no Registrado en la base de datos"));
-
-
-        List<Cdto> criasList = criasRepository.verificarFechaNacimientoIgual(numeroBovino);
-
+        List<Cdto> criasList = criasRepository.verificarFechaNacimientoIgual(crearCrias.getBovino());
         if (criasList.size() > 0) {
             for (Cdto crias : criasList) {
-                int con=crias.getFecha_nacimiento().compareTo(fechaNacimiento);
-
+                int con=crias.getFecha_nacimiento().compareTo(crearCrias.getFecha_nacimiento());
                 if (con!=0)
-                    throw new RuntimeException("El vaca  numero : " + numeroBovino +
+                    throw new RuntimeException("El vaca  numero : " + crearCrias.getBovino() +
                             "  se encuentra parida ");
             }
-
         }
-        int numeroCrias = criasRepository.contarCriasPorNumeroParto(numeroBovino)+1;
+        int numeroCrias = criasRepository.contarCriasPorNumeroParto(crearCrias.getBovino())+1;
         Crias crias = new Crias();
-        crias = (Crias) mappers.convertToEntity(criasDTO, crias);
-        crias.setFecha_nacimiento(fechaNacimiento);
-        crias.setNumero(numeroBovino+"-"+numeroCrias);
+        crias = (Crias) mappers.convertToEntity(crearCrias, crias);
+        crias.setNumero(crearCrias.getBovino()+"-"+numeroCrias);
+        crias.setFecha_nacimiento(crearCrias.getFecha_nacimiento());
         Set<Partos> partoscrias = new HashSet<>();
         partoscrias.add(partos);
         crias.setPartos(partoscrias);
         criasRepository.save(crias);
     }
+
 
     @Override
     public void update(CriasDTO criasDTO, String numeroCria) {

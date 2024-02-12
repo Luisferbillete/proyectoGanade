@@ -5,12 +5,14 @@ import com.gandec.ganadecs.DTO.Clientes.ClientesDTO;
 import com.gandec.ganadecs.Services.ClienteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('ADMIN')")   // Solo los usuarios con el rol de ADMIN pueden acceder a los metodos
 @RequestMapping("/Ganadec/Cliente")
 public class ClientController {
     private final ClienteService clientService;
