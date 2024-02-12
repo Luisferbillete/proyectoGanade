@@ -3,8 +3,6 @@ package com.gandec.ganadecs.Services;
 import com.gandec.ganadecs.DTO.BovinoDTO;
 import com.gandec.ganadecs.DTO.Bovinos.BovinosDTO;
 import com.gandec.ganadecs.DTO.Bovinos.CreateBovino;
-import com.gandec.ganadecs.Entity.Propietario;
-
 import java.util.List;
 import java.util.Optional;
 

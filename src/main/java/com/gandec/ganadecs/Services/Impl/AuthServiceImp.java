@@ -6,18 +6,15 @@ import com.gandec.ganadecs.DTO.Auth.LoginRequest;
 import com.gandec.ganadecs.Entity.ERole;
 import com.gandec.ganadecs.Entity.RoleEntity;
 import com.gandec.ganadecs.Entity.UserEntity;
-import com.gandec.ganadecs.Excepciones.AuthenticationException;
 import com.gandec.ganadecs.Excepciones.ResourceNotFoundExcepcion;
 import com.gandec.ganadecs.Jwt.JwtService;
 import com.gandec.ganadecs.Repository.UserRepository;
 import com.gandec.ganadecs.Services.AuthService;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.swing.text.html.Option;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -66,7 +63,7 @@ public class AuthServiceImp implements AuthService {
 
     @Override
     public void deleteUser(Long id) {
-        UserEntity userEntity=userRepository.findById(id).orElseThrow(()->
+        userRepository.findById(id).orElseThrow(()->
                 new ResourceNotFoundExcepcion("User","id",id));
     }
 }

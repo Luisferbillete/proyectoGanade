@@ -23,6 +23,8 @@ import io.jsonwebtoken.security.Keys;
 public class JwtService {
     @Value("${jwt.secret.key}")
     private String SECRET_KEY;
+    @Value("${jwt.time.expiration}")
+    private String timeExpiration;
     public String getToken(UserEntity user) {
         return getToken(new HashMap<>(), user);
     }
@@ -34,7 +36,7 @@ public class JwtService {
                 .claim("email", user.getEmail())
                 .subject(user.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis()+1000*60*24))
+                .expiration(new Date(System.currentTimeMillis()+ Long.parseLong(timeExpiration)))
                 .signWith(getKey())
                 .compact();
     }

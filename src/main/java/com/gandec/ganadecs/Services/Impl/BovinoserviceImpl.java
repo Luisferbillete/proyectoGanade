@@ -4,7 +4,6 @@ import com.gandec.ganadecs.DTO.BovinoDTO;
 
 import com.gandec.ganadecs.DTO.Bovinos.BovinosDTO;
 import com.gandec.ganadecs.DTO.Bovinos.CreateBovino;
-import com.gandec.ganadecs.DTO.EntityDTO;
 import com.gandec.ganadecs.Entity.Bovino;
 import com.gandec.ganadecs.Entity.MovimientoBovino;
 import com.gandec.ganadecs.Entity.Potrero;
@@ -48,7 +47,7 @@ public class BovinoserviceImpl implements BovinoService {
             throw new IllegalStateException("El bovino con numero " + numeroId + " ya existe en la base de datos.");
         }
         Bovino bovino = new Bovino();
-        bovino = (Bovino) mappers.convertToEntity((EntityDTO) createBovino, bovino);
+        bovino = (Bovino) mappers.convertToEntity( createBovino, bovino);
 
         bovino.setPropietario(propietario);
         bovino = bovinoRepository.save(bovino);
