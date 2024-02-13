@@ -1,6 +1,6 @@
 package com.gandec.ganadecs.Config;
 
-import com.gandec.ganadecs.Repository.UserRepository;
+import com.gandec.ganadecs.Repository.PropietariosRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
-    private final UserRepository userRepository;
+    private final PropietariosRepository propietariosRepository;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception
@@ -40,7 +40,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailService() {
-        return username -> userRepository.findByUsername(username)
+        return username -> propietariosRepository.findByUsername(username)
                 .orElseThrow(()-> new UsernameNotFoundException("Auth not fournd"));
     }
 }

@@ -1,31 +1,81 @@
-package com.gandec.ganadecs.Services;
+package com.gandec.ganadecs.Services.Impl;
 
 
+import com.gandec.ganadecs.DTO.Auth.AuthResponse;
+import com.gandec.ganadecs.DTO.Auth.CreatePropietary;
+import com.gandec.ganadecs.DTO.Auth.LoginRequest;
 import com.gandec.ganadecs.DTO.PropietaryComboDto;
 import com.gandec.ganadecs.DTO.PropietaryDTO;
+import com.gandec.ganadecs.Entity.ERole;
 import com.gandec.ganadecs.Entity.Propietario;
+import com.gandec.ganadecs.Entity.RoleEntity;
 import com.gandec.ganadecs.Excepciones.ResourceNotFoundExcepcion;
+import com.gandec.ganadecs.Jwt.JwtService;
 import com.gandec.ganadecs.Mapeador.Mapper;
 import com.gandec.ganadecs.Mapeador.Mappers;
 import com.gandec.ganadecs.Repository.PropietariosRepository;
+import com.gandec.ganadecs.Services.PropietarioService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.gandec.ganadecs.Mapeador.MapperList.mapList;
 
 @Service
-public class PropietarioServiceImpl implements PropietarioService{
+@RequiredArgsConstructor
+public class PropietarioServiceImpl implements PropietarioService {
     private final PropietariosRepository propietariosRepository;
+    private final PasswordEncoder passwordEncoder;
     private final Mapper mapper;
     private final Mappers  mappers;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
-    public PropietarioServiceImpl(PropietariosRepository propietariosRepository, Mapper mapper, Mappers mappers) {
-        this.propietariosRepository = propietariosRepository;
-        this.mapper = mapper;
-        this.mappers = mappers;
+
+    @Override
+    public AuthResponse login(LoginRequest request) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken
+        (request.getUsername(), request.getPassword()));
+        Propietario propietario = propietariosRepository.findByUsername(request.getUsername())
+                .orElseThrow(()->new AuthenticationException("Invalid username or password") {
+                    @Override
+                    public String getMessage() {
+                        return super.getMessage();
+                    }
+                });
+        String token=jwtService.getToken(propietario);
+        return AuthResponse.builder()
+                .token(token)
+                .build();
     }
 
+    @Override
+    public CreatePropietary save(CreatePropietary createPropietary) {
+        Set < RoleEntity > roleEntities = createPropietary.getRoles().stream()
+                .map(role -> RoleEntity.builder()
+                        .name(ERole.valueOf(role))
+                        .build())
+                .collect(Collectors.toSet());
+        Propietario propietario = Propietario.builder()
+                .nombres(createPropietary.getNombres())
+                .apellidos(createPropietary.getApellidos())
+                .direccion(createPropietary.getDireccion())
+                .telefonos(createPropietary.getTelefonos())
+                .email(createPropietary.getEmail())
+                .username(createPropietary.getUsername())
+                .password(passwordEncoder.encode(createPropietary.getPassword()))
+                .roles(roleEntities)
+                .build();
+        propietariosRepository.save(propietario);
+        return null;
+    }
 
     @Override
     public List<PropietaryDTO> PropietaryGetAll() {

@@ -7,7 +7,7 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
-import com.gandec.ganadecs.Entity.UserEntity;
+import com.gandec.ganadecs.Entity.Propietario;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -25,16 +25,16 @@ public class JwtService {
     private String SECRET_KEY;
     @Value("${jwt.time.expiration}")
     private String timeExpiration;
-    public String getToken(UserEntity user) {
-        return getToken(new HashMap<>(), user);
+    public String getToken(Propietario propietario) {
+        return getToken(new HashMap<>(), propietario);
     }
-    private String getToken(Map<String,Object> extraClaims, UserEntity user) {
+    private String getToken(Map<String,Object> extraClaims, Propietario propietario) {
         return Jwts
                 .builder()
                 .claims(extraClaims)
-                .claim("userId", user.getId())
-                .claim("email", user.getEmail())
-                .subject(user.getUsername())
+                .claim("userId", propietario.getId())
+                .claim("email", propietario.getEmail())
+                .subject(propietario.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis()+ Long.parseLong(timeExpiration)))
                 .signWith(getKey())
