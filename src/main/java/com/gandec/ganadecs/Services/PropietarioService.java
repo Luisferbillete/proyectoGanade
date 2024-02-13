@@ -13,7 +13,7 @@ public interface PropietarioService {
     CreatePropietary save(CreatePropietary createPropietary);
 
     List<PropietaryDTO> PropietaryGetAll();
-    PropietaryDTO saves (PropietaryDTO propietaryDTO);
+
     void DeletePropietary(long id);
     List<PropietaryComboDto> PROPIETARY_COMBO_DTO_LIST();
     PropietaryDTO UpdatePropietary(PropietaryDTO propietaryDTO,long id);

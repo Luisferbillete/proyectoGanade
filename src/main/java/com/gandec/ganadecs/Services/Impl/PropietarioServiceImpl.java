@@ -85,15 +85,7 @@ public class PropietarioServiceImpl implements PropietarioService {
 
 
 
-    @Override
-    public PropietaryDTO saves(PropietaryDTO propietaryDTO) {
-        Propietario propietario=new Propietario();
-        propietario= (Propietario) mappers.convertToEntity(propietaryDTO,propietario);
 
-        propietario=propietariosRepository.save(propietario);
-        propietaryDTO=(PropietaryDTO) mappers.convertToDto(propietario,propietaryDTO);
-        return propietaryDTO;
-    }
 
     @Override
     public void DeletePropietary(long id) {

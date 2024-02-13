@@ -1,8 +1,8 @@
 package com.gandec.ganadecs.Controller;
 
-import com.gandec.ganadecs.DTO.Auth.CreatePropietary;
 import com.gandec.ganadecs.DTO.PropietaryComboDto;
 import com.gandec.ganadecs.DTO.PropietaryDTO;
+import com.gandec.ganadecs.DTO.Util.Delete;
 import com.gandec.ganadecs.Services.PropietarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,15 +19,9 @@ public class PropietarioController {
 
     private final PropietarioService propietarioService;
 
-   @PostMapping("/saves")
-    public ResponseEntity<CreatePropietary> savePropietary(@Valid @RequestBody CreatePropietary createPropietary){
-        return new ResponseEntity<>(propietarioService.save(createPropietary),HttpStatus.CREATED);
-    }
 
-    @PostMapping("/save")
-    public ResponseEntity<PropietaryDTO> savePropietary(@Valid @RequestBody PropietaryDTO propietaryDTO){
-        return new ResponseEntity<>(propietarioService.saves(propietaryDTO),HttpStatus.CREATED);
-    }
+
+
     @GetMapping("/GetAll")
     public ResponseEntity<List<PropietaryDTO>> GetAllPropietary(){
         List<PropietaryDTO> propietaryDTOList=propietarioService.PropietaryGetAll();
@@ -53,6 +47,12 @@ public class PropietarioController {
    }
    @DeleteMapping("/{id}")
    public ResponseEntity<String> DeletePropietary(@PathVariable(name = "id")long id){
+        propietarioService.DeletePropietary(id);
+        return new ResponseEntity<>("Propietario Eliminado con exito",HttpStatus.OK);
+   }
+   @DeleteMapping("/delete")
+    public ResponseEntity<String> DeletePropietary2(@RequestBody Delete delete){
+        long id=delete.getId();
         propietarioService.DeletePropietary(id);
         return new ResponseEntity<>("Propietario Eliminado con exito",HttpStatus.OK);
    }

@@ -7,7 +7,6 @@ import com.gandec.ganadecs.Services.PropietarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -26,17 +25,11 @@ public class UserController {
     }
 
 
-
   @PostMapping("/save")
     public ResponseEntity<CreatePropietary> createPropietary(@Valid @RequestBody CreatePropietary createPropietary){
         return ResponseEntity.ok(propietarioService.save(createPropietary));
 
     }
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
-    @DeleteMapping("/deleteUser/{id}")
-    public ResponseEntity<String >deleteUser(@PathVariable(name = "id")Long id){
-        //authService.deleteUser(id);
-        return ResponseEntity.ok("User Deleted");
-    }
+
 
 }
