@@ -3,6 +3,7 @@ package com.gandec.ganadecs.Services;
 import com.gandec.ganadecs.DTO.Auth.AuthResponse;
 import com.gandec.ganadecs.DTO.Auth.CreatePropietary;
 import com.gandec.ganadecs.DTO.Auth.LoginRequest;
+import com.gandec.ganadecs.DTO.Propietary.PropietaryGetAll;
 import com.gandec.ganadecs.DTO.PropietaryComboDto;
 import com.gandec.ganadecs.DTO.PropietaryDTO;
 
@@ -12,7 +13,7 @@ public interface PropietarioService {
     AuthResponse login(LoginRequest request);
     CreatePropietary save(CreatePropietary createPropietary);
 
-    List<PropietaryDTO> PropietaryGetAll();
+    List<PropietaryGetAll> PropietaryGetAll();
 
     void DeletePropietary(long id);
     List<PropietaryComboDto> PROPIETARY_COMBO_DTO_LIST();

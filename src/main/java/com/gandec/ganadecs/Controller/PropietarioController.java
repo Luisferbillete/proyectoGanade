@@ -1,5 +1,6 @@
 package com.gandec.ganadecs.Controller;
 
+import com.gandec.ganadecs.DTO.Propietary.PropietaryGetAll;
 import com.gandec.ganadecs.DTO.PropietaryComboDto;
 import com.gandec.ganadecs.DTO.PropietaryDTO;
 import com.gandec.ganadecs.DTO.Util.Delete;
@@ -23,8 +24,8 @@ public class PropietarioController {
 
 
     @GetMapping("/GetAll")
-    public ResponseEntity<List<PropietaryDTO>> GetAllPropietary(){
-        List<PropietaryDTO> propietaryDTOList=propietarioService.PropietaryGetAll();
+    public ResponseEntity<List<PropietaryGetAll>> GetAllPropietary(){
+        List<PropietaryGetAll> propietaryDTOList=propietarioService.PropietaryGetAll();
         return new ResponseEntity<>(propietaryDTOList,HttpStatus.OK);
    }
    @GetMapping("/combo")

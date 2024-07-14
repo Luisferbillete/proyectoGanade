@@ -21,7 +21,20 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+    @ExceptionHandler(UniqueUsernameException.class)
+    public ResponseEntity<String> handleUniqueUsernameException(UniqueUsernameException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
 
+    @ExceptionHandler(UniqueEmailException.class)
+    public ResponseEntity<String> handleUniqueEmailException(UniqueEmailException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler(UniqueConstraintException.class)
+    public ResponseEntity<String> handleUniqueConstraintException(UniqueConstraintException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<String> handleBadCredentialsException(BadCredentialsException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Nombre de usuario o contraseña incorrectos. Por favor, inténtelo de nuevo.");

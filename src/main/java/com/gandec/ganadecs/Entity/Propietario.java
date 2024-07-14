@@ -21,12 +21,19 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = "username", name = "UK_username"),
+        @UniqueConstraint(columnNames = "email", name = "UK_email")
+})
 public class Propietario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private long id;
+    @NotBlank
     private  String nombres;
+    @NotBlank
     private String apellidos;
+    @NotBlank
     private String direccion ;
     @Email
     @NotBlank

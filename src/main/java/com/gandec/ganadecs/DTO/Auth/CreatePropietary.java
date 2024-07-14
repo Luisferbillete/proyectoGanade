@@ -1,5 +1,6 @@
 package com.gandec.ganadecs.DTO.Auth;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ public class CreatePropietary {
     @NotBlank
     private String email;
     @NotBlank
+    @Column(unique = true)
     private String username;
     @NotBlank
     private String password;

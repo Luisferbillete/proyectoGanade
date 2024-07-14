@@ -34,6 +34,7 @@ public class JwtService {
                 .claims(extraClaims)
                 .claim("userId", propietario.getId())
                 .claim("email", propietario.getEmail())
+                .claim("roles", propietario.getRoles())
                 .subject(propietario.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis()+ Long.parseLong(timeExpiration)))
