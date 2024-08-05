@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PropietaryDTO implements EntityDTO{
-    private long id;
+    //private long id;
     @NotEmpty(message = "El Nombre es requerido")
     private String nombres;
     @NotEmpty(message = "El Apellido es requerido")
@@ -22,5 +22,5 @@ public class PropietaryDTO implements EntityDTO{
 
     private String direccion;
     private Long telefonos;
-    private List<BovinoDTO> bovinoDTOS;
+    //private List<BovinoDTO> bovinoDTOS;
 }

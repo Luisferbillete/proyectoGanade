@@ -6,6 +6,7 @@ import com.gandec.ganadecs.DTO.Auth.LoginRequest;
 import com.gandec.ganadecs.DTO.Propietary.PropietaryGetAll;
 import com.gandec.ganadecs.DTO.PropietaryComboDto;
 import com.gandec.ganadecs.DTO.PropietaryDTO;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public interface PropietarioService {
     CreatePropietary save(CreatePropietary createPropietary);
 
     List<PropietaryGetAll> PropietaryGetAll();
+    Page<PropietaryGetAll> PropietaryGetAllPage(Integer start, Integer limit);
 
     void DeletePropietary(long id);
     List<PropietaryComboDto> PROPIETARY_COMBO_DTO_LIST();

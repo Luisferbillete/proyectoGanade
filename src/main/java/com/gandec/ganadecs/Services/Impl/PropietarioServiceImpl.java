@@ -22,6 +22,9 @@ import com.gandec.ganadecs.Services.PropietarioService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -122,8 +125,15 @@ public class PropietarioServiceImpl implements PropietarioService {
         return mapList(propietarioList,PropietaryGetAll.class);
     }
 
-
-
+    @Override
+    public Page<PropietaryGetAll> PropietaryGetAllPage(Integer start, Integer limit) {
+        Pageable pageable = PageRequest.of(start, limit);
+        Page<Propietario> propietarioPage = propietariosRepository.findAll(pageable);
+        if (propietarioPage != null) {
+            return propietarioPage.map(propietario -> (PropietaryGetAll) mappers.convertToDto(propietario, new PropietaryGetAll()));
+        }
+        return null;
+    }
 
 
     @Override

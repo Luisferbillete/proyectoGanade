@@ -4,6 +4,7 @@ import com.gandec.ganadecs.DTO.PotreroComboDto;
 import com.gandec.ganadecs.DTO.PotreroDto;
 import com.gandec.ganadecs.Services.PotterService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,6 +33,14 @@ public class PotreroController {
         List<PotreroDto> potreroDtoList=potterService.POTRERO_DTO_LIST();
         return  new ResponseEntity<>(potreroDtoList,HttpStatus.OK);
     }
+
+    @GetMapping("/GetAllPage")
+    public Page<PotreroDto> GetAllPotterPage3(
+            @RequestParam(name = "start") Integer start,
+            @RequestParam(name = "limit") Integer limit){
+        return potterService.POTRERO_LIST_PAGE2(start,limit);
+    }
+
     @GetMapping("/combo")
     public ResponseEntity<List<PotreroComboDto>>GetAllPotterCombo(){
         List<PotreroComboDto> potreroComboDtoList=potterService.POTRERO_COMBO_DTO_LIST();

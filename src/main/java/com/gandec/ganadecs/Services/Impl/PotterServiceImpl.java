@@ -7,7 +7,15 @@ import com.gandec.ganadecs.Excepciones.ResourceNotFoundExcepcion;
 import com.gandec.ganadecs.Mapeador.Mappers;
 import com.gandec.ganadecs.Repository.PotreroRepository;
 import com.gandec.ganadecs.Services.PotterService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 
 import java.util.List;
 
@@ -39,6 +47,20 @@ public class PotterServiceImpl implements PotterService {
     public List<PotreroDto> POTRERO_DTO_LIST() {
         List<Potrero> potreroList=potreroRepository.findAll();
         return mapList(potreroList,PotreroDto.class);
+    }
+
+
+
+
+
+    @Override
+    public Page<PotreroDto> POTRERO_LIST_PAGE2(Integer start, Integer limit) {
+        Pageable pageable = PageRequest.of(start, limit);
+        Page<Potrero> potreroPage = potreroRepository.findAll(pageable);
+        if (potreroPage != null) {
+            return potreroPage.map(potrero -> (PotreroDto) mappers.convertToDto(potrero, new PotreroDto()));
+        }
+        return null;
     }
 
     @Override

@@ -29,18 +29,18 @@ public class UserController {
     {
         return ResponseEntity.ok(propietarioService.login(request));
     }
-    @GetMapping("/GetAll")
+/*    @GetMapping("/GetAll")
     public ResponseEntity<List<PropietaryGetAll>> GetAllPropietary(){
         return new ResponseEntity<>(propietarioService.PropietaryGetAll(), HttpStatus.OK);
-    }
+    }*/
 
-  @PostMapping("/save")
+ @PostMapping("/save")
 
-    public ResponseEntity<String> createPropietary(@Valid @RequestBody CreatePropietary createPropietary) throws UniqueConstraintException {
-       //try{
-           propietarioService.save(createPropietary);
-           return ResponseEntity.status(HttpStatus.CREATED).body("Usuario creado exitosamente");
-
+   public ResponseEntity<String> createPropietary(@Valid @RequestBody CreatePropietary createPropietary) throws UniqueConstraintException {
+   //try{
+   propietarioService.save(createPropietary);
+   return ResponseEntity.status(HttpStatus.CREATED).body("Usuario creado exitosamente");
+ }
        /*} catch (UniqueUsernameException e) {
            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
        } catch (UniqueEmailException e) {
@@ -56,7 +56,7 @@ public class UserController {
 
 
 
-  }
+
 
 
 }
