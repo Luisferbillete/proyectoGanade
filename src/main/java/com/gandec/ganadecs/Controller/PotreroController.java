@@ -41,7 +41,7 @@ public class PotreroController {
         return potterService.POTRERO_LIST_PAGE2(start,limit);
     }
 
-    @GetMapping("/combo")
+    @GetMapping("/select")
     public ResponseEntity<List<PotreroComboDto>>GetAllPotterCombo(){
         List<PotreroComboDto> potreroComboDtoList=potterService.POTRERO_COMBO_DTO_LIST();
         return new ResponseEntity<>(potreroComboDtoList,HttpStatus.OK);

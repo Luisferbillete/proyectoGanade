@@ -18,7 +18,7 @@ public class CalculadoraEdadUtil {
             } else if (edadEnMeses <= 24) {
                 return "Novillo";
             } else {
-                return "Otra categoría para machos";
+                return "Toro";
             }
         } else if (sexo.equalsIgnoreCase("hembra")) {
             if (edadEnMeses <= 12) {
@@ -26,7 +26,7 @@ public class CalculadoraEdadUtil {
             } else if (edadEnMeses <= 24) {
                 return "Novilla";
             } else {
-                return "Otra categoría para hembras";
+                return "Vaca";
             }
         } else {
             return "Desconocido";

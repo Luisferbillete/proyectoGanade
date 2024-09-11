@@ -14,11 +14,10 @@ public interface PropietarioService {
     AuthResponse login(LoginRequest request);
     CreatePropietary save(CreatePropietary createPropietary);
 
-    List<PropietaryGetAll> PropietaryGetAll();
     Page<PropietaryGetAll> PropietaryGetAllPage(Integer start, Integer limit);
 
     void DeletePropietary(long id);
-    List<PropietaryComboDto> PROPIETARY_COMBO_DTO_LIST();
+    List<PropietaryComboDto> getPropietary();
     PropietaryDTO UpdatePropietary(PropietaryDTO propietaryDTO,long id);
      PropietaryDTO GetPropietary(long id);
      PropietaryComboDto findPropietaryComboDtoByNombresAndApellidos(String nombres, String apellidos);

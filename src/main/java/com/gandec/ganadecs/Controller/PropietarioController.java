@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/Ganadec/Propietarios")
@@ -24,10 +25,7 @@ public class PropietarioController {
     private final PropietarioService propietarioService;
 
 
-    @GetMapping("/GetAll")
-    public ResponseEntity<List<PropietaryGetAll>> GetAllPropietary() {
-        return new ResponseEntity<>(propietarioService.PropietaryGetAll(), HttpStatus.OK);
-    }
+
     @GetMapping("/GetAll2")
     public Page<PropietaryGetAll> GetAllPropietary2(
             @RequestParam(name = "start") Integer start,
@@ -62,10 +60,9 @@ public class PropietarioController {
         return new ResponseEntity<>("Propietario Eliminado con exito", HttpStatus.OK);
     }
 
-    @GetMapping("/search/{nombres}/{apellidos}")
-    public ResponseEntity<PropietaryComboDto> SearchPropietary(@PathVariable(name = "nombres") String nombres,
-                                                               @PathVariable(name = "apellidos") String apellidos) {
-        return ResponseEntity.ok(propietarioService.findPropietaryComboDtoByNombresAndApellidos(nombres, apellidos));
+    @GetMapping("/all")
+    public ResponseEntity<List<PropietaryComboDto>> GetPropietary() {
+        return ResponseEntity.ok(propietarioService.getPropietary());
     }
 
     @PostMapping("/save")

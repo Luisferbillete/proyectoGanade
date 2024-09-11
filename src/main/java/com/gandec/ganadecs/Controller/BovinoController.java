@@ -2,10 +2,12 @@ package com.gandec.ganadecs.Controller;
 
 import com.gandec.ganadecs.DTO.BovinoDTO;
 import com.gandec.ganadecs.DTO.Bovinos.BovinosDTO;
+import com.gandec.ganadecs.DTO.Bovinos.BovinosGetAll;
 import com.gandec.ganadecs.DTO.Bovinos.CreateBovino;
 import com.gandec.ganadecs.Services.BovinoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,9 +24,15 @@ public class BovinoController {
     private final BovinoService bovinoService;
 
  @PreAuthorize("hasRole('PROPIETARIO') or hasRole('ADMIN')")
+ @GetMapping("/all2")
+ public Page<BovinosGetAll> BovinosGetAll(@RequestParam(name = "start") Integer start,
+                                   @RequestParam(name = "limit") Integer limit) {
+     return bovinoService.BovinosGetAll(start, limit);
+ }
     @GetMapping("/all")
-    public ResponseEntity<List<BovinosDTO>> getAll() {
-        return new ResponseEntity<>(bovinoService.BovinesGetAll(), HttpStatus.OK);
+    public Page<BovinosDTO> getAll( @RequestParam(name = "start") Integer start,
+                                                    @RequestParam(name = "limit") Integer limit) {
+     return bovinoService.BovinesGetAll(start, limit);
     }
     @GetMapping("/all/{propietarioId}")
     public ResponseEntity<List<BovinosDTO>> getAllByPropietary(@PathVariable long propietarioId) {
@@ -44,16 +52,10 @@ public class BovinoController {
         return new ResponseEntity<>(bovinoService.BovinesGetallByNumero(numero), HttpStatus.OK);
     }
 
-    @PostMapping("/save/{propietarioid}/{potreroId}")
-    public ResponseEntity<String> SaveBovino(@PathVariable long propietarioid, @PathVariable long potreroId,
-                                             @Valid @RequestBody BovinoDTO bovinoDTO) {
-        return new ResponseEntity<>(bovinoService.save(propietarioid, potreroId, bovinoDTO), HttpStatus.CREATED);
-
-    }
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/saves")
+    @PostMapping("/save")
     public ResponseEntity<String> SaveBovino(@Valid @RequestBody CreateBovino createBovino) {
-        return new ResponseEntity<>(bovinoService.savess(createBovino), HttpStatus.CREATED);
+        return new ResponseEntity<>(bovinoService.saves(createBovino), HttpStatus.CREATED);
     }
 
 

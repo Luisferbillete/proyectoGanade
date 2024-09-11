@@ -11,7 +11,6 @@ import com.gandec.ganadecs.Entity.ERole;
 import com.gandec.ganadecs.Entity.Propietario;
 import com.gandec.ganadecs.Entity.RoleEntity;
 import com.gandec.ganadecs.Excepciones.ResourceNotFoundExcepcion;
-import com.gandec.ganadecs.Excepciones.UniqueConstraintException;
 import com.gandec.ganadecs.Excepciones.UniqueEmailException;
 import com.gandec.ganadecs.Excepciones.UniqueUsernameException;
 import com.gandec.ganadecs.Jwt.JwtService;
@@ -20,8 +19,6 @@ import com.gandec.ganadecs.Mapeador.Mappers;
 import com.gandec.ganadecs.Repository.PropietariosRepository;
 import com.gandec.ganadecs.Services.PropietarioService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.exception.ConstraintViolationException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,13 +28,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static com.gandec.ganadecs.Mapeador.MapperList.mapList;
 
 @Service
 @RequiredArgsConstructor
@@ -94,22 +88,6 @@ public class PropietarioServiceImpl implements PropietarioService {
         }
         propietariosRepository.save(propietario);
 
-        /*try {
-            propietariosRepository.save(propietario);
-        } catch (DataIntegrityViolationException e) {
-            Throwable cause = e.getCause();
-            if (cause instanceof SQLIntegrityConstraintViolationException || cause instanceof ConstraintViolationException) {
-                String message = cause.getMessage();
-                if (message.contains("propietario.UK_rtwwdpdecdoiq3xp5gyc019k4")) {
-                    throw new UniqueUsernameException("El nombre de usuario ya está en uso.");
-                } else if (message.contains("propietario.UK_418ssbxx45iu2j71fn7slf32h")) {
-                    throw new UniqueEmailException("El correo electrónico ya está en uso.");
-                }
-            }
-            throw new UniqueConstraintException("Violación de restricción única.");
-        } catch (Exception e) {
-            throw new RuntimeException("Error al guardar el propietario.", e);
-        }*/
 
 
 
@@ -119,20 +97,11 @@ public class PropietarioServiceImpl implements PropietarioService {
         return null;
     }
 
-    @Override
-    public List<PropietaryGetAll> PropietaryGetAll() {
-        List<Propietario>propietarioList=propietariosRepository.findAll();
-        return mapList(propietarioList,PropietaryGetAll.class);
-    }
 
     @Override
     public Page<PropietaryGetAll> PropietaryGetAllPage(Integer start, Integer limit) {
         Pageable pageable = PageRequest.of(start, limit);
-        Page<Propietario> propietarioPage = propietariosRepository.findAll(pageable);
-        if (propietarioPage != null) {
-            return propietarioPage.map(propietario -> (PropietaryGetAll) mappers.convertToDto(propietario, new PropietaryGetAll()));
-        }
-        return null;
+        return propietariosRepository.findAllPropietariesWithRole(pageable);
     }
 
 
@@ -146,12 +115,10 @@ public class PropietarioServiceImpl implements PropietarioService {
     }
 
     @Override
-    public List<PropietaryComboDto> PROPIETARY_COMBO_DTO_LIST() {
-        List<Propietario> propietarioList;
-        propietarioList=propietariosRepository.findAll();
-        return mapper.entityToDTO(propietarioList);
-
+    public List<PropietaryComboDto> getPropietary() {
+        return propietariosRepository.getPropietary();
     }
+
 
     @Override
     public PropietaryDTO UpdatePropietary(PropietaryDTO propietaryDTO, long id) {

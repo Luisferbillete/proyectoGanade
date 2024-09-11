@@ -2,6 +2,7 @@ package com.gandec.ganadecs.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -14,12 +15,11 @@ import java.util.Set;
 @Data
 public class Bovino {
  @Id
-
-
    private String Numero;
  @JsonFormat(pattern = "dd/MM/yyyy")
   private   LocalDate Fecha_de_nacimiento;
  @JsonFormat(pattern = "dd/MM/yyyy")
+
    private LocalDate Fecha_de_ingreso;
    private String sexo;
    private String color,raza;
