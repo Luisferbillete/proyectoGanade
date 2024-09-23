@@ -2,9 +2,10 @@ package com.gandec.ganadecs.Controller;
 
 import com.gandec.ganadecs.DTO.Auth.CreatePropietary;
 import com.gandec.ganadecs.DTO.Propietary.PropietaryGetAll;
-import com.gandec.ganadecs.DTO.PropietaryComboDto;
-import com.gandec.ganadecs.DTO.PropietaryDTO;
+import com.gandec.ganadecs.DTO.Propietary.PropietaryComboDto;
+import com.gandec.ganadecs.DTO.Propietary.PropietaryDTO;
 import com.gandec.ganadecs.DTO.Util.Delete;
+import com.gandec.ganadecs.Entity.ERole;
 import com.gandec.ganadecs.Excepciones.UniqueConstraintException;
 import com.gandec.ganadecs.Services.PropietarioService;
 import jakarta.validation.Valid;
@@ -26,13 +27,15 @@ public class PropietarioController {
 
 
 
-    @GetMapping("/GetAll2")
-    public Page<PropietaryGetAll> GetAllPropietary2(
-            @RequestParam(name = "start") Integer start,
-            @RequestParam(name = "limit") Integer limit) {
-        return propietarioService.PropietaryGetAllPage(start, limit);
-    }
 
+    @GetMapping("/Getall")
+     public Page<PropietaryGetAll> GetAllPropietary2(
+             @RequestParam(name = "roleName") ERole roleName,
+             @RequestParam(name = "start") Integer start,
+             @RequestParam(name = "limit") Integer limit){
+        return  propietarioService.PropietaryGetAll(roleName, start, limit);
+
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<PropietaryDTO> GetPropietaryId(@PathVariable(name = "id") long id) {

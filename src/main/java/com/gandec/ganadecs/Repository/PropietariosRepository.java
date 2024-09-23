@@ -1,7 +1,8 @@
 package com.gandec.ganadecs.Repository;
 
 import com.gandec.ganadecs.DTO.Propietary.PropietaryGetAll;
-import com.gandec.ganadecs.DTO.PropietaryComboDto;
+import com.gandec.ganadecs.DTO.Propietary.PropietaryComboDto;
+import com.gandec.ganadecs.Entity.ERole;
 import com.gandec.ganadecs.Entity.Propietario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,21 +21,26 @@ public interface PropietariosRepository extends JpaRepository<Propietario,Long> 
 
     Optional<Propietario> findByUsername(String username);
 
-    @Query("SELECT new com.gandec.ganadecs.DTO.PropietaryComboDto" +
+    @Query("SELECT new com.gandec.ganadecs.DTO.Propietary.PropietaryComboDto" +
             "(p.id, CONCAT(p.nombres, ' ', p.apellidos)) " +
             "FROM Propietario p WHERE p.nombres = :nombres AND p.apellidos = :apellidos")
     PropietaryComboDto findPropietaryComboDtoByNombresAndApellidos
             (@Param("nombres") String nombres, @Param("apellidos") String apellidos);
-//    @Query("SELECT new com.gandec.ganadecs.DTO.Propietary.PropietaryGetAll" +
-//            "(p.id,p.nombres,p.apellidos,p.direccion,p.telefonos,p.email) " +
-//            "FROM Propietario p")
-@Query("SELECT new com.gandec.ganadecs.DTO.Propietary.PropietaryGetAll" +
-        "(p.id, p.nombres, p.apellidos, p.direccion, p.telefonos, p.email) " +
-        "FROM Propietario p " +
-        "JOIN p.roles r " +
-        "WHERE r.name = 'PROPIETARIO'")
-Page<PropietaryGetAll> findAllPropietariesWithRole(Pageable pageable);
-    @Query("SELECT new com.gandec.ganadecs.DTO.PropietaryComboDto" +
+
+//@Query("SELECT new com.gandec.ganadecs.DTO.Propietary.PropietaryGetAll" +
+//        "(p.id, p.nombres, p.apellidos, p.direccion, p.telefonos, p.email) " +
+//        "FROM Propietario p " +
+//        "JOIN p.roles r " +
+//        "WHERE r.name = 'PROPIETARIO'")
+//Page<PropietaryGetAll> findAllPropietariesWithRole(Pageable pageable);
+    @Query("SELECT new com.gandec.ganadecs.DTO.Propietary.PropietaryGetAll" +
+            "(p.id, p.nombres, p.apellidos, p.direccion, p.telefonos, p.email) " +
+            "FROM Propietario p " +
+            "JOIN p.roles r " +
+            "WHERE r.name = :roleName")
+    Page<PropietaryGetAll> findAllUserWithRole(@Param("roleName") ERole roleName, Pageable pageable);
+
+    @Query("SELECT new com.gandec.ganadecs.DTO.Propietary.PropietaryComboDto" +
             "(p.id, CONCAT(p.nombres, ' ', p.apellidos)) " +
             "FROM Propietario p " +
             "JOIN p.roles r " +

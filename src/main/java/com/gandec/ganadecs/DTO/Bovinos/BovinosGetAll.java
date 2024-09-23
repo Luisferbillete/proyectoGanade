@@ -1,6 +1,7 @@
 package com.gandec.ganadecs.DTO.Bovinos;
 
 import com.gandec.ganadecs.DTO.EntityDTO;
+import com.gandec.ganadecs.DTO.Propietary.PropietaryComboDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,10 @@ public class BovinosGetAll implements EntityDTO {
     private long abaluo;
     private int kilos;
     private long precioKilo;
+    private LocalDate fecha_de_nacimiento;
+    private String potrero;
+    private String categoria;
+
 
     public BovinosGetAll(String numero, String propietario, String sexo, String color, String raza, String negocio, long abaluo, int kilos, long precioKilo, LocalDate fecha_de_nacimiento, String potrero, String categoria) {
         this.numero = numero;
@@ -32,11 +37,4 @@ public class BovinosGetAll implements EntityDTO {
         this.potrero = potrero;
         this.categoria = categoria;
     }
-
-    private LocalDate fecha_de_nacimiento;
-    private String potrero;
-    private String categoria;
-
-
-
 }

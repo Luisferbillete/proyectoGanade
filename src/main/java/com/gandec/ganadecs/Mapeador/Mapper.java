@@ -1,6 +1,6 @@
 package com.gandec.ganadecs.Mapeador;
 
-import com.gandec.ganadecs.DTO.*;
+import com.gandec.ganadecs.DTO.Propietary.PropietaryComboDto;
 import com.gandec.ganadecs.Entity.Propietario;
 import org.springframework.stereotype.Component;
 

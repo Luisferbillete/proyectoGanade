@@ -2,6 +2,7 @@ package com.gandec.ganadecs.Repository;
 
 import com.gandec.ganadecs.DTO.Bovinos.BovinesDTO;
 import com.gandec.ganadecs.DTO.Bovinos.BovinosDTO;
+import com.gandec.ganadecs.DTO.Bovinos.BovinosFindByNumero;
 import com.gandec.ganadecs.DTO.Bovinos.BovinosGetAll;
 import com.gandec.ganadecs.Entity.Bovino;
 import com.gandec.ganadecs.Entity.Propietario;
@@ -14,6 +15,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -22,17 +24,20 @@ public interface BovinoRepository extends JpaRepository<Bovino,String > {
 
     @Query("SELECT new com.gandec.ganadecs.DTO.Bovinos.BovinosGetAll" +
             "(b.Numero, CONCAT(p.nombres, ' ', p.apellidos), b.sexo, b.color, b.raza, b.negocio, b.abaluo, b.kilos, b.preciokilo, b.Fecha_de_nacimiento, " +
-            "(SELECT pt.nombre FROM MovimientoBovino mb JOIN mb.potrero pt WHERE mb.bovino.Numero = b.Numero ORDER BY mb.fecha_de_ingreso DESC LIMIT 1),' ') " +
+            "(SELECT pt.nombre FROM MovimientoBovino mb JOIN mb.potrero pt WHERE mb.bovino.Numero = b.Numero ORDER BY mb.fecha_de_ingreso DESC LIMIT 1),' '" + ") " +
             "FROM Bovino b " +
             "JOIN b.propietario p " +
             "WHERE b.Numero NOT IN (SELECT bm.number FROM BovinosMuertos bm) " +
             "AND b.Numero NOT IN (SELECT dv.bovino.Numero FROM Detalle_Venta dv)")
     Page<BovinosGetAll> BovinesGetAll2(Pageable pageable);
 
-@Query("select new com.gandec.ganadecs.DTO.Bovinos.BovinesDTO(b.Numero,b.Fecha_de_nacimiento,b.sexo) " +
+
+    @Query("select new com.gandec.ganadecs.DTO.Bovinos.BovinesDTO(b.Numero,b.Fecha_de_nacimiento,b.sexo) " +
         "from Bovino b where b.Numero = :numero")
     Optional<BovinesDTO> findBovinoByNumero(@Param("numero") String numero);
-
+    @Query("select new com.gandec.ganadecs.DTO.Bovinos.BovinosFindByNumero(b.Numero,b.propietario.id,b.sexo,b.color,b.raza,b.negocio,b.abaluo,b.kilos,b.preciokilo,b.Fecha_de_nacimiento,b.Fecha_de_ingreso) " +
+            "from Bovino b where b.Numero = :numero")
+    Optional<BovinosFindByNumero> findBovinoByNumeroUp(@Param("numero") String numero);
 
    @Query("SELECT new com.gandec.ganadecs.DTO.Bovinos.BovinosDTO" +
             "(b.Numero,CONCAT(p.nombres,' ',p.apellidos),b.sexo,b.color,b.raza,b.negocio,b.abaluo,b.kilos,b.preciokilo,b.Fecha_de_nacimiento,' ' ) " +

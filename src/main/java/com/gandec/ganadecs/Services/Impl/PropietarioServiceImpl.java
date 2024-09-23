@@ -5,8 +5,8 @@ import com.gandec.ganadecs.DTO.Auth.AuthResponse;
 import com.gandec.ganadecs.DTO.Auth.CreatePropietary;
 import com.gandec.ganadecs.DTO.Auth.LoginRequest;
 import com.gandec.ganadecs.DTO.Propietary.PropietaryGetAll;
-import com.gandec.ganadecs.DTO.PropietaryComboDto;
-import com.gandec.ganadecs.DTO.PropietaryDTO;
+import com.gandec.ganadecs.DTO.Propietary.PropietaryComboDto;
+import com.gandec.ganadecs.DTO.Propietary.PropietaryDTO;
 import com.gandec.ganadecs.Entity.ERole;
 import com.gandec.ganadecs.Entity.Propietario;
 import com.gandec.ganadecs.Entity.RoleEntity;
@@ -98,10 +98,16 @@ public class PropietarioServiceImpl implements PropietarioService {
     }
 
 
+//    @Override
+//    public Page<PropietaryGetAll> PropietaryGetAllPage(Integer start, Integer limit) {
+//        Pageable pageable = PageRequest.of(start, limit);
+//        return propietariosRepository.findAllPropietariesWithRole(pageable);
+//    }
+
     @Override
-    public Page<PropietaryGetAll> PropietaryGetAllPage(Integer start, Integer limit) {
+    public Page<PropietaryGetAll> PropietaryGetAll(ERole roleName, Integer start, Integer limit) {
         Pageable pageable = PageRequest.of(start, limit);
-        return propietariosRepository.findAllPropietariesWithRole(pageable);
+        return propietariosRepository.findAllUserWithRole(roleName, pageable);
     }
 
 

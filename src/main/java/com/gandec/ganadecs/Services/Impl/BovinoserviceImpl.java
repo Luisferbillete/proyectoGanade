@@ -3,6 +3,7 @@ package com.gandec.ganadecs.Services.Impl;
 import com.gandec.ganadecs.DTO.BovinoDTO;
 
 import com.gandec.ganadecs.DTO.Bovinos.BovinosDTO;
+import com.gandec.ganadecs.DTO.Bovinos.BovinosFindByNumero;
 import com.gandec.ganadecs.DTO.Bovinos.BovinosGetAll;
 import com.gandec.ganadecs.DTO.Bovinos.CreateBovino;
 import com.gandec.ganadecs.Entity.Bovino;
@@ -10,6 +11,7 @@ import com.gandec.ganadecs.Entity.MovimientoBovino;
 import com.gandec.ganadecs.Entity.Potrero;
 import com.gandec.ganadecs.Entity.Propietario;
 import com.gandec.ganadecs.Excepciones.ResourceNotFoundExcepcion;
+import com.gandec.ganadecs.Excepciones.UniqueBovinoException;
 import com.gandec.ganadecs.Mapeador.Mappers;
 import com.gandec.ganadecs.Mapeador.Util.CalculadoraEdadUtil;
 import com.gandec.ganadecs.Repository.BovinoRepository;
@@ -23,6 +25,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -48,11 +51,11 @@ public class BovinoserviceImpl implements BovinoService {
         String numeroId=createBovino.getNumero();
         Optional<Bovino> existebovino=bovinoRepository.findById(numeroId);
         if(existebovino.isPresent()) {
-            throw new IllegalStateException("El bovino con numero " + numeroId + " ya existe en la base de datos.");
+            throw new UniqueBovinoException("El bovino con numero " + numeroId + " ya existe en la base de datos.");
         }
         Bovino bovino = new Bovino();
         bovino = (Bovino) mappers.convertToEntity( createBovino, bovino);
-
+        bovino.setFecha_de_ingreso(LocalDate.now());
         bovino.setPropietario(propietario);
         bovino = bovinoRepository.save(bovino);
         Potrero potrero = potreroRepository.findById(createBovino.getPotrero()).orElseThrow(() ->
@@ -60,7 +63,7 @@ public class BovinoserviceImpl implements BovinoService {
         MovimientoBovino movimientoBovino = new MovimientoBovino();
         movimientoBovino.setBovino(bovino);
         movimientoBovino.setPotrero(potrero);
-        movimientoBovino.setFecha_de_ingreso(createBovino.getFecha_de_ingreso());
+        movimientoBovino.setFecha_de_ingreso(LocalDate.now());
         movimientoBovinoRepository.save(movimientoBovino);
         return "Bovino guardado con exito";
     }
@@ -210,6 +213,18 @@ public class BovinoserviceImpl implements BovinoService {
 
     }
 
+    @Override
+    public Optional<BovinosFindByNumero> bovinosFindByNumero(String numero) {
+        return bovinoRepository.findBovinoByNumeroUp(numero);
+    }
+
+    @Override
+    public void DeleteBovino(String NumerBovino) {
+        long numero=Long.parseLong(NumerBovino);
+        Bovino bovino=bovinoRepository.findById(NumerBovino).orElseThrow(()->
+                new ResourceNotFoundExcepcion("Bovino","numero",numero));
+        bovinoRepository.delete(bovino);
+    }
 
 
     private void bovinesCategory(List<BovinosDTO> bovinosConCategoria, List<BovinosDTO> todosBovinos) {

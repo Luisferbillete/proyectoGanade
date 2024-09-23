@@ -2,6 +2,7 @@ package com.gandec.ganadecs.Services;
 
 import com.gandec.ganadecs.DTO.BovinoDTO;
 import com.gandec.ganadecs.DTO.Bovinos.BovinosDTO;
+import com.gandec.ganadecs.DTO.Bovinos.BovinosFindByNumero;
 import com.gandec.ganadecs.DTO.Bovinos.BovinosGetAll;
 import com.gandec.ganadecs.DTO.Bovinos.CreateBovino;
 import org.springframework.data.domain.Page;
@@ -18,8 +19,8 @@ public interface BovinoService {
     List<BovinosDTO> BovinesGetallByPropietaryAndSexo(long propietarioId,String sexo);
     List<BovinosDTO> BovinesGetallBySexo(String sexo);
     Optional<BovinosDTO> BovinesGetallByNumero(String numero);
-
-
+    Optional<BovinosFindByNumero> bovinosFindByNumero(String numero);
+    void DeleteBovino(String NumerBovino);
 
 
 

@@ -2,7 +2,7 @@ package com.gandec.ganadecs.Services.Impl;
 
 import com.gandec.ganadecs.DTO.Bovinos.BovinesDTO;
 import com.gandec.ganadecs.DTO.Detalles_venta_interna.DetalleVentaInternaDTO;
-import com.gandec.ganadecs.DTO.PropietaryComboDto;
+import com.gandec.ganadecs.DTO.Propietary.PropietaryComboDto;
 import com.gandec.ganadecs.DTO.VentaInterna.VentaInternaCompradorVendedor;
 import com.gandec.ganadecs.DTO.VentaInterna.VentaInternaCompradorVendedorBovino;
 import com.gandec.ganadecs.Entity.*;

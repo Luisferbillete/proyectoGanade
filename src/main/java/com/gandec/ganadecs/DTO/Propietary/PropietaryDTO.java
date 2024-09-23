@@ -1,18 +1,17 @@
-package com.gandec.ganadecs.DTO;
+package com.gandec.ganadecs.DTO.Propietary;
 
+import com.gandec.ganadecs.DTO.EntityDTO;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PropietaryDTO implements EntityDTO{
+public class PropietaryDTO implements EntityDTO {
     //private long id;
     @NotEmpty(message = "El Nombre es requerido")
     private String nombres;
