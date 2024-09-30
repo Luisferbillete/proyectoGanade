@@ -10,6 +10,7 @@ import com.gandec.ganadecs.Excepciones.UniqueConstraintException;
 import com.gandec.ganadecs.Services.PropietarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,8 +53,16 @@ public class PropietarioController {
 
     @DeleteMapping("/Delete/{id}")
     public ResponseEntity<String> DeletePropietary(@PathVariable(name = "id") long id) {
-        propietarioService.DeletePropietary(id);
-        return new ResponseEntity<>("Propietario Eliminado con exito", HttpStatus.OK);
+        try {
+            propietarioService.DeletePropietary(id);
+            return ResponseEntity.ok("propietario eliminado con exito");
+        }catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("No se puede eliminar el propietario porque tiene bovinos asociados.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Ocurrió un error inesperado.");
+        }
     }
 
     @DeleteMapping("/delete")

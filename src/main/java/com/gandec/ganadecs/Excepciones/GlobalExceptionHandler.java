@@ -26,6 +26,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
+    @ExceptionHandler(BovinoNotFoundException.class)
+    public ResponseEntity<String> handleBovinoNotFoundException(BovinoNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler(InvalidOperationForMaleBovinoException.class)
+    public ResponseEntity<String> handleInvalidOperationForMaleBovinoException(InvalidOperationForMaleBovinoException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(UniqueEmailException.class)
     public ResponseEntity<String> handleUniqueEmailException(UniqueEmailException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

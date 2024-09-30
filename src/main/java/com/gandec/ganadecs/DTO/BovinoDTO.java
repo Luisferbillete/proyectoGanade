@@ -17,7 +17,7 @@ public class BovinoDTO implements EntityDTO {
 
 
     private String numero;
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate Fecha_de_nacimiento;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate Fecha_de_ingreso;

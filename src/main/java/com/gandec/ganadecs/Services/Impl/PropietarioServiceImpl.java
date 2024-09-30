@@ -14,7 +14,6 @@ import com.gandec.ganadecs.Excepciones.ResourceNotFoundExcepcion;
 import com.gandec.ganadecs.Excepciones.UniqueEmailException;
 import com.gandec.ganadecs.Excepciones.UniqueUsernameException;
 import com.gandec.ganadecs.Jwt.JwtService;
-import com.gandec.ganadecs.Mapeador.Mapper;
 import com.gandec.ganadecs.Mapeador.Mappers;
 import com.gandec.ganadecs.Repository.PropietariosRepository;
 import com.gandec.ganadecs.Services.PropietarioService;
@@ -38,7 +37,7 @@ import java.util.stream.Collectors;
 public class PropietarioServiceImpl implements PropietarioService {
     private final PropietariosRepository propietariosRepository;
     private final PasswordEncoder passwordEncoder;
-    private final Mapper mapper;
+   // private final Mapper mapper;
     private final Mappers  mappers;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -98,11 +97,6 @@ public class PropietarioServiceImpl implements PropietarioService {
     }
 
 
-//    @Override
-//    public Page<PropietaryGetAll> PropietaryGetAllPage(Integer start, Integer limit) {
-//        Pageable pageable = PageRequest.of(start, limit);
-//        return propietariosRepository.findAllPropietariesWithRole(pageable);
-//    }
 
     @Override
     public Page<PropietaryGetAll> PropietaryGetAll(ERole roleName, Integer start, Integer limit) {

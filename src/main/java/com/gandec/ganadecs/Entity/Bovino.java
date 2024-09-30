@@ -15,9 +15,9 @@ import java.util.Set;
 public class Bovino {
  @Id
    private String Numero;
- @JsonFormat(pattern = "dd/MM/yyyy")
+ @JsonFormat(pattern = "yyyy/MM/dd")
   private   LocalDate Fecha_de_nacimiento;
- @JsonFormat(pattern = "dd/MM/yyyy")
+ @JsonFormat(pattern = "yyyy/MM/dd")
    private LocalDate Fecha_de_ingreso;
    private String sexo;
    private String color,raza;

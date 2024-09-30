@@ -4,6 +4,7 @@ import com.gandec.ganadecs.DTO.PotreroComboDto;
 import com.gandec.ganadecs.DTO.PotreroDto;
 import com.gandec.ganadecs.Services.PotterService;
 import jakarta.validation.Valid;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,7 +59,15 @@ public class PotreroController {
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> DeletePotter(@PathVariable(name = "id")long id){
+        try{
         potterService.DeletePotrero(id);
-        return new ResponseEntity<>("Potrero Eliminado con Exito",HttpStatus.OK);
+            return ResponseEntity.ok("Potrero eliminado con exito");
+        }catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("No se puede eliminar el potrero porque tiene bovinos asociados.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Ocurrió un error inesperado.");
+        }
     }
 }

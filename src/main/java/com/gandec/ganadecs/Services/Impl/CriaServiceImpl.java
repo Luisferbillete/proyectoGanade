@@ -48,6 +48,7 @@ public class CriaServiceImpl implements CriaService {
         crias = (Crias) mappers.convertToEntity(crearCrias, crias);
         crias.setNumero(crearCrias.getBovino()+"-"+numeroCrias);
         crias.setFecha_nacimiento(crearCrias.getFecha_nacimiento());
+        crias.setEstado("vivo");
         Set<Partos> partoscrias = new HashSet<>();
         partoscrias.add(partos);
         crias.setPartos(partoscrias);

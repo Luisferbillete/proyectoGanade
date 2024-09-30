@@ -1,23 +1,35 @@
 package com.gandec.ganadecs.Controller;
 
-import com.gandec.ganadecs.DTO.Parto.Birthsdto;
-import com.gandec.ganadecs.DTO.Parto.PartosFindPropietarioDTO;
-import com.gandec.ganadecs.DTO.Parto.PartosPorPropietarioYCriasYSexo;
-import com.gandec.ganadecs.DTO.Parto.PartosPropietariosDTO;
+import com.gandec.ganadecs.DTO.Bovinos.BovinosGetAll;
+import com.gandec.ganadecs.DTO.Parto.*;
 
 import com.gandec.ganadecs.Services.PartoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/Ganadec/Partos")
 public class PartosController {
     private final PartoService partoService;
+
+    @GetMapping("/get/{numero}") public ResponseEntity<PartosCriasUpdate> getparto(@PathVariable(name = "numero") String numero){
+        Optional<PartosCriasUpdate> partosCriasUpdateOptional = partoService.getPartosCrias(numero);
+        return partosCriasUpdateOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    @GetMapping("/all")
+    public Page<PartosPropietariosDTO> GetPartosAll(@RequestParam(name = "start") Integer start,
+                                             @RequestParam(name = "limit") Integer limit) {
+        return partoService.getPartosAll(start, limit);
+    }
 
 
     @PostMapping("/save/{bovinoId}")
@@ -52,14 +64,28 @@ public class PartosController {
         return ResponseEntity.ok(partoService.FinAllPartosPorSexoCriaYPropietary(sexoCria,propietarioId));
 
     }
-    @PutMapping("/ActualizarParto/{bovinoId}")
+    @PutMapping("/update/{numero}")
     public ResponseEntity<String> ActualizarParto(@Valid @RequestBody Birthsdto birthsDTO,
-                                                 @PathVariable String bovinoId) {
+                                                 @PathVariable String numero) {
 
-        partoService.ActualizarParto(birthsDTO,bovinoId);
+        partoService.ActualizarParto(birthsDTO,numero);
         return ResponseEntity.ok("Parto Actualizado");
     }
+    @DeleteMapping("/delete/{numero}")
+    public ResponseEntity<String> delete(@PathVariable(name = "numero") String numero) {
 
+        try {
+            partoService.deleteParto(numero);
+            return ResponseEntity.ok("Parto eliminado exitosamente.");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("No se puede eliminar el parto porque tiene registros asociados.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Ocurrió un error inesperado.");
+        }
+
+    }
 
 
 

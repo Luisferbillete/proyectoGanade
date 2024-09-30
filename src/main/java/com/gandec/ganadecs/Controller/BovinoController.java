@@ -74,7 +74,7 @@ public class BovinoController {
         return new ResponseEntity<>(bovinoService.update(bovinoDTO, numero), HttpStatus.CREATED);
     }
     @DeleteMapping("/delete/{numero}")
-public ResponseEntity<String> delete(@PathVariable(name = "numero") String numero) {
+      public ResponseEntity<String> delete(@PathVariable(name = "numero") String numero) {
 
         try {
             bovinoService.DeleteBovino(numero);
