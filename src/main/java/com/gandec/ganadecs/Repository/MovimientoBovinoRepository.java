@@ -14,6 +14,18 @@ import java.util.List;
 
 @Repository
 public interface MovimientoBovinoRepository extends JpaRepository<MovimientoBovino,Long> {
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE movimiento_bovino m " +
+            "JOIN potrero p ON m.potrero_id = p.id " +
+            "SET m.fecha_de_salida = :newFechaDeSalida " +
+            "WHERE m.fecha_de_salida IS NULL " +
+            "AND p.id = :potreroId " +
+            "AND m.bovino_numero IN (:bovinoIds)", nativeQuery = true)
+    int updateFechaDeSalidaTraslado(@Param("newFechaDeSalida") java.sql.Date newFechaDeSalida,
+                            @Param("potreroId") long potreroId,
+                            @Param("bovinoIds") List<String> bovinoIds);
+
     @Query("select new com.gandec.ganadecs.DTO.MovimientoBovinoDTO" +
             "(b.Numero,m.fecha_de_ingreso,m.fecha_de_salida,p.id) " +
             "from MovimientoBovino m join m.bovino b join m.potrero p where p.id=:potrero " +

@@ -2,6 +2,7 @@ package com.gandec.ganadecs.Services.Impl;
 
 import com.gandec.ganadecs.DTO.MovimientoBovinoDTO;
 import com.gandec.ganadecs.DTO.MovimientosDTO;
+import com.gandec.ganadecs.Entity.Bovino;
 import com.gandec.ganadecs.Entity.MovimientoBovino;
 import com.gandec.ganadecs.Entity.Potrero;
 import com.gandec.ganadecs.Excepciones.EmptyListExcepcion;
@@ -93,6 +94,40 @@ public class MovimientoBovinosImpl implements MovimientoBovinoService {
         convertSaveMovimientoBovino(potrerodestino, fechaDeIngreso, movimientoBovinoDTOList);
 
     }
+//traslado mas eficente
+    @Override
+    public void trasladoDeBovinos(long potreroOrig, long potreroDestino, List<String> bovinoIds) {
+
+
+            Potrero potrerodestino = potreroRepository.findById(potreroDestino).orElseThrow(() ->
+                new ResourceNotFoundExcepcion("Potrero no existe", "id : "
+                        + potreroDestino, potreroDestino));
+        Potrero potreroorig = potreroRepository.findById(potreroOrig).orElseThrow(() ->
+                new ResourceNotFoundExcepcion("Potrero no existe", "id : "
+                        + potreroOrig, potreroOrig));
+
+        LocalDate fechasalida = LocalDate.now();
+        Date sqlCurrentDate = Date.valueOf(fechasalida);
+        movimientoBovinoRepository.updateFechaDeSalidaTraslado(sqlCurrentDate,potreroOrig,bovinoIds);
+
+        for (String bovinoId : bovinoIds) {
+            long numberConvert = Long.parseLong(bovinoId);
+            Bovino bovino = bovinoRepository.findById(bovinoId).orElseThrow(() ->
+                    new ResourceNotFoundExcepcion("Bovino no encontrado", "numero : " + bovinoId, numberConvert));
+
+            // Crear nuevo movimiento bovino
+            MovimientoBovino nuevoMovimiento = new MovimientoBovino();
+            nuevoMovimiento.setBovino(bovino);
+            nuevoMovimiento.setPotrero(potrerodestino);
+            nuevoMovimiento.setFecha_de_ingreso(LocalDate.now()); // Fecha de ingreso actual
+            nuevoMovimiento.setFecha_de_salida(null); // Fecha de salida aún no definida
+
+            // Guardar el nuevo movimiento
+            movimientoBovinoRepository.save(nuevoMovimiento);
+        }
+
+    }
+
 
     private void convertSaveMovimientoBovino(Potrero potrerodestino, LocalDate fechaDeIngreso, List<MovimientoBovinoDTO> movimientoBovinoDTOList) {
         List<MovimientoBovino>movimientoBovinoLista=mapList(movimientoBovinoDTOList,MovimientoBovino.class);

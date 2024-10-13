@@ -28,16 +28,6 @@ public class PartosServiceImpl implements PartoService {
     private final Mappers mappers;
 
 
-//    @Override
-//    public PartosDTO getParto(String numero) {
-//        PartosDTO partosDTO = new PartosDTO();
-//        long NumerBovino=Long.parseLong(numero);
-//
-//        Partos partos=partoRepository.findById(numero).orElseThrow(()->
-//                new ResourceNotFoundExcepcion("Bovino","numero",NumerBovino));
-//
-//        return (PartosDTO)mappers.convertToDto(partos,partosDTO);
-//    }
 
     @Override
     public Optional<PartosCriasUpdate> getPartosCrias(String numero) {

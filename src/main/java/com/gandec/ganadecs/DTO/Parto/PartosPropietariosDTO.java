@@ -15,12 +15,13 @@ public class PartosPropietariosDTO implements EntityDTO {
     private String nombre;
     @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate FechaDeParto;
+    private String sexo;
 
-    public PartosPropietariosDTO(String fullname, String numero, String nombre, LocalDate fechaDeParto) {
-        //Id = id;
+    public PartosPropietariosDTO(String fullname, String numero, String nombre, LocalDate fechaDeParto, String sexo) {
         Fullname = fullname;
         Numero = numero;
         this.nombre = nombre;
         FechaDeParto = fechaDeParto;
+        this.sexo = sexo;
     }
 }

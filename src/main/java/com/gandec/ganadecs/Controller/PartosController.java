@@ -1,6 +1,5 @@
 package com.gandec.ganadecs.Controller;
 
-import com.gandec.ganadecs.DTO.Bovinos.BovinosGetAll;
 import com.gandec.ganadecs.DTO.Parto.*;
 
 import com.gandec.ganadecs.Services.PartoService;

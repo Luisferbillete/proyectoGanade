@@ -3,10 +3,14 @@ package com.gandec.ganadecs.Services.Impl;
 import com.gandec.ganadecs.DTO.Clientes.ClienteCmbDTO;
 import com.gandec.ganadecs.DTO.Clientes.ClientesDTO;
 import com.gandec.ganadecs.Entity.Cliente;
+import com.gandec.ganadecs.Excepciones.ResourceNotFoundExcepcion;
 import com.gandec.ganadecs.Mapeador.Mappers;
 import com.gandec.ganadecs.Repository.ClienteRepository;
 import com.gandec.ganadecs.Services.ClienteService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +30,13 @@ public class ClienteServiceImp implements ClienteService {
         return "Cliente Registrado";
 
     }
+
+    @Override
+    public Page<ClientesDTO> findAllClientes(Integer start, Integer limit) {
+        Pageable pageable= PageRequest.of(start,limit);
+        return clienteRepository.findAllClientesPage(pageable);
+    }
+
 
     @Override
     public List<ClientesDTO> findAll() {
@@ -54,5 +65,13 @@ public class ClienteServiceImp implements ClienteService {
     @Override
     public List<ClienteCmbDTO> findAllClientes() {
         return clienteRepository.findAllClientes();
+    }
+
+    @Override
+    public void deleteCliente(long id) {
+       Cliente cliente=clienteRepository.findById(id).orElseThrow(()->
+                new ResourceNotFoundExcepcion("Cliente","id",id));
+        clienteRepository.delete(cliente);
+
     }
 }

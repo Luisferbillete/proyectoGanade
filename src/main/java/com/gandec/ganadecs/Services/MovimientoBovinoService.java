@@ -16,6 +16,7 @@ public interface MovimientoBovinoService {
 
      void trasladar(long potreroOrig ,long potreroDestino);
     void trasladarBovino(String numeroId,long potreroDestino);
+    void trasladoDeBovinos(long potreroOrig ,long potreroDestino,List<String> bovinoIds);
 
 
 }

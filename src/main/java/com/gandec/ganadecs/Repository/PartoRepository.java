@@ -22,12 +22,12 @@ public interface PartoRepository extends JpaRepository<Partos, String> {
 
 @Query("SELECT new com.gandec.ganadecs.DTO.Parto.PartosPropietariosDTO" +
         "(concat(b.propietario.nombres," +
-        "b.propietario.apellidos) ,p.numero,p.nombre,c.fecha_nacimiento) " +
+        "b.propietario.apellidos) ,p.numero,p.nombre,c.fecha_nacimiento,c.sexo) " +
         "FROM Partos p JOIN p.bovino b JOIN p.crias c WHERE c.fecha_destete IS NULL")
     List<PartosPropietariosDTO>findPartosAndPropietarioWithNullDestete();
     @Query("SELECT new com.gandec.ganadecs.DTO.Parto.PartosPropietariosDTO" +
             "(concat(b.propietario.nombres, b.propietario.apellidos) , " +
-            "p.numero, p.nombre, c.fecha_nacimiento) " +
+            "p.numero, p.nombre, c.fecha_nacimiento,c.sexo) " +
             "FROM Partos p " +
             "JOIN p.bovino b " +
             "JOIN p.crias c " +
@@ -35,7 +35,7 @@ public interface PartoRepository extends JpaRepository<Partos, String> {
     Page<PartosPropietariosDTO> getPartosAll(Pageable pageable);
 
     @Query("SELECT new com.gandec.ganadecs.DTO.Parto.PartosCriasUpdate" +
-            "(p.numero,p.nombre,c.fecha_nacimiento,c.raza,c.color,c.peso,c.sexo)" +
+            "(p.numero,p.nombre,c.fecha_nacimiento,c.raza,c.color,c.peso,c.sexo,c.numero)" +
 
             "FROM Partos p " +
             "JOIN p.bovino b " +

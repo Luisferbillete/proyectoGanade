@@ -2,10 +2,7 @@ package com.gandec.ganadecs.Services.Impl;
 
 import com.gandec.ganadecs.DTO.BovinoDTO;
 
-import com.gandec.ganadecs.DTO.Bovinos.BovinosDTO;
-import com.gandec.ganadecs.DTO.Bovinos.BovinosFindByNumero;
-import com.gandec.ganadecs.DTO.Bovinos.BovinosGetAll;
-import com.gandec.ganadecs.DTO.Bovinos.CreateBovino;
+import com.gandec.ganadecs.DTO.Bovinos.*;
 import com.gandec.ganadecs.Entity.Bovino;
 import com.gandec.ganadecs.Entity.MovimientoBovino;
 import com.gandec.ganadecs.Entity.Potrero;
@@ -178,6 +175,12 @@ public class BovinoserviceImpl implements BovinoService {
 
         });
         return bovinosGetAllPage;    }
+
+    @Override
+    public Page<BovinosPorPotrero> BovinosPorPotrero(Long idpotrero, Integer start, Integer limit) {
+       Pageable pageable= PageRequest.of(start,limit);
+        return bovinoRepository.BovinosPorPotrero(idpotrero,pageable);
+    }
 
 
     @Override

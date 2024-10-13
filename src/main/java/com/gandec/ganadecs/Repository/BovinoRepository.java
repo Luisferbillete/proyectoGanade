@@ -1,9 +1,6 @@
 package com.gandec.ganadecs.Repository;
 
-import com.gandec.ganadecs.DTO.Bovinos.BovinesDTO;
-import com.gandec.ganadecs.DTO.Bovinos.BovinosDTO;
-import com.gandec.ganadecs.DTO.Bovinos.BovinosFindByNumero;
-import com.gandec.ganadecs.DTO.Bovinos.BovinosGetAll;
+import com.gandec.ganadecs.DTO.Bovinos.*;
 import com.gandec.ganadecs.Entity.Bovino;
 import com.gandec.ganadecs.Entity.Propietario;
 import jakarta.transaction.Transactional;
@@ -30,6 +27,18 @@ public interface BovinoRepository extends JpaRepository<Bovino,String > {
             "WHERE b.Numero NOT IN (SELECT bm.number FROM BovinosMuertos bm) " +
             "AND b.Numero NOT IN (SELECT dv.bovino.Numero FROM Detalle_Venta dv)")
     Page<BovinosGetAll> BovinesGetAll2(Pageable pageable);
+
+    @Query("SELECT new com.gandec.ganadecs.DTO.Bovinos.BovinosPorPotrero" +
+            "(b.Numero, pt.nombre) " +
+            "FROM Bovino b " +
+            "JOIN MovimientoBovino mb ON mb.bovino.Numero = b.Numero " +
+            "JOIN mb.potrero pt " +
+            "WHERE b.Numero NOT IN (SELECT bm.number FROM BovinosMuertos bm) " +
+            "AND b.Numero NOT IN (SELECT dv.bovino.Numero FROM Detalle_Venta dv) " +
+            "AND pt.id = :IdPotrero " +
+            "AND mb.fecha_de_salida IS NULL " +  // Filtro adicional para la fecha_de_salida
+            "ORDER BY mb.fecha_de_ingreso DESC")
+    Page<BovinosPorPotrero> BovinosPorPotrero(@Param("IdPotrero") Long IdPotrero, Pageable pageable);
 
 
     @Query("select new com.gandec.ganadecs.DTO.Bovinos.BovinesDTO(b.Numero,b.Fecha_de_nacimiento,b.sexo) " +

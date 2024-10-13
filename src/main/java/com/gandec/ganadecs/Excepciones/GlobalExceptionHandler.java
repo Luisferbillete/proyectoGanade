@@ -21,6 +21,21 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+    @ExceptionHandler(NoCriaFoundException.class)
+    public ResponseEntity<String> handleNoCriaFoundException(NoCriaFoundException ex, WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AlreadyDestetadaException.class)
+    public ResponseEntity<String> handleAlreadyDestetadaException(AlreadyDestetadaException ex, WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidDesteteDateException.class)
+    public ResponseEntity<String> handleInvalidDesteteDateException(InvalidDesteteDateException ex, WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(UniqueUsernameException.class)
     public ResponseEntity<String> handleUniqueUsernameException(UniqueUsernameException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

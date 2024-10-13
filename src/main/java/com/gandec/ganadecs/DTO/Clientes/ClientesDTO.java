@@ -15,4 +15,12 @@ public class ClientesDTO implements EntityDTO {
     private String apellidos;
     private String direccion;
     private long telefono;
+
+    public ClientesDTO(long id, String nombres, String apellidos, String direccion, long telefono) {
+        this.id = id;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.direccion = direccion;
+        this.telefono = telefono;
+    }
 }
