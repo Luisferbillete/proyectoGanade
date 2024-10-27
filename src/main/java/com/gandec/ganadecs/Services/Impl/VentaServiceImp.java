@@ -6,6 +6,7 @@ import com.gandec.ganadecs.DTO.Detalles_ventas.DetallesVentasDTO;
 import com.gandec.ganadecs.DTO.Ventas.VentaClienteDetalleBovino;
 import com.gandec.ganadecs.DTO.Ventas.VentaPropietaryClient;
 import com.gandec.ganadecs.Entity.*;
+import com.gandec.ganadecs.Excepciones.BovinoVendidoException;
 import com.gandec.ganadecs.Excepciones.ResourceNotFoundExcepcion;
 import com.gandec.ganadecs.Mapeador.Util.CalculadoraEdadUtil;
 import com.gandec.ganadecs.Repository.BovinoRepository;
@@ -46,7 +47,7 @@ public class VentaServiceImp implements VentaService {
              for (Detalle_Venta detalle_venta:detalle_ventas){
                  boolean bovinovendido=BovinoVendido(detalle_venta.getBovino());
                     if (bovinovendido){
-                        throw new RuntimeException("El bovino ya fue vendido " + detalle_venta.getBovino().getNumero());
+                        throw new BovinoVendidoException("El bovino ya fue vendido: " + detalle_venta.getBovino().getNumero());
                     }
              }
 
@@ -57,8 +58,8 @@ public class VentaServiceImp implements VentaService {
 
                 ventaRepository.save(venta);
          }else {
-             assert venta != null;
-             throw new ResourceNotFoundExcepcion("Venta","id",venta.getId());
+             //assert venta != null;
+             throw new ResourceNotFoundExcepcion("Venta o Detalles de Venta", "id", IdCliente);
          }
     }
 

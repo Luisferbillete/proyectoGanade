@@ -19,6 +19,7 @@ public interface BovinoService {
     Optional<BovinosDTO> BovinesGetallByNumero(String numero);
     Optional<BovinosFindByNumero> bovinosFindByNumero(String numero);
     void DeleteBovino(String NumerBovino);
+    boolean getBovino(String NumerBovino);
 
 
 

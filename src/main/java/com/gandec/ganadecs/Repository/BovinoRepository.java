@@ -18,6 +18,9 @@ import java.util.Optional;
 
 @Repository
 public interface BovinoRepository extends JpaRepository<Bovino,String > {
+    @Query("SELECT b FROM Bovino b WHERE b.Numero = :numero")
+    Optional<Bovino> findByNumero(@Param("numero") String numero);
+
 
     @Query("SELECT new com.gandec.ganadecs.DTO.Bovinos.BovinosGetAll" +
             "(b.Numero, CONCAT(p.nombres, ' ', p.apellidos), b.sexo, b.color, b.raza, b.negocio, b.abaluo, b.kilos, b.preciokilo, b.Fecha_de_nacimiento, " +

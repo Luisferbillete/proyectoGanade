@@ -25,6 +25,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<String> handleNoCriaFoundException(NoCriaFoundException ex, WebRequest request) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(BovinoVendidoException.class)
+    public ResponseEntity<String> handleBovinoVendidoException(BovinoVendidoException ex, WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
 
     @ExceptionHandler(AlreadyDestetadaException.class)
     public ResponseEntity<String> handleAlreadyDestetadaException(AlreadyDestetadaException ex, WebRequest request) {

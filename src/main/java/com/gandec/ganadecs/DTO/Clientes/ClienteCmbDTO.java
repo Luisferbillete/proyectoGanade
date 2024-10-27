@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ClienteCmbDTO {
     private long id;
-    private String fullName;
+    private String fullname;
 
-    public ClienteCmbDTO(long id, String fullName) {
+    public ClienteCmbDTO(long id, String fullname) {
         this.id = id;
-        this.fullName = fullName;
+        this.fullname = fullname;
     }
 }

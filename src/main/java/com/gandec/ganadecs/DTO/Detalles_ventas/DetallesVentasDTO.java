@@ -6,17 +6,21 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class DetallesVentasDTO {
-    private int peso;
-    private float precio;
-    private double valor;
-    private String bovino;
-    private String categoria;
-
-    public DetallesVentasDTO(int peso, float precio, double valor, String bovino,String categoria) {
+    public DetallesVentasDTO(int peso, double precio, double precio_venta, String bovino, String tipodeventa, String categoria) {
         this.peso = peso;
         this.precio = precio;
-        this.valor = valor;
+        this.precio_venta = precio_venta;
         this.bovino = bovino;
+        this.tipodeventa = tipodeventa;
         this.categoria = categoria;
     }
+
+    private int peso;
+    private double precio;
+    private double precio_venta;
+    private String bovino;
+    private String tipodeventa;
+    private String categoria;
+
+
 }

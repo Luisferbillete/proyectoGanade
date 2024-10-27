@@ -69,6 +69,11 @@ public class BovinoController {
         return bovino.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+    @GetMapping("/existe/{numeroBovino}")
+    public ResponseEntity<Boolean> existeBovino(@PathVariable String numeroBovino) {
+        boolean existe = bovinoService.getBovino(numeroBovino);
+        return ResponseEntity.ok(existe);
+    }
 
 
     @PreAuthorize("hasRole('ADMIN')")

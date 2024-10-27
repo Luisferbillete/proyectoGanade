@@ -218,6 +218,11 @@ public class BovinoserviceImpl implements BovinoService {
 
     @Override
     public Optional<BovinosFindByNumero> bovinosFindByNumero(String numero) {
+        Optional<Bovino> bovino=bovinoRepository.findByNumero(numero);
+        if(!bovino.isPresent()) {
+            throw new UniqueBovinoException("la bovino numero " + numero + " no se encuentra registrado en la base de datos.");
+
+        }
         return bovinoRepository.findBovinoByNumeroUp(numero);
     }
 
@@ -227,6 +232,12 @@ public class BovinoserviceImpl implements BovinoService {
         Bovino bovino=bovinoRepository.findById(NumerBovino).orElseThrow(()->
                 new ResourceNotFoundExcepcion("Bovino","numero",numero));
         bovinoRepository.delete(bovino);
+    }
+
+    @Override
+    public boolean getBovino(String NumeroBovino) {
+        return bovinoRepository.findByNumero(NumeroBovino).isPresent();
+
     }
 
 

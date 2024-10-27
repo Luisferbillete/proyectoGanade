@@ -14,7 +14,9 @@ public class Detalle_Venta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
     private int peso;
-    private float precio;
+    private double precio;
+    private double totalventa;
+    private String tipodeventa;
     @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
 
     private Venta venta;

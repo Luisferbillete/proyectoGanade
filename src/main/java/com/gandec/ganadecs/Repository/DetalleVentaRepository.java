@@ -13,6 +13,9 @@ import java.util.List;
 @Repository
 public interface DetalleVentaRepository extends JpaRepository<Detalle_Venta,Long> {
     List<Detalle_Venta> findByBovino(Bovino bovino);
-    @Query("SELECT new com.gandec.ganadecs.DTO.Detalles_ventas.DetallesVentasDTO(dv.peso,dv.precio,dv.peso * dv.precio,dv.bovino.Numero,' ') FROM Detalle_Venta dv WHERE dv.venta.Id = :ventaId")
-    List<DetallesVentasDTO> findByVentaId(@Param("ventaId") Long ventaId);
-}
+
+
+        @Query("SELECT new com.gandec.ganadecs.DTO.Detalles_ventas.DetallesVentasDTO(dv.peso, dv.precio, dv.totalventa, dv.bovino.Numero, dv.tipodeventa, ' ') " +
+                "FROM Detalle_Venta dv WHERE dv.venta.Id = :ventaId")
+        List<DetallesVentasDTO> findByVentaId(@Param("ventaId") Long ventaId);
+    }
