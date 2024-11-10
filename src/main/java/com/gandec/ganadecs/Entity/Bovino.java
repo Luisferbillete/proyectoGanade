@@ -16,7 +16,7 @@ public class Bovino {
  @Id
    private String Numero;
  @JsonFormat(pattern = "yyyy/MM/dd")
-  private   LocalDate Fecha_de_nacimiento;
+  private   LocalDate fecha_de_nacimiento;
  @JsonFormat(pattern = "yyyy/MM/dd")
    private LocalDate Fecha_de_ingreso;
    private String sexo;

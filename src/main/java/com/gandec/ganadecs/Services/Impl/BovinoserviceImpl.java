@@ -67,38 +67,6 @@ public class BovinoserviceImpl implements BovinoService {
 
 
 
-//    @Override
-//    public String save(long propietarioid,long potreroId,BovinoDTO bovinoDTO) {
-//        Propietario propietario=propietariosRepository.findById(propietarioid).orElseThrow(()->
-//                new ResourceNotFoundExcepcion
-//                        ("Propietario","id",propietarioid));
-//        String numeroId=bovinoDTO.getNumero();
-//        Optional<Bovino> existebovino=bovinoRepository.findById(numeroId);
-//        if(existebovino.isPresent()){
-//            throw new IllegalStateException("El bovino con numero " + numeroId + " ya existe en la base de datos.");
-//
-//
-//        }else {
-//
-//            Bovino bovino = new Bovino();
-//
-//            bovino = (Bovino) mappers.convertToEntity(bovinoDTO, bovino);
-//            ValidarNegocio(bovinoDTO);
-//
-//            bovino.setPropietario(propietario);
-//
-//            bovino = bovinoRepository.save(bovino);
-//            Potrero potrero = potreroRepository.findById(potreroId).orElseThrow(() ->
-//                    new ResourceNotFoundExcepcion("Potrero", "id", potreroId));
-//            MovimientoBovino movimientoBovino = new MovimientoBovino();
-//            movimientoBovino.setBovino(bovino);
-//            movimientoBovino.setPotrero(potrero);
-//            movimientoBovino.setFecha_de_ingreso(bovinoDTO.getFecha_de_ingreso());
-//            movimientoBovinoRepository.save(movimientoBovino);
-//
-//        }
-//        return "Bovino guardado con exito";
-//    }
 
     private void ValidarNegocio(BovinoDTO bovinoDTO) {
         if (Objects.equals(bovinoDTO.getNegocio(), "Kilos")) {

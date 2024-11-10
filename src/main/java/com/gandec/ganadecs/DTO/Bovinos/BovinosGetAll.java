@@ -17,13 +17,13 @@ public class BovinosGetAll implements EntityDTO {
     private String negocio;
     private long abaluo;
     private int kilos;
-    private long precioKilo;
-    private LocalDate fecha_de_nacimiento;
+    private double precioKilo;
+    private LocalDate Fecha_de_nacimiento;
     private String potrero;
     private String categoria;
 
 
-    public BovinosGetAll(String numero, String propietario, String sexo, String color, String raza, String negocio, long abaluo, int kilos, long precioKilo, LocalDate fecha_de_nacimiento, String potrero, String categoria) {
+    public BovinosGetAll(String numero, String propietario, String sexo, String color, String raza, String negocio, long abaluo, int kilos, double precioKilo, LocalDate Fecha_de_nacimiento, String potrero, String categoria) {
         this.numero = numero;
         this.propietario = propietario;
         this.sexo = sexo;
@@ -33,7 +33,7 @@ public class BovinosGetAll implements EntityDTO {
         this.abaluo = abaluo;
         this.kilos = kilos;
         this.precioKilo = precioKilo;
-        this.fecha_de_nacimiento = fecha_de_nacimiento;
+        this.Fecha_de_nacimiento = Fecha_de_nacimiento;
         this.potrero = potrero;
         this.categoria = categoria;
     }

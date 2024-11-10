@@ -15,6 +15,9 @@ import com.gandec.ganadecs.Repository.DetalleVentaRepository;
 import com.gandec.ganadecs.Repository.VentaRepository;
 import com.gandec.ganadecs.Services.VentaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,6 +81,58 @@ public class VentaServiceImp implements VentaService {
     public List<VentaPropietaryClient> getAll() {
         List<VentaPropietaryClient> ventaPropietaryClientList=ventaRepository.getAll();
         return getVentaPropietaryClients(ventaPropietaryClientList);
+    }
+
+    @Override
+    public Page<VentaClienteDetalleBovino> VentaBovinoGetAll(Integer Start, Integer limit) {
+        Pageable pageable = PageRequest.of(Start, limit);
+        Page<VentaClienteDetalleBovino> VentaBovinoList=ventaRepository.VentaBovinoGetAll(pageable);
+        VentaBovinoList.forEach(ventaClienteDetalleBovino -> {
+           String categoria = calculadoraEdadUtil.calcularCategoriaVenta(ventaClienteDetalleBovino.getFechanacimiento(),ventaClienteDetalleBovino.getFecha(),ventaClienteDetalleBovino.getSexo());
+            ventaClienteDetalleBovino.setCategoria(categoria);
+        });
+
+        return VentaBovinoList;
+    }
+
+    @Override
+    public Page<VentaClienteDetalleBovino> VentaBovinoPorAnno(Integer anno,Integer start,Integer limit) {
+        Pageable pageable1 = PageRequest.of(start,limit);
+        Page<VentaClienteDetalleBovino>ventaClienteDetalleBovinoPage=ventaRepository.VentaBovinoPorAño(anno,pageable1);
+        ventaClienteDetalleBovinoPage.forEach(ventaClienteDetalleBovino -> {
+            String Categoria=calculadoraEdadUtil.calcularCategoriaVenta(ventaClienteDetalleBovino.getFechanacimiento(),ventaClienteDetalleBovino.getFecha(),ventaClienteDetalleBovino.getSexo());
+            ventaClienteDetalleBovino.setCategoria(Categoria);
+        });
+        return ventaClienteDetalleBovinoPage;
+    }
+
+    @Override
+    public Page<VentaClienteDetalleBovino> VentaBovinoPorFecha(LocalDate fecha, Integer start, Integer limit) {
+        Pageable pageable1 = PageRequest.of(start,limit);
+        Page<VentaClienteDetalleBovino> ventaClienteDetalleBovinoPage=ventaRepository.VentaBovinoPorFecha(fecha,pageable1);
+        ventaClienteDetalleBovinoPage.forEach(ventaClienteDetalleBovino -> {
+            String Categoria=calculadoraEdadUtil.calcularCategoriaVenta(ventaClienteDetalleBovino.getFechanacimiento(),ventaClienteDetalleBovino.getFecha(),ventaClienteDetalleBovino.getSexo());
+            ventaClienteDetalleBovino.setCategoria(Categoria);
+        });
+        return ventaClienteDetalleBovinoPage;
+
+    }
+
+    @Override
+    public Page<VentaPropietaryClient> getAll(Integer start, Integer limit) {
+        Pageable pageable = PageRequest.of(start, limit);
+        return ventaRepository.getAllPage2(pageable);
+    }
+
+    @Override
+    public Page<VentaClienteDetalleBovino> VentaBovinoEntreFechas(LocalDate startDate, LocalDate endDate, Integer start, Integer limit) {
+      Pageable pageable1 = PageRequest.of(start,limit);
+      Page<VentaClienteDetalleBovino> ventaClienteDetalleBovinoPage = ventaRepository.VentaBovinoEntreFechas(startDate, endDate,pageable1);
+        ventaClienteDetalleBovinoPage.forEach(ventaClienteDetalleBovino -> {
+            String Categoria=calculadoraEdadUtil.calcularCategoriaVenta(ventaClienteDetalleBovino.getFechanacimiento(),ventaClienteDetalleBovino.getFecha(),ventaClienteDetalleBovino.getSexo());
+            ventaClienteDetalleBovino.setCategoria(Categoria);
+        });
+        return ventaClienteDetalleBovinoPage;
     }
 
     @Override

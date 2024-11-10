@@ -8,6 +8,7 @@ import com.gandec.ganadecs.Entity.Venta;
 import com.gandec.ganadecs.Services.VentaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,35 @@ public class VentaController {
         List<Detalle_Venta> detalle_ventas=ventadto.getDetalle_ventas();
         ventaService.save(venta,detalle_ventas,idCliente);
         return ResponseEntity.ok("Venta registrada");
+    }
+    @GetMapping("/ventabovinogetall")
+    public Page<VentaClienteDetalleBovino> VentaBovinoGetAll(@RequestParam(name = "start") Integer start,
+                                                             @RequestParam(name = "limit") Integer limit) {
+    return ventaService.VentaBovinoGetAll(start, limit);
+    }
+    @GetMapping("/ventaporanno/{anno}")
+    public  Page<VentaClienteDetalleBovino> VentaBovinoPorAnno(@PathVariable Integer anno,@RequestParam(name = "start") Integer start,
+                                                               @RequestParam(name = "limit") Integer limit) {
+    return  ventaService.VentaBovinoPorAnno(anno, start, limit);
+    }
+    @GetMapping("/ventaporfecha/{fecha}")
+    public  Page<VentaClienteDetalleBovino> VentaBovinoPorFecha(@PathVariable LocalDate fecha,@RequestParam(name = "start") Integer start,
+                                                               @RequestParam(name = "limit") Integer limit) {
+        return  ventaService.VentaBovinoPorFecha(fecha, start, limit);
+    }
+    @GetMapping("/VentaBovinoEntreFechas/{startDate}/{endDate}")
+    public Page<VentaClienteDetalleBovino> VentaBovinoEntreFechas(@PathVariable LocalDate startDate,
+                                                                  @PathVariable LocalDate endDate,
+                                                                  @RequestParam(name = "start")Integer  start,
+                                                                  @RequestParam(name = "limit")Integer  limit) {
+        return ventaService.VentaBovinoEntreFechas(startDate, endDate, start, limit);
+
+    }
+
+    @GetMapping("/getallpage")
+    public Page<VentaPropietaryClient> getAllVenta(@RequestParam(name = "start") Integer start,
+                                                   @RequestParam(name = "limit") Integer limit) {
+        return ventaService.getAll(start, limit);
     }
     @GetMapping("/getAll")
     public ResponseEntity<List<VentaPropietaryClient>> getAll(){

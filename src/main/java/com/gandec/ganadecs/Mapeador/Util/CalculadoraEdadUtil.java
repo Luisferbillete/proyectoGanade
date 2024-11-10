@@ -9,6 +9,17 @@ public class CalculadoraEdadUtil {
     public String calcularCategoria(LocalDate fechaNacimiento, String sexo) {
 
         LocalDate fechaActual = LocalDate.now();
+        return Categoria(fechaNacimiento, fechaActual, sexo);
+
+    }
+    public String calcularCategoriaVenta(LocalDate fechaNacimiento,LocalDate fechaActual, String sexo) {
+
+       // fechaActual = LocalDate.now();
+        return Categoria(fechaNacimiento, fechaActual, sexo);
+
+    }
+
+    private String Categoria(LocalDate fechaNacimiento, LocalDate fechaActual, String sexo) {
         Period periodo = Period.between(fechaNacimiento, fechaActual);
         int edadEnMeses = periodo.getYears() * 12 + periodo.getMonths();
 
@@ -31,6 +42,6 @@ public class CalculadoraEdadUtil {
         } else {
             return "Desconocido";
         }
-
     }
+
 }

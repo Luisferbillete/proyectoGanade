@@ -23,7 +23,7 @@ public interface BovinoRepository extends JpaRepository<Bovino,String > {
 
 
     @Query("SELECT new com.gandec.ganadecs.DTO.Bovinos.BovinosGetAll" +
-            "(b.Numero, CONCAT(p.nombres, ' ', p.apellidos), b.sexo, b.color, b.raza, b.negocio, b.abaluo, b.kilos, b.preciokilo, b.Fecha_de_nacimiento, " +
+            "(b.Numero, CONCAT(p.nombres, ' ', p.apellidos), b.sexo, b.color, b.raza, b.negocio, b.abaluo, b.kilos, b.preciokilo, b.fecha_de_nacimiento, " +
             "(SELECT pt.nombre FROM MovimientoBovino mb JOIN mb.potrero pt WHERE mb.bovino.Numero = b.Numero ORDER BY mb.fecha_de_ingreso DESC LIMIT 1),' '" + ") " +
             "FROM Bovino b " +
             "JOIN b.propietario p " +
@@ -44,39 +44,39 @@ public interface BovinoRepository extends JpaRepository<Bovino,String > {
     Page<BovinosPorPotrero> BovinosPorPotrero(@Param("IdPotrero") Long IdPotrero, Pageable pageable);
 
 
-    @Query("select new com.gandec.ganadecs.DTO.Bovinos.BovinesDTO(b.Numero,b.Fecha_de_nacimiento,b.sexo) " +
+    @Query("select new com.gandec.ganadecs.DTO.Bovinos.BovinesDTO(b.Numero,b.fecha_de_nacimiento,b.sexo) " +
         "from Bovino b where b.Numero = :numero")
     Optional<BovinesDTO> findBovinoByNumero(@Param("numero") String numero);
-    @Query("select new com.gandec.ganadecs.DTO.Bovinos.BovinosFindByNumero(b.Numero,b.propietario.id,b.sexo,b.color,b.raza,b.negocio,b.abaluo,b.kilos,b.preciokilo,b.Fecha_de_nacimiento,b.Fecha_de_ingreso) " +
+    @Query("select new com.gandec.ganadecs.DTO.Bovinos.BovinosFindByNumero(b.Numero,b.propietario.id,b.sexo,b.color,b.raza,b.negocio,b.abaluo,b.kilos,b.preciokilo,b.fecha_de_nacimiento,b.Fecha_de_ingreso) " +
             "from Bovino b where b.Numero = :numero")
     Optional<BovinosFindByNumero> findBovinoByNumeroUp(@Param("numero") String numero);
 
    @Query("SELECT new com.gandec.ganadecs.DTO.Bovinos.BovinosDTO" +
-            "(b.Numero,CONCAT(p.nombres,' ',p.apellidos),b.sexo,b.color,b.raza,b.negocio,b.abaluo,b.kilos,b.preciokilo,b.Fecha_de_nacimiento,' ' ) " +
+            "(b.Numero,CONCAT(p.nombres,' ',p.apellidos),b.sexo,b.color,b.raza,b.negocio,b.abaluo,b.kilos,b.preciokilo,b.fecha_de_nacimiento,' ' ) " +
             "FROM Bovino b JOIN b.propietario p WHERE b.Numero NOT IN (SELECT bm.number FROM BovinosMuertos bm)"
     +"and b.Numero NOT IN (SELECT dv.bovino.Numero FROM Detalle_Venta dv)")
    Page<BovinosDTO> BovinesGetAll(Pageable pageable);
 
     @Query("SELECT new com.gandec.ganadecs.DTO.Bovinos.BovinosDTO" +
-                "(b.Numero,CONCAT(p.nombres,' ',p.apellidos),b.sexo,b.color,b.raza,b.negocio,b.abaluo,b.kilos,b.preciokilo,b.Fecha_de_nacimiento,' ' ) " +
+                "(b.Numero,CONCAT(p.nombres,' ',p.apellidos),b.sexo,b.color,b.raza,b.negocio,b.abaluo,b.kilos,b.preciokilo,b.fecha_de_nacimiento,' ' ) " +
                 "FROM Bovino b JOIN b.propietario p WHERE b.Numero NOT IN (SELECT bm.number FROM BovinosMuertos bm)" +
                 "and b.Numero NOT IN (SELECT dv.bovino.Numero FROM Detalle_Venta dv) and p.id = :propietarioId")
     List<BovinosDTO> BovinesGetallByPropietary(@Param("propietarioId") Long propietarioId);
 
     @Query("SELECT new com.gandec.ganadecs.DTO.Bovinos.BovinosDTO" +
-            "(b.Numero,CONCAT(p.nombres,' ',p.apellidos),b.sexo,b.color,b.raza,b.negocio,b.abaluo,b.kilos,b.preciokilo,b.Fecha_de_nacimiento,' ' ) " +
+            "(b.Numero,CONCAT(p.nombres,' ',p.apellidos),b.sexo,b.color,b.raza,b.negocio,b.abaluo,b.kilos,b.preciokilo,b.fecha_de_nacimiento,' ' ) " +
             "FROM Bovino b JOIN b.propietario p WHERE b.Numero NOT IN (SELECT bm.number FROM BovinosMuertos bm)" +
             "and b.Numero NOT IN (SELECT dv.bovino.Numero FROM Detalle_Venta dv) and p.id = :propietarioId and b.sexo = :sexo")
     List<BovinosDTO> BovinesGetallByPropietaryAndSexo(@Param("propietarioId") Long propietarioId,
                                                       @Param("sexo") String sexo);
     @Query("SELECT new com.gandec.ganadecs.DTO.Bovinos.BovinosDTO" +
-            "(b.Numero,CONCAT(p.nombres,' ',p.apellidos),b.sexo,b.color,b.raza,b.negocio,b.abaluo,b.kilos,b.preciokilo,b.Fecha_de_nacimiento,' ' ) " +
+            "(b.Numero,CONCAT(p.nombres,' ',p.apellidos),b.sexo,b.color,b.raza,b.negocio,b.abaluo,b.kilos,b.preciokilo,b.fecha_de_nacimiento,' ' ) " +
             "FROM Bovino b JOIN b.propietario p WHERE b.Numero NOT IN (SELECT bm.number FROM BovinosMuertos bm)" +
             "and b.Numero NOT IN (SELECT dv.bovino.Numero FROM Detalle_Venta dv) and b.sexo = :sex")
     List<BovinosDTO> BovinesGetallBySexo(@Param("sex") String sex);
 
     @Query("SELECT new com.gandec.ganadecs.DTO.Bovinos.BovinosDTO" +
-            "(b.Numero,CONCAT(p.nombres,' ',p.apellidos),b.sexo,b.color,b.raza,b.negocio,b.abaluo,b.kilos,b.preciokilo,b.Fecha_de_nacimiento,' ' ) " +
+            "(b.Numero,CONCAT(p.nombres,' ',p.apellidos),b.sexo,b.color,b.raza,b.negocio,b.abaluo,b.kilos,b.preciokilo,b.fecha_de_nacimiento,' ' ) " +
             "FROM Bovino b JOIN b.propietario p WHERE b.Numero NOT IN (SELECT bm.number FROM BovinosMuertos bm)" +
             "and b.Numero NOT IN (SELECT dv.bovino.Numero FROM Detalle_Venta dv) and b.Numero = :numero")
     List<BovinosDTO> BovinesGetallByNumero(@Param("numero") String numero);

@@ -3,6 +3,8 @@ package com.gandec.ganadecs.Repository;
 import com.gandec.ganadecs.DTO.Ventas.VentaClienteDetalleBovino;
 import com.gandec.ganadecs.DTO.Ventas.VentaPropietaryClient;
 import com.gandec.ganadecs.Entity.Venta;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,10 +15,21 @@ import java.util.List;
 
 
 @Repository
-public interface VentaRepository extends JpaRepository<Venta, String> {
+public interface VentaRepository extends JpaRepository<Venta, Long> {
+
     @Query("SELECT new com.gandec.ganadecs.DTO.Ventas.VentaPropietaryClient(v.Id,v.fecha,v.lugar,v.cliente.nombres,0) FROM Venta v " +
             "ORDER BY  v.fecha DESC ")
     List<VentaPropietaryClient> getAll();
+
+    @Query("SELECT new com.gandec.ganadecs.DTO.Ventas.VentaPropietaryClient(v.Id, v.fecha, v.lugar, CONCAT(v.cliente.nombres,' ',v.cliente.apellidos) , " +
+            "COALESCE(SUM(d.totalventa), 0)) " +
+            "FROM Venta v " +
+            "LEFT JOIN v.detalle_ventas d " +
+            "GROUP BY v.Id, v.fecha, v.lugar, v.cliente.nombres " +
+            "ORDER BY v.fecha DESC")
+    Page<VentaPropietaryClient> getAllPage2(Pageable pageable);
+
+
     @Query("SELECT new com.gandec.ganadecs.DTO.Ventas.VentaPropietaryClient(v.Id,v.fecha,v.lugar,v.cliente.nombres,0) FROM Venta v JOIN v.detalle_ventas dv " +
             "WHERE YEAR(v.fecha) = :anno AND dv.bovino.propietario.id = :propietarioId " +
             "ORDER BY v.fecha desc ")
@@ -44,12 +57,41 @@ public interface VentaRepository extends JpaRepository<Venta, String> {
             "ORDER BY  v.fecha DESC ")
     List<VentaPropietaryClient> findByCliente(long clienteId);
 
-    @Query("SELECT new com.gandec.ganadecs.DTO.Ventas.VentaClienteDetalleBovino(v.fecha,v.lugar,v.cliente.nombres,dv.bovino.Numero,dv.peso,dv.precio,dv.peso*dv.precio,' ')FROM Venta v " +
+    @Query("SELECT new com.gandec.ganadecs.DTO.Ventas.VentaClienteDetalleBovino(v.fecha,v.lugar,concat(v.cliente.nombres,' ',v.cliente.apellidos) ,dv.bovino.Numero,dv.peso,dv.precio,dv.totalventa,CONCAT(dv.bovino.propietario.nombres,' ',dv.bovino.propietario.apellidos),dv.tipodeventa,dv.bovino.sexo,dv.bovino.fecha_de_nacimiento ,' ')FROM Venta v " +
             "JOIN  v.detalle_ventas dv " +
             "JOIN  v.cliente c " +
             "JOIN  dv.bovino b " +
             "WHERE b.Numero = :numero")
     List<VentaClienteDetalleBovino> findDetailsForSoldBovino(@Param("numero") String numero);
 
+    @Query("SELECT new com.gandec.ganadecs.DTO.Ventas.VentaClienteDetalleBovino(v.fecha,v.lugar,concat(v.cliente.nombres,' ',v.cliente.apellidos) ,dv.bovino.Numero,dv.peso,dv.precio,dv.totalventa,CONCAT(dv.bovino.propietario.nombres,' ',dv.bovino.propietario.apellidos),dv.tipodeventa,dv.bovino.sexo,dv.bovino.fecha_de_nacimiento ,' ')FROM Venta v " +
+            "JOIN  v.detalle_ventas dv " +
+            "JOIN  v.cliente c " +
+            "JOIN  dv.bovino b " +
+            "ORDER BY v.fecha DESC")
+    Page<VentaClienteDetalleBovino> VentaBovinoGetAll(Pageable pageable);
+
+    @Query("SELECT new com.gandec.ganadecs.DTO.Ventas.VentaClienteDetalleBovino(v.fecha,v.lugar,concat(v.cliente.nombres,' ',v.cliente.apellidos) ,dv.bovino.Numero,dv.peso,dv.precio,dv.totalventa,CONCAT(dv.bovino.propietario.nombres,' ',dv.bovino.propietario.apellidos),dv.tipodeventa,dv.bovino.sexo,dv.bovino.fecha_de_nacimiento ,' ')FROM Venta v " +
+            "JOIN  v.detalle_ventas dv " +
+            "JOIN  v.cliente c " +
+            "JOIN  dv.bovino b " +
+            "WHERE YEAR(v.fecha) = :anno")
+    Page<VentaClienteDetalleBovino> VentaBovinoPorAño(@Param("anno") int anno,Pageable pageable);
+
+    @Query("SELECT new com.gandec.ganadecs.DTO.Ventas.VentaClienteDetalleBovino(v.fecha,v.lugar,concat(v.cliente.nombres,' ',v.cliente.apellidos) ,dv.bovino.Numero,dv.peso,dv.precio,dv.totalventa,CONCAT(dv.bovino.propietario.nombres,' ',dv.bovino.propietario.apellidos),dv.tipodeventa,dv.bovino.sexo,dv.bovino.fecha_de_nacimiento ,' ')FROM Venta v " +
+            "JOIN  v.detalle_ventas dv " +
+            "JOIN  v.cliente c " +
+            "JOIN  dv.bovino b " +
+            "WHERE v.fecha = :fecha")
+    Page<VentaClienteDetalleBovino> VentaBovinoPorFecha(@Param("fecha") LocalDate fecha,Pageable pageable);
+    @Query("SELECT new com.gandec.ganadecs.DTO.Ventas.VentaClienteDetalleBovino(v.fecha,v.lugar,concat(v.cliente.nombres,' ',v.cliente.apellidos) ,dv.bovino.Numero,dv.peso,dv.precio,dv.totalventa,CONCAT(dv.bovino.propietario.nombres,' ',dv.bovino.propietario.apellidos),dv.tipodeventa,dv.bovino.sexo,dv.bovino.fecha_de_nacimiento ,' ')FROM Venta v " +
+            "JOIN v.detalle_ventas dv " +
+            "JOIN v.cliente c " +
+            "JOIN dv.bovino b " +
+            "WHERE v.fecha BETWEEN :startDate AND :endDate")
+    Page<VentaClienteDetalleBovino> VentaBovinoEntreFechas(
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate,
+            Pageable pageable);
 
 }

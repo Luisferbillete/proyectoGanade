@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/Ganadec/DetallesVentas")
 public class DetallesVentasController {
     private final DetallesVentaService detallesVentaService;
-    @RequestMapping("/DetallesDeVenta/{ventaId}")
+    @RequestMapping("/{ventaId}")
     public ResponseEntity<List<DetallesVentasDTO>> findByVentaId(@PathVariable(name = "ventaId") Long ventaId) {
         return ResponseEntity.ok(detallesVentaService.findByVentaId(ventaId));
     }

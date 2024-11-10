@@ -13,9 +13,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class CreateBovino implements EntityDTO {
     private String numero;
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate Fecha_de_nacimiento;
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "yyyy/MM/dd")
+    private LocalDate fecha_de_nacimiento;
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate Fecha_de_ingreso;
     private String sexo;
     private String color,raza;
