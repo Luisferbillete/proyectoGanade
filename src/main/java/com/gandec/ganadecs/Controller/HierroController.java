@@ -15,7 +15,6 @@ import java.io.IOException;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/Ganadec/Hierros")
-@CrossOrigin(origins = "*")
 
 public class HierroController {
     private final HierroService hierroService;

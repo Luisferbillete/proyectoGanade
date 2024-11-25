@@ -20,12 +20,18 @@ public interface PropietariosRepository extends JpaRepository<Propietario,Long> 
     Optional<Propietario> findByEmail(String email);
 
     Optional<Propietario> findByUsername(String username);
-
     @Query("SELECT new com.gandec.ganadecs.DTO.Propietary.PropietaryComboDto" +
             "(p.id, CONCAT(p.nombres, ' ', p.apellidos)) " +
-            "FROM Propietario p WHERE p.nombres = :nombres AND p.apellidos = :apellidos")
+            "FROM Propietario p WHERE LOWER(p.nombres) = LOWER(:nombres) AND LOWER(p.apellidos) = LOWER(:apellidos)")
     PropietaryComboDto findPropietaryComboDtoByNombresAndApellidos
             (@Param("nombres") String nombres, @Param("apellidos") String apellidos);
+
+
+//    @Query("SELECT new com.gandec.ganadecs.DTO.Propietary.PropietaryComboDto" +
+//            "(p.id, CONCAT(p.nombres, ' ', p.apellidos)) " +
+//            "FROM Propietario p WHERE p.nombres = :nombres AND p.apellidos = :apellidos")
+//    PropietaryComboDto findPropietaryComboDtoByNombresAndApellidos
+//            (@Param("nombres") String nombres, @Param("apellidos") String apellidos);
 
 //@Query("SELECT new com.gandec.ganadecs.DTO.Propietary.PropietaryGetAll" +
 //        "(p.id, p.nombres, p.apellidos, p.direccion, p.telefonos, p.email) " +

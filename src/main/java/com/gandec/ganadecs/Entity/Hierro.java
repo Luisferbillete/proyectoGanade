@@ -16,7 +16,7 @@ public class Hierro {
     private String figura;
     private String HierroUrl;
     private String HierroId;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 
     private Propietario propietario;
 

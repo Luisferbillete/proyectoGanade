@@ -18,7 +18,7 @@ public class VentaInterna {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @Temporal(TemporalType.DATE)
     private LocalDate fecha;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Cliente cliente;

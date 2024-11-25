@@ -136,6 +136,36 @@ public class VentaServiceImp implements VentaService {
     }
 
     @Override
+    public Page<VentaClienteDetalleBovino> VentaBovinoPorpropietario(Long idPropietario, Integer start, Integer limit) {
+        return getVentaClienteDetalleBovinos(idPropietario, start, limit);
+    }
+
+    private Page<VentaClienteDetalleBovino> getVentaClienteDetalleBovinos(Long idPropietario, Integer start, Integer limit) {
+        Pageable pageable1 = PageRequest.of(start,limit);
+        Page<VentaClienteDetalleBovino> ventaClienteDetalleBovinoPage = ventaRepository.VentaBovinoPorpropietario(idPropietario,pageable1);
+        ventaClienteDetalleBovinoPage.forEach(ventaClienteDetalleBovino -> {
+            String Categoria=calculadoraEdadUtil.calcularCategoriaVenta(ventaClienteDetalleBovino.getFechanacimiento(),ventaClienteDetalleBovino.getFecha(),ventaClienteDetalleBovino.getSexo());
+            ventaClienteDetalleBovino.setCategoria(Categoria);
+        });
+        return ventaClienteDetalleBovinoPage;
+    }
+
+    @Override
+
+    public Page<VentaClienteDetalleBovino> VentaBovinoPorComprador(Long idPropietario, Integer start, Integer limit) {
+        return getVentaClienteDetalleBovinos(idPropietario, start, limit);
+    }
+
+//    private Page<VentaClienteDetalleBovino> getVentaClienteDetalleBovinos(long idPropietario, Pageable pageable1) {
+//        Page<VentaClienteDetalleBovino> ventaClienteDetalleBovinoPage=ventaRepository.VentaBovinoPorpropietario(idPropietario, pageable1);
+//        ventaClienteDetalleBovinoPage.forEach(ventaClienteDetalleBovino -> {
+//            String Categoria=calculadoraEdadUtil.calcularCategoriaVenta(ventaClienteDetalleBovino.getFechanacimiento(),ventaClienteDetalleBovino.getFecha(),ventaClienteDetalleBovino.getSexo());
+//            ventaClienteDetalleBovino.setCategoria(Categoria);
+//        });
+//        return ventaClienteDetalleBovinoPage;
+//    }
+
+    @Override
     public List<VentaPropietaryClient> getAllByFecha(LocalDate fecha) {
         List<VentaPropietaryClient> ventaPropietaryClientList=ventaRepository.getAllByFecha(fecha);
         return getVentaPropietaryClients(ventaPropietaryClientList);

@@ -82,6 +82,9 @@ private final CalculadoraEdadUtil calculadoraEdadUtil;
             }
             PropietaryComboDto propietaryComboDto=propietariosRepository.findPropietaryComboDtoByNombresAndApellidos
                     (cliente.getNombres(),cliente.getApellidos());
+            if (propietaryComboDto == null) {
+                throw new RuntimeException("No se encontró un propietario con los nombres: " + cliente.getNombres() + " y apellidos: " + cliente.getApellidos());
+            }
 
 
             Propietario propietary=propietariosRepository.findById(propietaryComboDto.getId()).orElseThrow(()->

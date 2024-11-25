@@ -16,6 +16,8 @@ public class DetalleVentaInterna {
     private long id;
     private int peso;
     private float precio;
+    private double totalventa;
+    private String tipodeventa;
     @ManyToOne(fetch=FetchType.EAGER , cascade = CascadeType.MERGE)
     private VentaInterna ventaInterna;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
